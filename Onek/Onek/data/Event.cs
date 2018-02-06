@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Onek.data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,5 +13,6 @@ namespace Onek
         public DateTime End { get; set; }
         public List<Parameter> Parameters { get; set; }
         public List<Jury> Jurys { get; set; }
+        public List<Evaluation> evaluations { get; set; }
     }
 }

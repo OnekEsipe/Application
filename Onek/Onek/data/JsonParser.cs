@@ -11,7 +11,7 @@ namespace Onek
 
     class JsonParser
     {
-
+        private String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
         public List<String> DeserializeJson(String loginUser)
         {
@@ -31,7 +31,7 @@ namespace Onek
             foreach(int id in EventsToDownload)
             {
                 //Download events data from server
-                EventsJson.Add(client.DownloadString(Login.SERVER_URL + id + "-*"));
+                //EventsJson.Add(client.DownloadString(Login.SERVER_URL + id + "-*"));
             }
             return EventsJson;
         }
@@ -43,7 +43,7 @@ namespace Onek
         /// <returns>List<Login></Login></returns>
         private List<Login> LoadJson()
         {
-            StreamReader Reader = new StreamReader(Login.PATH_TO_LOGIN_FILE);
+            StreamReader Reader = new StreamReader(pathToLoginFile);
             String json = Reader.ReadToEnd();
             List<Login> logins = JsonConvert.DeserializeObject<List<Login>>(json);
             return logins;
