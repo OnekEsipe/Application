@@ -38,6 +38,7 @@ namespace Onek
             {
                 events.AddRange(JsonConvert.DeserializeObject<List<Event>>(json));
             }
+            return events;
         }
 
 
