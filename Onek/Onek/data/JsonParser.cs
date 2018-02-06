@@ -13,7 +13,7 @@ namespace Onek
     {
         private String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
-        public List<String> DeserializeJson(String loginUser)
+        public List<Event> DeserializeJson(String loginUser)
         {
             //list json to download in login.json
             List<Login> logins = LoadJson();
@@ -28,12 +28,16 @@ namespace Onek
             //download and parse json files
             WebClient client = new WebClient();
             List<String> EventsJson = new List<string>();
-            foreach(int id in EventsToDownload)
+            foreach (int id in EventsToDownload)
             {
                 //Download events data from server
                 //EventsJson.Add(client.DownloadString(Login.SERVER_URL + id + "-*"));
             }
-            return EventsJson;
+            List<Event> events = new List<Event>();
+            foreach(String json in EventsJson)
+            {
+                events.AddRange(JsonConvert.DeserializeObject<List<Event>>(json));
+            }
         }
 
 
