@@ -2,19 +2,46 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Onek"
-             x:Class="Onek.MainPage">
+             x:Class="Onek.MainPage"
+             Title="ONEK'">
 
     <StackLayout>
-        <Slider VerticalOptions="CenterAndExpand" />
-
-        <Label Text="Label test xamarin.forms"
+        <Label Text="Connexion"
                Font="Large"
-               HorizontalOptions="Center"
+               HorizontalOptions="Center" />
+
+        <BoxView VerticalOptions="CenterAndExpand"
+                 HeightRequest="1"
+                 WidthRequest="250"
+                 Color="DarkBlue" />
+        
+        <Label Text="Nom d'utilisateur :" 
+               VerticalOptions="CenterAndExpand"/>
+
+        <Entry IsPassword="False"
+               VerticalOptions="CenterAndExpand"/>
+
+        <Label Text="Mot de passe :" 
+               VerticalOptions="CenterAndExpand"/>
+
+        <Entry IsPassword="True"
+               VerticalOptions="CenterAndExpand"/>
+
+        <Button Text="Connexion"
+                BackgroundColor="DarkBlue"
+                TextColor="White" />
+
+        <Label Text="Mot de Passe oublié ?"
+               TextColor="Blue" 
                VerticalOptions="CenterAndExpand" />
 
-        <Button Text="Button test"
-                HorizontalOptions="Center"
+        <Label Text="Pas de compte ?"
+               TextColor="Gray"
                 VerticalOptions="CenterAndExpand" />
+        
+        <Button Text="Inscription"
+                BackgroundColor="DarkBlue"
+                TextColor="White" />
     </StackLayout>
 
 </ContentPage>
