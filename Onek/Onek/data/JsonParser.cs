@@ -65,7 +65,13 @@ namespace Onek
             httpWebRequest.Method = "POST";
             SendToServer(httpWebRequest, json);
 
-            //TODO Check server response
+            //Check server response
+            HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+            while (!response.StatusCode.GetTypeCode().Equals(HttpStatusCode.OK))
+            {
+                //If response not ok send it again
+                SendToServer(httpWebRequest, json);
+            }
         }
 
         
