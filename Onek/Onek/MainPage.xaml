@@ -3,31 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Onek"
              x:Class="Onek.MainPage"
-             Title="ONEK'">
+             Title="Accueil">
 
     <StackLayout>
-        <Label Text="Connexion"
-               Font="Large"
-               HorizontalOptions="Center" />
 
-        <BoxView VerticalOptions="CenterAndExpand"
-                 HeightRequest="1"
-                 WidthRequest="250"
-                 Color="DarkBlue" />
+        <Image Source="logo.png" 
+               WidthRequest="120"
+               HeightRequest="120"/>
         
-        <Label Text="Nom d'utilisateur :" 
-               VerticalOptions="CenterAndExpand"/>
+        <Entry  x:Name="LoginEntry"
+                Placeholder="Nom d'utilisateur"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="StartAndExpand"
+                WidthRequest="250"
+                IsPassword="False"/>
 
-        <Entry x:Name="LoginEntry"
-               IsPassword="False"
-               VerticalOptions="CenterAndExpand"/>
-
-        <Label Text="Mot de passe :" 
-               VerticalOptions="CenterAndExpand"/>
-
-        <Entry x:Name="PasswordEntry" 
-               IsPassword="True"
-               VerticalOptions="CenterAndExpand"/>
+        <Entry  x:Name="PasswordEntry"
+                VerticalOptions="CenterAndExpand"
+                Placeholder="Mot de Passe"
+                PlaceholderColor="Gray"
+                HorizontalOptions="StartAndExpand"
+                WidthRequest="250"
+                IsPassword="True"/>
 
         <Button x:Name="ButtonLogin"
                 Text="Connexion"
@@ -38,6 +35,11 @@
         <Label Text="Mot de Passe oublié ?"
                TextColor="Blue" 
                VerticalOptions="CenterAndExpand" />
+
+        <BoxView VerticalOptions="CenterAndExpand"
+                 HeightRequest="1"
+                 WidthRequest="250"
+                 Color="DarkBlue" />
 
         <Label Text="Pas de compte ?"
                TextColor="Gray"
