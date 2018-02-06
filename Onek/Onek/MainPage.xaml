@@ -14,7 +14,7 @@
         <Entry  x:Name="LoginEntry"
                 Placeholder="Nom d'utilisateur"
                 VerticalOptions="CenterAndExpand"
-                HorizontalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
                 IsPassword="False"/>
 
@@ -22,7 +22,7 @@
                 VerticalOptions="CenterAndExpand"
                 Placeholder="Mot de Passe"
                 PlaceholderColor="Gray"
-                HorizontalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
                 IsPassword="True"/>
 
@@ -46,6 +46,10 @@
                 VerticalOptions="CenterAndExpand" />
         
         <Button Text="Inscription"
+                BackgroundColor="DarkBlue"
+                TextColor="White" />
+
+        <Button Text="Paramètres"
                 BackgroundColor="DarkBlue"
                 TextColor="White" />
     </StackLayout>

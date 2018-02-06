@@ -46,10 +46,24 @@ namespace Onek
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
+            await DisplayAlert("Candidate Tapped", "A candidate was tapped.", "OK");
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+
+        void OnFilterChanged(object sender, EventArgs e)
+        {
+            if (FilterCandidateEntry.Text == null)
+            {
+                MyListView.ItemsSource = Items;
+            }
+            else
+            {
+                MyListView.ItemsSource = Items.Where(eventItem => eventItem.ToLower().Contains(FilterCandidateEntry.Text.ToLower())
+                                                           && (eventItem.ToLower().IndexOf(FilterCandidateEntry.Text.ToLower()) == 0
+                                                               || eventItem.ToLower()[eventItem.ToLower().IndexOf(FilterCandidateEntry.Text.ToLower()) - 1] == ' '));
+            }
         }
     }
 }

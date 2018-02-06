@@ -24,7 +24,9 @@ namespace Onek
                 "Developpement Durable",
                 "Exposés techniques",
                 "Présentation des outils",
-                "Soutenance d'ingénieurs"
+                "Soutenance d'ingénieurs",
+                "Support des utilisateurs",
+                "Communication Entreprise"
             };
 			
 			MyListView.ItemsSource = Items;
@@ -39,6 +41,25 @@ namespace Onek
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+
+        void OnFilterChanged(object sender, EventArgs e)
+        {
+            if (FilterEventEntry.Text == null)
+            {
+                MyListView.ItemsSource = Items;
+            }
+            else
+            {
+                MyListView.ItemsSource =  Items.Where(eventItem => eventItem.ToLower().Contains(FilterEventEntry.Text.ToLower()) 
+                                                            && (eventItem.ToLower().IndexOf(FilterEventEntry.Text.ToLower()) == 0 
+                                                                || eventItem.ToLower()[eventItem.ToLower().IndexOf(FilterEventEntry.Text.ToLower())-1] == ' '));
+            }
+        }
+
+        async void OnButtonDeconnexionClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }
