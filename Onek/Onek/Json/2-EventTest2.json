@@ -1,0 +1,70 @@
+﻿{
+  "id": 2,
+  "nom": "EnventTest2",
+  "dateDebut": "03/12/17 13:00",
+  "dateFin": "03/12/17 17:00",
+  "parametres": [],
+  "criteres": [
+    {
+      "id": 1,
+      "nom": "INOMINE",
+      "texte": "Iiohozeh zefhzueb",
+      "categorie": "dsovhodih",
+      "descripteurs": [
+        {
+          "texte": "sdhvosidhcpfbioefoqjvioehzehfzheofaihzgirfzh",
+          "niveau": "A B C D"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nom": "PATRI",
+      "texte": "sdhfzoiho",
+      "categorie": "zghzrubvjb",
+      "descripteurs": [
+        {
+          "texte": "idqhfoizhvbzeiohz",
+          "niveau": "A B C D"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nom": "SPIRITOU",
+      "texte": "osdfoishfose",
+      "categorie": "dfzdjvzdc",
+      "descripteurs": [
+        {
+          "texte": "oqdjaioefhzeofh",
+          "niveau": "A B C D"
+        }
+      ]
+    }
+  ],
+  "jurys": [
+    {
+      "id": 1,
+      "nom": "L'éponge",
+      "prenom": "Bob",
+      "candidats": [
+        {
+          "id": 1,
+          "nom": "Etoile",
+          "prenom": "Patrick"
+        },
+        {
+          "id": 2,
+          "nom": "Poulpe",
+          "prenom": "Carlo"
+        },
+        {
+          "id": 3,
+          "nom": "Hermite",
+          "prenom": "Bernard"
+        }
+      ]
+    }
+  ],
+  "evaluations": []
+}
