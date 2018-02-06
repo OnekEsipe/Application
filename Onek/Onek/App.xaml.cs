@@ -13,7 +13,7 @@ namespace Onek
 		{
 			InitializeComponent();
 
-			MainPage = new Onek.MainPage();
+			MainPage = new NavigationPage(new Onek.MainPage());
 		}
 
 		protected override void OnStart ()

@@ -18,18 +18,22 @@
         <Label Text="Nom d'utilisateur :" 
                VerticalOptions="CenterAndExpand"/>
 
-        <Entry IsPassword="False"
+        <Entry x:Name="LoginEntry"
+               IsPassword="False"
                VerticalOptions="CenterAndExpand"/>
 
         <Label Text="Mot de passe :" 
                VerticalOptions="CenterAndExpand"/>
 
-        <Entry IsPassword="True"
+        <Entry x:Name="PasswordEntry" 
+               IsPassword="True"
                VerticalOptions="CenterAndExpand"/>
 
-        <Button Text="Connexion"
+        <Button x:Name="ButtonLogin"
+                Text="Connexion"
                 BackgroundColor="DarkBlue"
-                TextColor="White" />
+                TextColor="White" 
+                Clicked="OnButtonLoginClicked"/>
 
         <Label Text="Mot de Passe oublié ?"
                TextColor="Blue" 
