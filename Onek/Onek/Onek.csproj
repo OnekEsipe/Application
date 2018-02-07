@@ -20,4 +20,9 @@
   <ItemGroup>
     <Folder Include="Json\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Interfaces\TestParserPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

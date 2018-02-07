@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace Onek
 {
@@ -12,6 +13,7 @@ namespace Onek
     class JsonParser
     {
         private static String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        private static String jsonDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         /// <summary>
         /// Deserialize json
@@ -20,28 +22,40 @@ namespace Onek
         /// <returns></returns>
         public static List<Event> DeserializeJson(String loginUser)
         {
-            //list json to download in login.json
-            List<Login> logins = LoadJson();
+            //List json to download in login.json (à retirer de cette méthode)
             List<int> EventsToDownload = new List<int>();
+            /*List<Login> logins = LoadJson();
             foreach (Login login in logins)
             {
                 if (login.login.Equals(loginUser))
                 {
                     EventsToDownload.AddRange(login.Events_id);
                 }
-            }
-            //download and parse json files
+            }*/
+            //Download and parse json files
             WebClient client = new WebClient();
             List<String> EventsJson = new List<string>();
             foreach (int id in EventsToDownload)
             {
                 //Download events data from server
-                //EventsJson.Add(client.DownloadString(Login.SERVER_URL + id + "-*"));
+                String jsonString = client.DownloadString(Login.SERVER_URL + id + "-*");
+                //EventsJson.Add(jsonString);
+                //Save json into internal memory
+                String fileName = Path.Combine(jsonDataDirectory, id + "-event.json");
+                File.WriteAllText(fileName, jsonString);
             }
+            //Test (à supprimer par la suite)
+            EventsJson.Add("");
+
+            //Deserialize json
             List<Event> events = new List<Event>();
             foreach(String json in EventsJson)
             {
-                events.AddRange(JsonConvert.DeserializeObject<List<Event>>(json));
+                List<Event> eventList = JsonConvert.DeserializeObject<List<Event>>(json);
+                if (eventList != null)
+                {
+                    events.AddRange(eventList);
+                }
             }
             return events;
         }
