@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Onek.utils;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -60,6 +61,13 @@ namespace Onek
         async void OnButtonDeconnexionClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
+        }
+
+        async void OnButtonCodeCLicked(object sender, EventArgs e)
+        {
+            string title = "S'inscrire à un évènement";
+            string text = "Entrez un code : "
+            string myinput = await InputDialog.InputBox(this.Navigation, title, text);
         }
     }
 }

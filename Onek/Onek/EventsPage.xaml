@@ -54,7 +54,8 @@
             <Button x:Name="ButtonCode"
                     Text="Inscription par code"
                     BackgroundColor="DarkBlue"
-                    TextColor="White" />
+                    TextColor="White" 
+                    Clicked="OnButtonCodeCLicked"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>
