@@ -17,7 +17,7 @@ namespace Onek
 			InitializeComponent ();
 		}
 
-        async void OnButtonClicked(object sender, EventArgs e)
+        void OnButtonClicked(object sender, EventArgs e)
         {
             //Retour et Quitter
         }

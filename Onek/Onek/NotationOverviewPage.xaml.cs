@@ -59,7 +59,7 @@ namespace Onek
             await Navigation.PushAsync(new NotationPage());
         }
 
-        async void OnButtonEnregistrerClicked(object sender, EventArgs e)
+        void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
             // Enregistrer et Sortir
         }

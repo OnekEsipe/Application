@@ -22,7 +22,7 @@
                                     WidthRequest="50"
                                     BackgroundColor="DeepSkyBlue"
                                     TextColor="White"/>
-                            <Button x:Name="ButtonCode"
+                            <Button x:Name="ButtonCommentaireCritere"
                                     Text="{Binding Commentaire}"
                                     BackgroundColor="White"
                                     BorderColor="DarkBlue"
