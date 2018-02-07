@@ -13,7 +13,7 @@ namespace Onek.Interfaces
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TestParserPage : ContentPage
 	{
-        private ObservableCollection<Event> EventsCollection { get; set; }
+        private ObservableCollection<String> EventsCollection { get; set; } = new ObservableCollection<String>();
 
 		public TestParserPage ()
 		{
@@ -22,7 +22,7 @@ namespace Onek.Interfaces
             List<Event> Events = JsonParser.DeserializeJson("bobLeponge");
             foreach(Event e in Events)
             {
-                EventsCollection.Add(e);
+                EventsCollection.Add(e.Name);
             }
             EventsListView.ItemsSource = EventsCollection;
         }

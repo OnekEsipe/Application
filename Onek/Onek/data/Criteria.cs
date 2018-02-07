@@ -10,6 +10,6 @@ namespace Onek.data
         public String Name { get; set; }
         public String Text { get; set; }
         public String Category { get; set; }
-        public List<Descriptor> descriptor{get; set;}
+        public List<Descriptor> Descriptor { get; set; } = new List<data.Descriptor>();
     }
 }

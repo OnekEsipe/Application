@@ -45,16 +45,50 @@ namespace Onek
                 File.WriteAllText(fileName, jsonString);
             }
             //Test (à supprimer par la suite)
-            EventsJson.Add("");
+            
+            EventsJson.Add("{"+
+  "\"Id\":1,"+
+  "\"Name\":\"event 1\","+
+  "\"Begin\":\"2018-02-07T13:00:00\","+
+  "\"End\":\"2018-02-07T15:00:00\","+
+  "\"Parameters\":[],"+
+  "\"Criterias\":["+
+    "{\"Id\":1,"+
+    "\"Name\":\"Critère n°1\","+
+    "\"Text\":\"Texte critère n°1\","+
+    "\"Category\":\"Catégorie de critère n°1\","+
+    "\"Descriptor\":["+
+      "{\"Text\":\"Très satisfaisant\","+
+      "\"Level\":\"A\"},"+
+      "{\"Text\":\" Bof\","+
+      "\"Level\":\"C\"}"+
+    "]"+
+    "}"+
+  "],"+
+  "\"Jurys\":["+
+    "{\"Id\":1,"+
+      "\"LastName\":\"L'éponge\","+
+      "\"FirstName\":\"Bob\","+
+      "\"Candidates\":["+
+        "{\"Id\":1,"+
+        "\"FirstName\":\"Patrick\","+
+        "\"LastName\":\"Etoile\"},"+
+        "{\"Id\":2,"+
+        "\"FirstName\":\"Carlo\","+
+        "\"LastName\":\"Poulpe\"}"+
+      "]"+
+    "}"+
+  "],"+
+  "\"Evaluations\":[]}");
 
             //Deserialize json
             List<Event> events = new List<Event>();
             foreach(String json in EventsJson)
             {
-                List<Event> eventList = JsonConvert.DeserializeObject<List<Event>>(json);
-                if (eventList != null)
+                Event eventDeserialized = JsonConvert.DeserializeObject<Event>(json);
+                if (eventDeserialized != null)
                 {
-                    events.AddRange(eventList);
+                    events.Add(eventDeserialized);
                 }
             }
             return events;

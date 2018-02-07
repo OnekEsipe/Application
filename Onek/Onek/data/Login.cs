@@ -11,7 +11,7 @@ namespace Onek.data
       
         public String login { get; set; }
         public String password { get; set; }
-        public List<int> Events_id { get; set; }
+        public List<int> Events_id { get; set; } = new List<int>();
         private String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
         //Etat de la tablette (en ligne / hors ligne) pour gérer mode de connexion
