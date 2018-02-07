@@ -19,6 +19,11 @@
     <item name="colorAccent">#1f4dae</item>
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight and colorSwitchThumbNormal. -->
+    <item name="android:colorPressedHighlight">@color/ListViewSelected</item> 
+    <item name="android:colorLongPressedHighlight">@color/ListViewHighlighted</item>
+    <item name="android:colorFocusedHighlight">@color/ListViewSelected</item>
+    <item name="android:colorActivatedHighlight">@color/ListViewSelected</item>
+    <item name="android:activatedBackgroundIndicator">@color/ListViewSelected</item>
     <item name="windowActionModeOverlay">true</item>
 
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
@@ -33,4 +38,6 @@
       <item name="android:windowNoTitle">true</item>
       <item name="android:windowFullscreen">true</item>
     </style>
+  <color name="ListViewSelected">#87bbdb</color>
+  <color name="ListViewHighlighted">#5f9ec5</color>
 </resources>

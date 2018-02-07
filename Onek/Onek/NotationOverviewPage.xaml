@@ -28,7 +28,8 @@
                                     BorderColor="DarkBlue"
                                     TextColor="DarkBlue"
                                     HorizontalOptions="CenterAndExpand"
-                                    WidthRequest="180"/>
+                                    WidthRequest="180"
+                                    Clicked="OnCritereCommentaireClicked"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -52,7 +53,8 @@
                     Text="Noter"
                     BackgroundColor="DarkBlue"
                     TextColor="White" 
-                    Clicked="OnButtonNoterClicked"/>
+                    Clicked="OnButtonNoterClicked"
+                    IsEnabled="False"/>
 
             <Button x:Name="ButtonEnregister"
                     Text="Enregistrer"

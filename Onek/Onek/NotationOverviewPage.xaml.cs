@@ -40,17 +40,23 @@ namespace Onek
             ButtonCommentaireGeneral.Text = Commentaire;
         }
 
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
                 return;
 
-            //Changer couleur et Enregistrer Critere cliqué
+            ButtonNoter.IsEnabled = true;
+            SelectedCritere = e.Item as Critere;
+
+            //((ListView)sender).SelectedItem = null;
         }
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
         {
-            //Ecran Noter
+            if (SelectedCritere == null)
+                return;
+
+            await Navigation.PushAsync(new NotationPage());
         }
 
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
@@ -64,6 +70,16 @@ namespace Onek
             string text = "Entrez un commentaire : ";
             Commentaire = await InputDialog.InputBox(this.Navigation, title, text, Commentaire);
             ButtonCommentaireGeneral.Text = Commentaire;
+        }
+
+        async void OnCritereCommentaireClicked(object sender, EventArgs e)
+        {
+            string title = "Commentaire du critère";
+            string text = "Entrez un commentaire : ";
+            Critere critere = (sender as Button).BindingContext as Critere;
+            critere.Commentaire = await InputDialog.InputBox(this.Navigation, title, text, critere.Commentaire);
+            MyListView.ItemsSource = Items;
+            (sender as Button).Text = critere.Commentaire;
         }
     } 
     
