@@ -12,7 +12,8 @@ namespace Onek
         public DateTime Begin { get; set; }
         public DateTime End { get; set; }
         public List<Parameter> Parameters { get; set; }
+        public List<Criteria> Criterias { get; set; } 
         public List<Jury> Jurys { get; set; }
-        public List<Evaluation> evaluations { get; set; }
+        public List<Evaluation> Evaluations { get; set; }
     }
 }

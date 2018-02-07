@@ -11,9 +11,14 @@ namespace Onek
 
     class JsonParser
     {
-        private String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        private static String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
-        public List<Event> DeserializeJson(String loginUser)
+        /// <summary>
+        /// Deserialize json
+        /// </summary>
+        /// <param name="loginUser"></param>
+        /// <returns></returns>
+        public static List<Event> DeserializeJson(String loginUser)
         {
             //list json to download in login.json
             List<Login> logins = LoadJson();
@@ -46,7 +51,7 @@ namespace Onek
         /// Load json containing login information and parse it 
         /// </summary>
         /// <returns>List<Login></Login></returns>
-        private List<Login> LoadJson()
+        private static List<Login> LoadJson()
         {
             StreamReader Reader = new StreamReader(pathToLoginFile);
             String json = Reader.ReadToEnd();
@@ -59,7 +64,7 @@ namespace Onek
         /// Generate JSON and send it to the server
         /// </summary>
         /// <param name="eval"></param>
-        public void SendJsonToServer(Evaluation eval)
+        public static void SendJsonToServer(Evaluation eval)
         {
             //Generate json
             String json = JsonConvert.SerializeObject(eval);
@@ -85,7 +90,7 @@ namespace Onek
         /// </summary>
         /// <param name="httpWebRequest"></param>
         /// <param name="json"></param>
-        private void SendToServer(HttpWebRequest httpWebRequest, String json)
+        private static void SendToServer(HttpWebRequest httpWebRequest, String json)
         {
             StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream());
             streamWriter.Write(json);
