@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Onek.utils;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -56,7 +57,15 @@ namespace Onek
         {
             // Enregistrer et Sortir
         }
-    }
+
+        async void OnGeneralCommentaireClicked(object sender, EventArgs e)
+        {
+            string title = "Commentaire de l'évalution";
+            string text = "Entrez un commentaire : ";
+            Commentaire = await InputDialog.InputBox(this.Navigation, title, text, Commentaire);
+            ButtonCommentaireGeneral.Text = Commentaire;
+        }
+    } 
     
     public class Critere
     {

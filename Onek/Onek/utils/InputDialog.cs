@@ -9,14 +9,14 @@ namespace Onek.utils
     class InputDialog
     {
 
-        public static Task<string> InputBox(INavigation navigation, String title, String text)
+        public static Task<string> InputBox(INavigation navigation, String title, String text, String placeholder)
         {
             // wait in this proc, until user did his input 
             var tcs = new TaskCompletionSource<string>();
 
             var lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
             var lblMessage = new Label { Text = text };
-            var txtInput = new Entry { Text = "" };
+            var txtInput = new Entry { Text = placeholder };
 
             var btnOk = new Button
             {

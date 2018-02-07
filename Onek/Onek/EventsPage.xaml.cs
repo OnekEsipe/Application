@@ -67,7 +67,7 @@ namespace Onek
         {
             string title = "S'inscrire à un évènement";
             string text = "Entrez un code : ";
-            string myinput = await InputDialog.InputBox(this.Navigation, title, text);
+            string myinput = await InputDialog.InputBox(this.Navigation, title, text,"");
         }
     }
 }

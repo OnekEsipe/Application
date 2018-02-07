@@ -35,14 +35,15 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button x:Name="ButtonCommentaireGeneral"
-                                    Text="{Binding Commentaire}"
-                                    BackgroundColor="White"
-                                    BorderColor="DarkBlue"
-                                    TextColor="DarkBlue"
-                                    HorizontalOptions="Fill"
-                                    MinimumWidthRequest="300"
-                                    MinimumHeightRequest="250"
-                />
+                    Text="{Binding Commentaire}"
+                    BackgroundColor="White"
+                    BorderColor="DarkBlue"
+                    TextColor="DarkBlue"
+                    HorizontalOptions="Fill"
+                    MinimumWidthRequest="300"
+                    MinimumHeightRequest="250"
+                    Clicked="OnGeneralCommentaireClicked"/>
+        
         <StackLayout  VerticalOptions="CenterAndExpand"
                       HorizontalOptions="CenterAndExpand"
                       Orientation="Horizontal">
