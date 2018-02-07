@@ -12,6 +12,7 @@ namespace Onek
 		public MainPage()
 		{
 			InitializeComponent();
+            Navigation.PushAsync(new Interfaces.TestParserPage());
 		}
 	}
 }

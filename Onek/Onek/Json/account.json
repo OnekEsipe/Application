@@ -1,0 +1,19 @@
+﻿{
+  "user": [
+    {
+      "login": "test",
+      "password" : "test",
+      "events": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        },
+        {
+          "id": 28
+        }
+      ]
+    }
+  ]
+}
