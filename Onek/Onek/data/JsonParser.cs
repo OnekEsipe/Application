@@ -60,11 +60,45 @@ namespace Onek
     "\"Descriptor\":["+
       "{\"Text\":\"Très satisfaisant\","+
       "\"Level\":\"A\"},"+
-      "{\"Text\":\" Bof\","+
-      "\"Level\":\"C\"}"+
-    "]"+
-    "}"+
-  "],"+
+      "{\"Text\":\"Satisfaisant\"," +
+      "\"Level\":\"B\"}," +
+      "{\"Text\":\"Bof\"," +
+      "\"Level\":\"C\"},"+
+      "{\"Text\":\"Pas bien\"," +
+      "\"Level\":\"D\"}" +
+    "]" +
+    "},"+
+    "{\"Id\":2," +
+    "\"Name\":\"Critère n°2\"," +
+    "\"Text\":\"Texte critère n°2\"," +
+    "\"Category\":\"Catégorie de critère n°2\"," +
+    "\"Descriptor\":[" +
+      "{\"Text\":\"Très satisfaisant\"," +
+      "\"Level\":\"A\"}," +
+      "{\"Text\":\"Satisfaisant\"," +
+      "\"Level\":\"B\"}," +
+      "{\"Text\":\"Bof\"," +
+      "\"Level\":\"C\"}," +
+      "{\"Text\":\"Pas bien\"," +
+      "\"Level\":\"D\"}" +
+    "]" +
+    "}," +
+    "{\"Id\":3," +
+    "\"Name\":\"Critère n°3\"," +
+    "\"Text\":\"Texte critère n°3\"," +
+    "\"Category\":\"Catégorie de critère n°3\"," +
+    "\"Descriptor\":[" +
+      "{\"Text\":\"Très satisfaisant\"," +
+      "\"Level\":\"A\"}," +
+      "{\"Text\":\"Satisfaisant\"," +
+      "\"Level\":\"B\"}," +
+      "{\"Text\":\"Bof\"," +
+      "\"Level\":\"C\"}," +
+      "{\"Text\":\"Pas bien\"," +
+      "\"Level\":\"D\"}" +
+    "]" +
+    "}" +
+  "]," +
   "\"Jurys\":["+
     "{\"Id\":1,"+
       "\"LastName\":\"L'éponge\","+
