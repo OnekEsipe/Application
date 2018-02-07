@@ -32,9 +32,14 @@
                 TextColor="White" 
                 Clicked="OnButtonLoginClicked"/>
 
-        <Label Text="Mot de Passe oublié ?"
-               TextColor="Blue" 
-               VerticalOptions="CenterAndExpand" />
+        <Button Text="Mot de Passe oublié ?"
+                TextColor="Blue" 
+                VerticalOptions="CenterAndExpand"
+                FontAttributes="None"
+                BackgroundColor="White"
+                BorderColor="White"
+                Clicked="onButtonOublieClicked"
+               />
 
         <BoxView VerticalOptions="CenterAndExpand"
                  HeightRequest="1"
@@ -47,11 +52,13 @@
         
         <Button Text="Inscription"
                 BackgroundColor="DarkBlue"
-                TextColor="White" />
+                TextColor="White" 
+                Clicked="OnButtonInscriptionClicked"/>
 
         <Button Text="Paramètres"
                 BackgroundColor="DarkBlue"
-                TextColor="White" />
+                TextColor="White" 
+                Clicked="OnButtonParameterClicked"/>
     </StackLayout>
 
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Onek.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,27 @@ namespace Onek
             }
         }
 
+        async void OnButtonParameterClicked(object sender, EventArgs e)
+        {
+            string title = "Changement de serveur";
+            string text = "Entrez une adresse : ";
+            String ServerAdress = await InputDialog.InputBox(this.Navigation, title, text, "");
 
-	}
+            // Check if Server Adress is OK and Change it in Settings App
+        }
+
+        async void OnButtonInscriptionClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InscriptionPage());
+        }
+
+        async void onButtonOublieClicked(object sender, EventArgs e)
+        {
+            string title = "Récupétation de mot de passe";
+            string text = "Entrez votre adresse mail :";
+            String Mail = await InputDialog.InputBox(this.Navigation, title, text, "");
+
+            //Faire demande envoi de mail
+        }
+    }
 }

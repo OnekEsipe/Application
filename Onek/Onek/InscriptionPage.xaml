@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Onek.InscriptionPage"
+             Title="Inscription">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry  x:Name="LoginEntry"
+                Placeholder="Nom d'utilisateur"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="False"/>
+            <Entry  x:Name="NomEntry"
+                Placeholder="Nom"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="False"/>
+            <Entry  x:Name="PrenomEntry"
+                Placeholder="Prenom"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="False"/>
+            <Entry  x:Name="MailEntry"
+                Placeholder="Adresse Mail"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="False"/>
+            <Entry  x:Name="PasswordEntry"
+                Placeholder="Mot de Passe"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="True"/>
+            <Button Text="Inscription"
+                    BackgroundColor="DarkBlue"
+                    TextColor="White" 
+                    VerticalOptions="CenterAndExpand"
+                    Clicked="OnButtonClicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
