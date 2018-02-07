@@ -46,7 +46,7 @@ namespace Onek
             if (e.Item == null)
                 return;
 
-            await DisplayAlert("Candidate Tapped", "A candidate was tapped.", "OK");
+            await Navigation.PushAsync(new NotationOverviewPage());
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

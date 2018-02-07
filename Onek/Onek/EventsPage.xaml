@@ -55,7 +55,7 @@
                     Text="Inscription par code"
                     BackgroundColor="DarkBlue"
                     TextColor="White" 
-                    Clicked="OnButtonCodeCLicked"/>
+                    Clicked="OnButtonCodeClicked"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>

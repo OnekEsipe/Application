@@ -63,10 +63,10 @@ namespace Onek
             await Navigation.PopAsync();
         }
 
-        async void OnButtonCodeCLicked(object sender, EventArgs e)
+        async void OnButtonCodeClicked(object sender, EventArgs e)
         {
             string title = "S'inscrire à un évènement";
-            string text = "Entrez un code : "
+            string text = "Entrez un code : ";
             string myinput = await InputDialog.InputBox(this.Navigation, title, text);
         }
     }
