@@ -4,9 +4,7 @@ using System.Text;
 
 namespace Onek.data
 {
-    class Descriptor
+    class Evaluation
     {
-        public String Text { get; set; }
-        public String Level { get; set; }
     }
 }
