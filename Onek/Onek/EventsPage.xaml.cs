@@ -1,5 +1,6 @@
 ﻿using Onek.utils;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -14,22 +15,18 @@ namespace Onek
     public partial class EventsPage : ContentPage
     {
         public ObservableCollection<string> Items { get; set; }
+        private List<Event> Events = new List<Event>();
 
         public EventsPage()
         {
             InitializeComponent();
 
-            Items = new ObservableCollection<string>
+            Events = JsonParser.DeserializeJson("loginUser");
+            Items = new ObservableCollection<string>();
+            foreach(Event e in Events)
             {
-                "Olympiade 2017",
-                "Developpement Durable",
-                "Exposés techniques",
-                "Présentation des outils",
-                "Soutenance d'ingénieurs",
-                "Support des utilisateurs",
-                "Communication Entreprise"
-            };
-			
+                Items.Add(e.Name);
+            }
 			MyListView.ItemsSource = Items;
         }
 
@@ -37,8 +34,9 @@ namespace Onek
         {
             if (e.Item == null)
                 return;
-
-            await Navigation.PushAsync(new CandidatesPage());
+            CandidatesPage candidatesPage = new CandidatesPage();
+            candidatesPage.BindingContext = e;
+            await Navigation.PushAsync(candidatesPage);
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
