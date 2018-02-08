@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Onek.data
 {
-    class Login
+    public class Login
     {
         public const String SERVER_URL = "";
 

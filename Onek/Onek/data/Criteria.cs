@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Onek.data
 {
-    class Criteria
+    public class Criteria
     {
         public int Id { get; set; }
         public String Name { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Onek
 {
-    interface Parameter
+    public interface Parameter
     {
         Boolean GetSignature();
     }

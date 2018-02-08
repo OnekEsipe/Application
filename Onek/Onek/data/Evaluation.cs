@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Onek.data
 {
-    class Evaluation
+    public class Evaluation
     {
     }
 }

@@ -10,7 +10,7 @@ using Xamarin.Forms.PlatformConfiguration;
 namespace Onek
 {
 
-    class JsonParser
+    public class JsonParser
     {
         private static String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         private static String jsonDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

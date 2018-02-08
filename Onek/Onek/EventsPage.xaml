@@ -13,14 +13,14 @@
         
         <ListView x:Name="MyListView"
                 VerticalOptions="CenterAndExpand"
-                ItemsSource="{Binding Items}"
+                ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
                 CachingStrategy="RecycleElement">
             
         <!--Built in Cells-->
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding .}" />
+                <TextCell Text="{Binding Name}" />
             </DataTemplate>
         </ListView.ItemTemplate>
     

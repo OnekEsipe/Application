@@ -1,5 +1,6 @@
 ﻿using Onek.utils;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -13,23 +14,19 @@ namespace Onek
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EventsPage : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        private ObservableCollection<Event> Items { get; set; }
+        private List<Event> Events = new List<Event>();
 
         public EventsPage()
         {
             InitializeComponent();
 
-            Items = new ObservableCollection<string>
+            Events = JsonParser.DeserializeJson("loginUser");
+            Items = new ObservableCollection<Event>();
+            foreach(Event e in Events)
             {
-                "Olympiade 2017",
-                "Developpement Durable",
-                "Exposés techniques",
-                "Présentation des outils",
-                "Soutenance d'ingénieurs",
-                "Support des utilisateurs",
-                "Communication Entreprise"
-            };
-			
+                Items.Add(e);
+            }
 			MyListView.ItemsSource = Items;
         }
 
@@ -37,8 +34,10 @@ namespace Onek
         {
             if (e.Item == null)
                 return;
-
-            await Navigation.PushAsync(new CandidatesPage());
+            
+            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event);
+            //candidatesPage.BindingContext = e;
+            await Navigation.PushAsync(candidatesPage);
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
@@ -52,9 +51,9 @@ namespace Onek
             }
             else
             {
-                MyListView.ItemsSource =  Items.Where(eventItem => eventItem.ToLower().Contains(FilterEventEntry.Text.ToLower()) 
-                                                            && (eventItem.ToLower().IndexOf(FilterEventEntry.Text.ToLower()) == 0 
-                                                                || eventItem.ToLower()[eventItem.ToLower().IndexOf(FilterEventEntry.Text.ToLower())-1] == ' '));
+                MyListView.ItemsSource =  Items.Where(eventItem => eventItem.Name.ToLower().Contains(FilterEventEntry.Text.ToLower()) 
+                                                            && (eventItem.Name.ToLower().IndexOf(FilterEventEntry.Text.ToLower()) == 0 
+                                                                || eventItem.Name.ToLower()[eventItem.Name.ToLower().IndexOf(FilterEventEntry.Text.ToLower())-1] == ' '));
             }
         }
 
