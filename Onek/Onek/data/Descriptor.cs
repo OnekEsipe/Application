@@ -8,5 +8,6 @@ namespace Onek.data
     {
         public String Text { get; set; }
         public String Level { get; set; }
+        public String Comment { get; set; }
     }
 }

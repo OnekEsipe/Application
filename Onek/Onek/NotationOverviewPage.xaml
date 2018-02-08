@@ -12,18 +12,20 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
-                            <Label x:Name="CritereText" Text="{Binding CritereText}" 
+                            <Label x:Name="CritereText" Text="{Binding Text}" 
                                    TextColor="DarkBlue" FontSize="Medium" 
                                    HorizontalOptions="CenterAndExpand"
                                    WidthRequest="120"/>
                             <Picker x:Name="NiveauPicker" 
-                                    ItemsSource="{Binding Descripteurs}" ItemDisplayBinding="{Binding Niveau}"
+                                    ItemsSource="{Binding Descriptor}" ItemDisplayBinding="{Binding Level}"
+                                    SelectedIndex="{Binding SelectedDescriptorIndex}"
                                     HorizontalOptions="Center"
                                     WidthRequest="50"
                                     BackgroundColor="DeepSkyBlue"
-                                    TextColor="White"/>
+                                    TextColor="White"
+                                    SelectedIndexChanged="OnSelectedIndexChanged"/>
                             <Button x:Name="ButtonCommentaireCritere"
-                                    Text="{Binding Commentaire}"
+                                    Text="{Binding Comment}"
                                     BackgroundColor="White"
                                     BorderColor="DarkBlue"
                                     TextColor="DarkBlue"
@@ -36,7 +38,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button x:Name="ButtonCommentaireGeneral"
-                    Text="{Binding Commentaire}"
+                    Text="{Binding Comment}"
                     BackgroundColor="White"
                     BorderColor="DarkBlue"
                     TextColor="DarkBlue"

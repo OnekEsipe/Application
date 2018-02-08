@@ -15,5 +15,27 @@ namespace Onek
         public List<Criteria> Criterias { get; set; } = new List<Criteria>();
         public List<Jury> Jurys { get; set; } = new List<Jury>();
         public List<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
+
+        public Boolean hasEvaluation(int idCandidate)
+        {
+            Boolean hasEval = false;
+            foreach(Evaluation eval in Evaluations)
+            {
+                hasEval = eval.hasEvaluation(idCandidate);
+            }
+            return hasEval;
+        }
+
+        public Evaluation GetEvaluationForCandidate(int idCandidate)
+        {
+            foreach(Evaluation e in Evaluations)
+            {
+                if (e.hasEvaluation(idCandidate))
+                {
+                    return e;
+                }
+            }
+            return null;
+        }
     }
 }

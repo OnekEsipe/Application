@@ -1,4 +1,5 @@
-﻿using Onek.utils;
+﻿using Onek.data;
+using Onek.utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,28 +15,21 @@ namespace Onek
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotationOverviewPage : ContentPage
     {
-        public ObservableCollection<Critere> Items { get; set; }
+        public ObservableCollection<Criteria> Items { get; set; }
         public string Commentaire { get; set; }
-        public Critere SelectedCritere { get; set; }
+        public Criteria SelectedCritere { get; set; }
+        private Event CurrentEvent { get; set; }
+        private Evaluation Eval { get; set; }
 
-        public NotationOverviewPage()
+        public NotationOverviewPage(Event e, Evaluation evaluation)
         {
             InitializeComponent();
 
+            CurrentEvent = e;
+            Eval = evaluation;
             Commentaire = "Ceci est un commentaire";
 
-            Items = new ObservableCollection<Critere>();
-
-            Items.Add(new Critere() {CritereText = "Aisance", Descripteurs = new List<Descripteur> {new Descripteur() { Niveau = "A", Description = "TB" }
-            , new Descripteur() { Niveau = "B", Description = "B" }, new Descripteur() { Niveau = "C", Description = "AB" } }, Commentaire = "-" });
-
-            Items.Add(new Critere() {CritereText = "Diction", Descripteurs = new List<Descripteur> {new Descripteur() { Niveau = "A", Description = "TB" }
-            , new Descripteur() { Niveau = "B", Description = "B" }, new Descripteur() { Niveau = "C", Description = "AB" },
-                new Descripteur() {Niveau = "D",Description ="PB" } }, Commentaire = "Très bon niveau" });
-
-            Items.Add(new Critere() {CritereText = "Contenu", Descripteurs = new List<Descripteur> {new Descripteur() { Niveau = "A", Description = "TB" }
-            , new Descripteur() { Niveau = "B", Description = "B" }}, Commentaire = "-" });
-
+            Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
             ButtonCommentaireGeneral.Text = Commentaire;
         }
@@ -46,9 +40,15 @@ namespace Onek
                 return;
 
             ButtonNoter.IsEnabled = true;
-            SelectedCritere = e.Item as Critere;
+            SelectedCritere = e.Item as Criteria;
 
             //((ListView)sender).SelectedItem = null;
+        }
+
+        void OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Criteria critere = (sender as Picker).BindingContext as Criteria;
+            critere.SelectedDescriptorIndex = (sender as Picker).SelectedIndex;
         }
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
@@ -56,43 +56,32 @@ namespace Onek
             if (SelectedCritere == null)
                 return;
 
-            await Navigation.PushAsync(new NotationPage());
+            await Navigation.PushAsync(new NotationPage(SelectedCritere));
         }
 
-        void OnButtonEnregistrerClicked(object sender, EventArgs e)
+        async void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
             // Enregistrer et Sortir
+            CurrentEvent.Evaluations.Add(Eval);
+            await Navigation.PopAsync();
         }
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire de l'évalution";
-            string text = "Entrez un commentaire : ";
-            Commentaire = await InputDialog.InputBox(this.Navigation, title, text, Commentaire);
-            ButtonCommentaireGeneral.Text = Commentaire;
+            string text = Eval.Comment;
+            Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Commentaire);
+            ButtonCommentaireGeneral.Text = Eval.Comment;
         }
 
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
-            Critere critere = (sender as Button).BindingContext as Critere;
-            critere.Commentaire = await InputDialog.InputBox(this.Navigation, title, text, critere.Commentaire);
+            Criteria critere = (sender as Button).BindingContext as Criteria;
+            critere.Comment = await InputDialog.InputBox(this.Navigation, title, text, critere.Comment);
             MyListView.ItemsSource = Items;
-            (sender as Button).Text = critere.Commentaire;
+            (sender as Button).Text = critere.Comment;
         }
     } 
-    
-    public class Critere
-    {
-        public String CritereText { get; set; }
-        public List<Descripteur> Descripteurs { get; set; }
-        public String Commentaire { get; set; }
-    }
-
-    public class Descripteur
-    {
-        public String Niveau { get; set; }
-        public String Description { get; set; }
-    }
 }
