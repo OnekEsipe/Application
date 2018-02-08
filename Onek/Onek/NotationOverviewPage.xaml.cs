@@ -16,7 +16,6 @@ namespace Onek
     public partial class NotationOverviewPage : ContentPage
     {
         public ObservableCollection<Criteria> Items { get; set; }
-        public string Commentaire { get; set; }
         public Criteria SelectedCritere { get; set; }
         private Event CurrentEvent { get; set; }
         private Evaluation Eval { get; set; }
@@ -27,11 +26,15 @@ namespace Onek
 
             CurrentEvent = e;
             Eval = evaluation;
-            Commentaire = "Ceci est un commentaire";
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
-            ButtonCommentaireGeneral.Text = Commentaire;
+            ButtonCommentaireGeneral.Text = Eval.Comment;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
         }
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -63,6 +66,8 @@ namespace Onek
         {
             // Enregistrer et Sortir
             CurrentEvent.Evaluations.Add(Eval);
+            //send json to server
+            //JsonParser.SendJsonToServer(Eval);
             await Navigation.PopAsync();
         }
 
@@ -70,7 +75,7 @@ namespace Onek
         {
             string title = "Commentaire de l'évalution";
             string text = Eval.Comment;
-            Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Commentaire);
+            Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Eval.Comment);
             ButtonCommentaireGeneral.Text = Eval.Comment;
         }
 
