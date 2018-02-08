@@ -2,19 +2,63 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Onek"
-             x:Class="Onek.MainPage">
+             x:Class="Onek.MainPage"
+             Title="Accueil">
 
     <StackLayout>
-        <Slider VerticalOptions="CenterAndExpand" />
 
-        <Label Text="Label test xamarin.forms"
-               Font="Large"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
+        <Image Source="logo.png" 
+               WidthRequest="120"
+               HeightRequest="120"/>
+        
+        <Entry  x:Name="LoginEntry"
+                Placeholder="Nom d'utilisateur"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="False"/>
 
-        <Button Text="Button test"
-                HorizontalOptions="Center"
+        <Entry  x:Name="PasswordEntry"
+                VerticalOptions="CenterAndExpand"
+                Placeholder="Mot de Passe"
+                PlaceholderColor="Gray"
+                HorizontalOptions="FillAndExpand"
+                WidthRequest="250"
+                IsPassword="True"/>
+
+        <Button x:Name="ButtonLogin"
+                Text="Connexion"
+                BackgroundColor="DarkBlue"
+                TextColor="White" 
+                Clicked="OnButtonLoginClicked"/>
+
+        <Button Text="Mot de Passe oublié ?"
+                TextColor="Blue" 
+                VerticalOptions="CenterAndExpand"
+                FontAttributes="None"
+                BackgroundColor="White"
+                BorderColor="White"
+                Clicked="onButtonOublieClicked"
+               />
+
+        <BoxView VerticalOptions="CenterAndExpand"
+                 HeightRequest="1"
+                 WidthRequest="250"
+                 Color="DarkBlue" />
+
+        <Label Text="Pas de compte ?"
+               TextColor="Gray"
                 VerticalOptions="CenterAndExpand" />
+        
+        <Button Text="Inscription"
+                BackgroundColor="DarkBlue"
+                TextColor="White" 
+                Clicked="OnButtonInscriptionClicked"/>
+
+        <Button Text="Paramètres"
+                BackgroundColor="DarkBlue"
+                TextColor="White" 
+                Clicked="OnButtonParameterClicked"/>
     </StackLayout>
 
 </ContentPage>

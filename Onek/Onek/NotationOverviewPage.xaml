@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Onek.NotationOverviewPage"
+             Title="Evaluation">
+    <StackLayout>
+        <ListView x:Name="MyListView"
+                ItemsSource="{Binding Items}"
+                CachingStrategy="RecycleElement"
+                 ItemTapped="Handle_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label x:Name="CritereText" Text="{Binding CritereText}" 
+                                   TextColor="DarkBlue" FontSize="Medium" 
+                                   HorizontalOptions="CenterAndExpand"
+                                   WidthRequest="120"/>
+                            <Picker x:Name="NiveauPicker" 
+                                    ItemsSource="{Binding Descripteurs}" ItemDisplayBinding="{Binding Niveau}"
+                                    HorizontalOptions="Center"
+                                    WidthRequest="50"
+                                    BackgroundColor="DeepSkyBlue"
+                                    TextColor="White"/>
+                            <Button x:Name="ButtonCommentaireCritere"
+                                    Text="{Binding Commentaire}"
+                                    BackgroundColor="White"
+                                    BorderColor="DarkBlue"
+                                    TextColor="DarkBlue"
+                                    HorizontalOptions="CenterAndExpand"
+                                    WidthRequest="180"
+                                    Clicked="OnCritereCommentaireClicked"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button x:Name="ButtonCommentaireGeneral"
+                    Text="{Binding Commentaire}"
+                    BackgroundColor="White"
+                    BorderColor="DarkBlue"
+                    TextColor="DarkBlue"
+                    HorizontalOptions="Fill"
+                    MinimumWidthRequest="300"
+                    MinimumHeightRequest="250"
+                    Clicked="OnGeneralCommentaireClicked"/>
+        
+        <StackLayout  VerticalOptions="CenterAndExpand"
+                      HorizontalOptions="CenterAndExpand"
+                      Orientation="Horizontal">
+
+            <Button x:Name="ButtonNoter"
+                    Text="Noter"
+                    BackgroundColor="DarkBlue"
+                    TextColor="White" 
+                    Clicked="OnButtonNoterClicked"
+                    IsEnabled="False"/>
+
+            <Button x:Name="ButtonEnregister"
+                    Text="Enregistrer"
+                    BackgroundColor="DarkBlue"
+                    TextColor="White" 
+                    Clicked="OnButtonEnregistrerClicked"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

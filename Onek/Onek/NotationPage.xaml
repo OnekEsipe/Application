@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Onek.NotationPage"
+             Title="Critère">
+    <StackLayout Orientation="Vertical">
+        <RelativeLayout HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="StartAndExpand"
+                        HeightRequest="80">
+            <ListView x:Name="MyListView"
+                ItemsSource="{Binding Items}"
+                ItemTapped="Handle_ItemTapped"
+                CachingStrategy="RecycleElement"
+                Rotation="270"
+                BackgroundColor="LightGray"                  
+                RowHeight="55"
+                SeparatorColor="Black"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-40}"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=-0.5, Constant=40}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=Constant, Constant=80}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Niveau}"
+                                   FontAttributes="Bold"
+                                   Rotation="90"
+                                   />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </RelativeLayout>
+        <Button x:Name="DescriptionBox"
+                HorizontalOptions="Fill"
+                WidthRequest="300"
+                HeightRequest="200"
+                BackgroundColor="LightGray"
+                BorderColor="LightGray"
+                TextColor="Black" 
+                IsEnabled="False"
+                VerticalOptions="CenterAndExpand"/>
+    
+        <Button x:Name="ButtonCommentaireCritere"
+                Text="{Binding Commentaire}"
+                BackgroundColor="White"
+                BorderColor="DarkBlue"
+                TextColor="DarkBlue"
+                HorizontalOptions="Fill"
+                WidthRequest="300"
+                HeightRequest="200"
+                Clicked="OnCritereCommentaireClicked" 
+                VerticalOptions="CenterAndExpand"/>
+    
+        <StackLayout  VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="CenterAndExpand"
+                          Orientation="Horizontal">
+
+            <Button x:Name="ButtonValider"
+                        Text="Valider"
+                        BackgroundColor="DarkBlue"
+                        TextColor="White" 
+                        Clicked="OnButtonValiderClicked"
+                        IsEnabled="False"/>
+
+            <Button x:Name="ButtonRetour"
+                        Text="Retour"
+                        BackgroundColor="DarkBlue"
+                        TextColor="White" 
+                        Clicked="OnButtonRetourClicked"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
