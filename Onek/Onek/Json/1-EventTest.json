@@ -1,0 +1,99 @@
+{
+	"id": 1,
+	"nom": "EnventTest",
+	"dateDebut": "03/12/17 13:00",
+	"dateFin": "03/12/17 17:00",
+	"parametres": [],
+	"criteres": [{
+			"id": 1,
+			"nom": "Critère n°1",
+			"texte": "Texte critère n°1",
+			"categorie": "Catégorie critère n°1",
+			"descripteurs": [{
+					"texte": "Très satisfaisant",
+					"niveau": "A"
+				},
+				{
+					"texte": "Satisfaisant",
+					"niveau": "B"
+				},
+				{
+					"texte": "Bof",
+					"niveau": "C"
+				},
+				{
+					"texte": "Pas bien",
+					"niveau": "D"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"nom": "Critère n°2",
+			"texte": "Texte critère n°2",
+			"categorie": "Catégorie critère n°2",
+			"descripteurs": [{
+					"texte": "Très satisfaisant",
+					"niveau": "A"
+				},
+				{
+					"texte": "Satisfaisant",
+					"niveau": "B"
+				},
+				{
+					"texte": "Bof",
+					"niveau": "C"
+				},
+				{
+					"texte": "Pas bien",
+					"niveau": "D"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"nom": "Critère n°3",
+			"texte": "Texte critère n°3",
+			"categorie": "Catégorie critère n°3",
+			"descripteurs": [{
+					"texte": "Très satisfaisant",
+					"niveau": "A"
+				},
+				{
+					"texte": "Satisfaisant",
+					"niveau": "B"
+				},
+				{
+					"texte": "Bof",
+					"niveau": "C"
+				},
+				{
+					"texte": "Pas bien",
+					"niveau": "D"
+				}
+			]
+		}
+	],
+	"jurys": [{
+		"id": 1,
+		"nom": "L'éponge",
+		"prenom": "Bob",
+		"candidats": [{
+				"id": 1,
+				"nom": "Etoile",
+				"prenom": "Patrick"
+			},
+			{
+				"id": 2,
+				"nom": "Poulpe",
+				"prenom": "Carlo"
+			},
+			{
+				"id": 3,
+				"nom": "Hermite",
+				"prenom": "Bernard"
+			}
+		]
+	}],
+	"evaluations": []
+}

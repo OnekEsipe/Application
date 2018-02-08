@@ -16,6 +16,7 @@ namespace Onek
         public MainPage()
 		{
 			InitializeComponent();
+            Navigation.PushAsync(new Interfaces.TestParserPage());
 		}
 
         async void OnButtonLoginClicked(object sender, EventArgs e)
