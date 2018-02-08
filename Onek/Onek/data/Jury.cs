@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Onek
 {
-    class Jury
+    public class Jury
     {
         public int Id { get; set; }
         public String LastName { get; set; }

@@ -14,7 +14,7 @@ namespace Onek
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EventsPage : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        private ObservableCollection<Event> Items { get; set; }
         private List<Event> Events = new List<Event>();
 
         public EventsPage()
@@ -22,10 +22,10 @@ namespace Onek
             InitializeComponent();
 
             Events = JsonParser.DeserializeJson("loginUser");
-            Items = new ObservableCollection<string>();
+            Items = new ObservableCollection<Event>();
             foreach(Event e in Events)
             {
-                Items.Add(e.Name);
+                Items.Add(e);
             }
 			MyListView.ItemsSource = Items;
         }
@@ -34,8 +34,9 @@ namespace Onek
         {
             if (e.Item == null)
                 return;
-            CandidatesPage candidatesPage = new CandidatesPage();
-            candidatesPage.BindingContext = e;
+            
+            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event);
+            //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 
             //Deselect Item
@@ -50,9 +51,9 @@ namespace Onek
             }
             else
             {
-                MyListView.ItemsSource =  Items.Where(eventItem => eventItem.ToLower().Contains(FilterEventEntry.Text.ToLower()) 
-                                                            && (eventItem.ToLower().IndexOf(FilterEventEntry.Text.ToLower()) == 0 
-                                                                || eventItem.ToLower()[eventItem.ToLower().IndexOf(FilterEventEntry.Text.ToLower())-1] == ' '));
+                MyListView.ItemsSource =  Items.Where(eventItem => eventItem.Name.ToLower().Contains(FilterEventEntry.Text.ToLower()) 
+                                                            && (eventItem.Name.ToLower().IndexOf(FilterEventEntry.Text.ToLower()) == 0 
+                                                                || eventItem.Name.ToLower()[eventItem.Name.ToLower().IndexOf(FilterEventEntry.Text.ToLower())-1] == ' '));
             }
         }
 

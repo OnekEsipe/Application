@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -13,33 +14,29 @@ namespace Onek
     public partial class CandidatesPage : ContentPage
     {
         public ObservableCollection<string> Items { get; set; }
+        private Event CurrentEvent { get; set; }
+        private List<Candidate> Candidates;
 
-        public CandidatesPage()
+        public CandidatesPage(Event e)
         {
             InitializeComponent();
-
-            Items = new ObservableCollection<string>
+            
+            Items = new ObservableCollection<string>();
+            Candidates = new List<Candidate>();
+            CurrentEvent = e;
+            Candidates = CurrentEvent.Jurys.First().Candidates;
+            foreach (Candidate candidate in Candidates)
             {
-                "Julien Brossard",
-                "Antoine Ganthier",
-                "Julien Plancqueel",
-                "Ichrak Rezgui",
-                "Hamed Tamela",
-                "Rodolphe Drocourt",
-                "Axel Rolo",
-                "Yanis Salah",
-                "Florie Monnier",
-                "Etienne Duris",
-                "Hugo Feuillatre",
-                "Medalie Noubigh",
-                "Hugo Fourcade",
-                "Pauline Lott",
-                "Vincent Leman",
-                "Etienne Jannot"
-            };
-			
-			MyListView.ItemsSource = Items;
+                Items.Add(candidate.FirstName + " " + candidate.LastName);
+            }
+            MyListView.ItemsSource = Items;
         }
+
+        /*protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            
+        }*/
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Onek
 {
-    class Event
+    public class Event
     {
         public int Id { get; set; }
         public String Name { get; set; }
