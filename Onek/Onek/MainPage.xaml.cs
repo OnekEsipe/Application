@@ -1,5 +1,6 @@
 ﻿using Onek.data;
 using Onek.utils;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,22 @@ namespace Onek
 
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            List<Login> logins = JsonParser.LoadLoginJson();
-
-            foreach(Login l in logins)
+            if (CrossConnectivity.Current.IsConnected)
             {
-                if (LoginEntry.Text != null && PasswordEntry.Text != null
-                && LoginEntry.Text.Equals(l.login) && PasswordEntry.Text.Equals(l.password))
+                await DisplayAlert("Erreur", "Vous avez internet ! #future", "OK");
+            }
+            else
+            {
+                List<Login> logins = JsonParser.LoadLoginJson();
+
+                foreach (Login l in logins)
                 {
-                    await Navigation.PushAsync(new EventsPage());
-                    return;
+                    if (LoginEntry.Text != null && PasswordEntry.Text != null
+                    && LoginEntry.Text.Equals(l.login) && PasswordEntry.Text.Equals(l.password))
+                    {
+                        await Navigation.PushAsync(new EventsPage());
+                        return;
+                    }
                 }
             }
 
