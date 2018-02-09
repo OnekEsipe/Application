@@ -21,18 +21,22 @@ namespace Onek
         {
             if (CrossConnectivity.Current.IsConnected)
             {
+                //ONLINE LOGIN
                 await DisplayAlert("Erreur", "Vous avez internet ! #future", "OK");
+                return;
             }
             else
             {
-                List<Login> logins = JsonParser.LoadLoginJson();
+                //OFFLINE LOGIN
+                List<User> logins = JsonParser.LoadLoginJson();
 
-                foreach (Login l in logins)
+                foreach (User u in logins)
                 {
                     if (LoginEntry.Text != null && PasswordEntry.Text != null
-                    && LoginEntry.Text.Equals(l.login) && PasswordEntry.Text.Equals(l.password))
+                    && LoginEntry.Text.Equals(u.Login) && PasswordEntry.Text.Equals(u.Password))
                     {
-                        await Navigation.PushAsync(new EventsPage());
+
+                        await Navigation.PushAsync(new EventsPage(u));
                         return;
                     }
                 }

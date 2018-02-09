@@ -38,7 +38,7 @@ namespace Onek
             foreach (int id in EventsToDownload)
             {
                 //Download events data from server
-                String jsonString = client.DownloadString(Login.SERVER_URL + id + "-*");
+                String jsonString = client.DownloadString(User.SERVER_URL + id + "-*");
                 //EventsJson.Add(jsonString);
                 //Save json into internal memory
                 String fileName = Path.Combine(jsonDataDirectory, id + "-event.json");
@@ -133,12 +133,12 @@ namespace Onek
         /// Load json containing login information and parse it 
         /// </summary>
         /// <returns>List<Login></Login></returns>
-        public static List<Login> LoadLoginJson()
+        public static List<User> LoadLoginJson()
         {
             //Simulate Json File in Folder
-            List<Login> loginList = new List<Login>();
-            loginList.Add(new Login() { login = "a", password = "a", Events_id = { 1, 2, 28 } });
-            loginList.Add(new Login() { login = "test", password = "test", Events_id = { 1, 2, 28 } });
+            List<User> loginList = new List<User>();
+            loginList.Add(new User() { Id = 1, Login = "a", Password = "a", Events_id = { 1, 2, 28 } });
+            loginList.Add(new User() { Id = 2, Login = "test", Password = "test", Events_id = { 1, 2, 28 } });
             string text = JsonConvert.SerializeObject(loginList);
                 
 
@@ -149,7 +149,7 @@ namespace Onek
             string documentsPathR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string filePathR = Path.Combine(documentsPathR, "account.json");
             String jsonString  = System.IO.File.ReadAllText(filePathR);
-            List<Login> logins = JsonConvert.DeserializeObject<List<Login>>(jsonString);
+            List<User> logins = JsonConvert.DeserializeObject<List<User>>(jsonString);
             return logins;
         }
 
