@@ -133,11 +133,23 @@ namespace Onek
         /// Load json containing login information and parse it 
         /// </summary>
         /// <returns>List<Login></Login></returns>
-        private static List<Login> LoadJson()
+        public static List<Login> LoadLoginJson()
         {
-            StreamReader Reader = new StreamReader(pathToLoginFile);
-            String json = Reader.ReadToEnd();
-            List<Login> logins = JsonConvert.DeserializeObject<List<Login>>(json);
+            //Simulate Json File in Folder
+            List<Login> loginList = new List<Login>();
+            loginList.Add(new Login() { login = "a", password = "a", Events_id = { 1, 2, 28 } });
+            loginList.Add(new Login() { login = "test", password = "test", Events_id = { 1, 2, 28 } });
+            string text = JsonConvert.SerializeObject(loginList);
+                
+
+            string documentsPathW = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string filePathW = Path.Combine(documentsPathW, "account.json");
+            System.IO.File.WriteAllText(filePathW, text);
+
+            string documentsPathR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string filePathR = Path.Combine(documentsPathR, "account.json");
+            String jsonString  = System.IO.File.ReadAllText(filePathR);
+            List<Login> logins = JsonConvert.DeserializeObject<List<Login>>(jsonString);
             return logins;
         }
 

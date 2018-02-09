@@ -1,4 +1,5 @@
-﻿using Onek.utils;
+﻿using Onek.data;
+using Onek.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +11,26 @@ namespace Onek
 {
 	public partial class MainPage : ContentPage
 	{
-        private String loginTest = "a";
-        private String passTest = "a";
-
-        public MainPage()
+       public MainPage()
 		{
 			InitializeComponent();
 		}
 
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            if (LoginEntry.Text != null && PasswordEntry.Text != null 
-                && LoginEntry.Text.Equals(loginTest) && PasswordEntry.Text.Equals(passTest))
+            List<Login> logins = JsonParser.LoadLoginJson();
+
+            foreach(Login l in logins)
             {
-                await Navigation.PushAsync(new EventsPage());
+                if (LoginEntry.Text != null && PasswordEntry.Text != null
+                && LoginEntry.Text.Equals(l.login) && PasswordEntry.Text.Equals(l.password))
+                {
+                    await Navigation.PushAsync(new EventsPage());
+                    return;
+                }
             }
-            else
-            {
-                await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
-            }
+
+            await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
         }
 
         async void OnButtonParameterClicked(object sender, EventArgs e)
