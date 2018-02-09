@@ -17,6 +17,13 @@ namespace Onek
 			InitializeComponent();
 		}
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoginEntry.Text = "";
+            PasswordEntry.Text = "";
+        }
+
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
             if (CrossConnectivity.Current.IsConnected)
@@ -35,7 +42,6 @@ namespace Onek
                     if (LoginEntry.Text != null && PasswordEntry.Text != null
                     && LoginEntry.Text.Equals(u.Login) && PasswordEntry.Text.Equals(u.Password))
                     {
-
                         await Navigation.PushAsync(new EventsPage(u));
                         return;
                     }
