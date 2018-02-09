@@ -32,11 +32,6 @@ namespace Onek
             ButtonCommentaireGeneral.Text = Eval.Comment;
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
-
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)

@@ -29,6 +29,10 @@ namespace Onek
 
             MyListView.ItemsSource = Items;
             ButtonCommentaireCritere.Text = c.Comment;
+            if(CurrentCriteria.SelectedDescriptorIndex != -1)
+            {
+                //Checker 
+            }
         }
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

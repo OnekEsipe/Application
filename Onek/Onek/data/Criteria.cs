@@ -1,17 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Onek.data
 {
-    public class Criteria
+    public class Criteria : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public String Text { get; set; }
         public String Category { get; set; }
-        public String Comment { get; set; } = "Zone de commentaire"; // default comment
+        private String comment = "Zone de commentaire"; // default comment
         public List<Descriptor> Descriptor { get; set; } = new List<data.Descriptor>();
-        public int SelectedDescriptorIndex { get; set; } = -1; // -1 pas de note
+        public int selectedDescriptorIndex = -1; // -1 pas de note
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public String Comment
+        {
+            get { return comment; }
+            set
+            {
+                comment = value;
+                OnPropertyChanged("Comment");
+            }
+        }
+
+        public int SelectedDescriptorIndex
+        {
+            get { return selectedDescriptorIndex; }
+            set
+            {
+                selectedDescriptorIndex = value;
+                OnPropertyChanged("SelectedDescriptorIndex");
+            }
+        }
 
         public int GetDescriptorIndex(Descriptor descriptor)
         {
@@ -25,6 +48,18 @@ namespace Onek.data
                 index++;
             }
             return index;
+        }
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if(handler != null)
+                handler(this, e);
+        }
+
+        protected void OnPropertyChanged(String propertyName)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 }
