@@ -17,6 +17,7 @@ namespace Onek
         public ObservableCollection<Descriptor> Items { get; set; }
         public Descriptor SelectedDescripteur { get; set; }
         private Criteria CurrentCriteria;
+        public String Comment { get; set; }
 
         public NotationPage(Criteria c)
         {
@@ -24,6 +25,7 @@ namespace Onek
             CurrentCriteria = c;
 
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor);
+            Comment = CurrentCriteria.Comment;
 
             MyListView.ItemsSource = Items;
             ButtonCommentaireCritere.Text = c.Comment;

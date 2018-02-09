@@ -67,7 +67,7 @@ namespace Onek
             // Enregistrer et Sortir
             CurrentEvent.Evaluations.Add(Eval);
             //send json to server
-            //JsonParser.SendJsonToServer(Eval);
+            JsonParser.SendJsonToServer(Eval);
             await Navigation.PopAsync();
         }
 

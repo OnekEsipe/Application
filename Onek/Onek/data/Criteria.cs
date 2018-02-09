@@ -9,9 +9,9 @@ namespace Onek.data
         public int Id { get; set; }
         public String Text { get; set; }
         public String Category { get; set; }
-        public String Comment { get; set; }
+        public String Comment { get; set; } = "Zone de commentaire"; // default comment
         public List<Descriptor> Descriptor { get; set; } = new List<data.Descriptor>();
-        public int SelectedDescriptorIndex { get; set; } = -1;
+        public int SelectedDescriptorIndex { get; set; } = -1; // -1 pas de note
 
         public int GetDescriptorIndex(Descriptor descriptor)
         {
