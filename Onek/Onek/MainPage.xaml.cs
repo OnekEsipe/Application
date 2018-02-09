@@ -1,4 +1,6 @@
-﻿using Onek.utils;
+﻿using Onek.data;
+using Onek.utils;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +12,43 @@ namespace Onek
 {
 	public partial class MainPage : ContentPage
 	{
-        private String loginTest = "a";
-        private String passTest = "a";
-
-        public MainPage()
+       public MainPage()
 		{
 			InitializeComponent();
 		}
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoginEntry.Text = "";
+            PasswordEntry.Text = "";
+        }
+
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            if (LoginEntry.Text != null && PasswordEntry.Text != null 
-                && LoginEntry.Text.Equals(loginTest) && PasswordEntry.Text.Equals(passTest))
+            if (CrossConnectivity.Current.IsConnected)
             {
-                await Navigation.PushAsync(new EventsPage());
+                //ONLINE LOGIN
+                await DisplayAlert("Erreur", "Vous avez internet ! #future", "OK");
+                return;
             }
             else
             {
-                await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+                //OFFLINE LOGIN
+                List<User> logins = JsonParser.LoadLoginJson();
+
+                foreach (User u in logins)
+                {
+                    if (LoginEntry.Text != null && PasswordEntry.Text != null
+                    && LoginEntry.Text.Equals(u.Login) && PasswordEntry.Text.Equals(u.Password))
+                    {
+                        await Navigation.PushAsync(new EventsPage(u));
+                        return;
+                    }
+                }
             }
+
+            await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
         }
 
         async void OnButtonParameterClicked(object sender, EventArgs e)

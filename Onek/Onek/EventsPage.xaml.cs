@@ -1,4 +1,5 @@
-﻿using Onek.utils;
+﻿using Onek.data;
+using Onek.utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,12 +16,14 @@ namespace Onek
     public partial class EventsPage : ContentPage
     {
         private ObservableCollection<Event> Items { get; set; }
+        private User LoggedUser { get; set; }
         private List<Event> Events = new List<Event>();
 
-        public EventsPage()
+        public EventsPage(User user)
         {
             InitializeComponent();
 
+            LoggedUser = user;
             Events = JsonParser.DeserializeJson("loginUser");
             Items = new ObservableCollection<Event>();
             foreach(Event e in Events)
