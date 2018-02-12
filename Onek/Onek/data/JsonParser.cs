@@ -164,7 +164,7 @@ namespace Onek
             String json = JsonConvert.SerializeObject(eval);
 
             //Send json to server
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("url");
+            /*HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("url");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
             SendToServer(httpWebRequest, json);
@@ -175,7 +175,7 @@ namespace Onek
             {
                 //If response not ok send it again
                 SendToServer(httpWebRequest, json);
-            }
+            }*/
         }
 
 

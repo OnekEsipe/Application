@@ -12,18 +12,21 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
-                            <Label x:Name="CritereText" Text="{Binding CritereText}" 
+                            <Label x:Name="CritereText" Text="{Binding Text}" 
                                    TextColor="DarkBlue" FontSize="Medium" 
                                    HorizontalOptions="CenterAndExpand"
                                    WidthRequest="120"/>
-                            <Picker x:Name="NiveauPicker" 
-                                    ItemsSource="{Binding Descripteurs}" ItemDisplayBinding="{Binding Niveau}"
-                                    HorizontalOptions="Center"
-                                    WidthRequest="50"
+                            <Button x:Name="LevelButton"
+                                    Text="{Binding SelectedLevel}"
+                                    Command=""
                                     BackgroundColor="DeepSkyBlue"
-                                    TextColor="White"/>
+                                    TextColor="White"
+                                    WidthRequest="50"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnLevelButtonClicked"
+                                    />
                             <Button x:Name="ButtonCommentaireCritere"
-                                    Text="{Binding Commentaire}"
+                                    Text="{Binding Comment}"
                                     BackgroundColor="White"
                                     BorderColor="DarkBlue"
                                     TextColor="DarkBlue"
@@ -36,7 +39,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button x:Name="ButtonCommentaireGeneral"
-                    Text="{Binding Commentaire}"
+                    Text="{Binding Comment}"
                     BackgroundColor="White"
                     BorderColor="DarkBlue"
                     TextColor="DarkBlue"
