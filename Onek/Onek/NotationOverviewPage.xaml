@@ -16,15 +16,14 @@
                                    TextColor="DarkBlue" FontSize="Medium" 
                                    HorizontalOptions="CenterAndExpand"
                                    WidthRequest="120"/>
-                            <Picker x:Name="NiveauPicker" 
-                                    ItemsSource="{Binding Descriptor}" ItemDisplayBinding="{Binding Level}"
-                                    SelectedItem="{Binding SelectedDescriptor}"
-                                    HorizontalOptions="Center"
-                                    WidthRequest="50"
+                            <Button x:Name="LevelButton"
+                                    Text="{Binding SelectedLevel}"
                                     BackgroundColor="DeepSkyBlue"
                                     TextColor="White"
-                                    SelectedIndexChanged="OnSelectedIndexChanged"
-                                     />
+                                    WidthRequest="50"
+                                    HorizontalOptions="Center"
+                                    Clicked="OnLevelButtonClicked"
+                                    />
                             <Button x:Name="ButtonCommentaireCritere"
                                     Text="{Binding Comment}"
                                     BackgroundColor="White"

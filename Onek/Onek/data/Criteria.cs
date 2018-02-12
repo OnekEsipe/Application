@@ -13,7 +13,7 @@ namespace Onek.data
         public String Category { get; set; }
         private String comment = "Zone de commentaire"; // default comment
         public ObservableCollection<Descriptor> Descriptor { get; set; } = new ObservableCollection<data.Descriptor>();
-        public int selectedDescriptorIndex = -1; // -1 pas de note
+        public String selectedLevel = "";
         public Descriptor SelectedDescriptor { get;  set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -28,28 +28,14 @@ namespace Onek.data
             }
         }
 
-        public int SelectedDescriptorIndex
+        public String SelectedLevel
         {
-            get { return selectedDescriptorIndex; }
+            get { return selectedLevel; }
             set
             {
-                selectedDescriptorIndex = value;
-                //OnPropertyChanged("SelectedDescriptorIndex");
+                selectedLevel = value;
+                OnPropertyChanged("SelectedLevel");
             }
-        }
-
-        public int GetDescriptorIndex(Descriptor descriptor)
-        {
-            int index = 0;
-            foreach(Descriptor d in Descriptor)
-            {
-                if (d.Equals(descriptor))
-                {
-                    return index;
-                }
-                index++;
-            }
-            return index;
         }
 
         protected void OnPropertyChanged(PropertyChangedEventArgs e)

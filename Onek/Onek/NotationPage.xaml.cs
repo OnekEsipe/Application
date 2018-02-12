@@ -29,10 +29,7 @@ namespace Onek
 
             MyListView.ItemsSource = Items;
             ButtonCommentaireCritere.Text = c.Comment;
-            if(CurrentCriteria.SelectedDescriptorIndex != -1)
-            {
-                //Check and select value 
-            }
+
         }
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -56,7 +53,7 @@ namespace Onek
         void OnButtonValiderClicked(object sender, EventArgs e)
         {
             // Valider (et retour ?)
-            CurrentCriteria.SelectedDescriptorIndex = CurrentCriteria.GetDescriptorIndex(SelectedDescripteur);
+            CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
             Navigation.PopAsync();
         }
 

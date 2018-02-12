@@ -43,8 +43,7 @@ namespace Onek
                 foreach(Criteria c in CurrentEvent.Criterias){
                     evaluation.Criterias.Add(c.Clone() as Criteria);
                 }
-                CurrentEvent.Evaluations.Add(evaluation);
-                
+                CurrentEvent.Evaluations.Add(evaluation); 
             }
 
             /*foreach (Criteria c in evaluation.Criterias)

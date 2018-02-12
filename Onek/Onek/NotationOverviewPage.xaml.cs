@@ -43,16 +43,42 @@ namespace Onek
             //((ListView)sender).SelectedItem = null;
         }
 
-        void OnSelectedIndexChanged(object sender, EventArgs e)
+        /*void OnSelectedIndexChanged(object sender, EventArgs e)
         {
             Picker LevelPicker = sender as Picker;
             if (LevelPicker.IsFocused)
             {
                 Criteria critere = LevelPicker.BindingContext as Criteria;
                 critere.SelectedDescriptor = LevelPicker.SelectedItem as Descriptor;
-                //LevelPicker.SelectedItem = critere.SelectedDescriptor;
+                LevelPicker.SelectedItem = critere.SelectedDescriptor;
             }
             
+        }*/
+
+        async void OnLevelButtonClicked(object sender, EventArgs e)
+        {
+            Button buttonClicked = sender as Button;
+            Criteria criteria = buttonClicked.BindingContext as Criteria;
+            List<String> buttonsLevel = new List<String>();
+            foreach(Descriptor d in criteria.Descriptor)
+            {
+                buttonsLevel.Add(d.Level);
+            }
+            String level = await DisplayActionSheet("Selectionnez la note", "Retour", "", buttonsLevel.ToArray());
+            if (!level.Equals("Retour"))
+            {
+                criteria.selectedLevel = level;
+                buttonClicked.Text = level;
+                Descriptor selectedDescriptor = null;
+                foreach (Descriptor d in criteria.Descriptor)
+                {
+                    if (d.Level.Equals(level))
+                    {
+                        selectedDescriptor = d;
+                    }
+                }
+                criteria.SelectedDescriptor = selectedDescriptor;
+            }
         }
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
