@@ -1,23 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
 
 namespace Onek.data
 {
-    public class Evaluation
+    public class Evaluation : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public int IdJury { get; set; }
         public int IdEvent { get; set; }
         public int IdCandidate { get; set; }
-        public String Comment { get; set; }
+        private String comment = "Zone de commentaire";
         public DateTime LastUpdatedDate { get; set; }
-        public ObservableCollection<Criteria> Criterias { get; set; }
+        private ObservableCollection<Criteria> criterias = new ObservableCollection<Criteria>();
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Boolean hasEvaluation(int idCandidate)
         {
             return IdCandidate == idCandidate;
+        }
+
+        public String Comment
+        {
+            get { return comment; }
+            set
+            {
+                comment = value;
+                OnPropertyChanged("Comment");
+            }
+        }
+
+        public ObservableCollection<Criteria> Criterias
+        {
+            get { return criterias; }
+            set
+            {
+                criterias = value;
+                OnPropertyChanged("Criterias");
+            }
+        }
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        protected void OnPropertyChanged(String propertyName)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 }

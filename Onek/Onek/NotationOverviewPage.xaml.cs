@@ -43,18 +43,6 @@ namespace Onek
             //((ListView)sender).SelectedItem = null;
         }
 
-        /*void OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            Picker LevelPicker = sender as Picker;
-            if (LevelPicker.IsFocused)
-            {
-                Criteria critere = LevelPicker.BindingContext as Criteria;
-                critere.SelectedDescriptor = LevelPicker.SelectedItem as Descriptor;
-                LevelPicker.SelectedItem = critere.SelectedDescriptor;
-            }
-            
-        }*/
-
         async void OnLevelButtonClicked(object sender, EventArgs e)
         {
             Button buttonClicked = sender as Button;
@@ -68,7 +56,6 @@ namespace Onek
             if (!level.Equals("Retour"))
             {
                 criteria.SelectedLevel = level;
-                buttonClicked.Text = level;
                 Descriptor selectedDescriptor = null;
                 foreach (Descriptor d in criteria.Descriptor)
                 {
@@ -79,6 +66,7 @@ namespace Onek
                 }
                 criteria.SelectedDescriptor = selectedDescriptor;
             }
+            MyListView.ItemsSource = Items;
         }
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
@@ -87,6 +75,13 @@ namespace Onek
                 return;
 
             await Navigation.PushAsync(new NotationPage(SelectedCritere));
+ 
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            MyListView.ItemsSource = Items;
         }
 
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
@@ -102,6 +97,7 @@ namespace Onek
             string title = "Commentaire de l'évalution";
             string text = Eval.Comment;
             Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Eval.Comment);
+            MyListView.ItemsSource = Items;
             ButtonCommentaireGeneral.Text = Eval.Comment;
         }
 
@@ -112,7 +108,6 @@ namespace Onek
             Criteria critere = (sender as Button).BindingContext as Criteria;
             critere.Comment = await InputDialog.InputBox(this.Navigation, title, text, critere.Comment);
             MyListView.ItemsSource = Items;
-            (sender as Button).Text = critere.Comment;
         }
     } 
 }

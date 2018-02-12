@@ -14,9 +14,9 @@ namespace Onek
         public DateTime End { get; set; }
         public Boolean IsSigned { get; set; }
         public Boolean IsOpened { get; set; }
-        public List<Criteria> Criterias { get; set; } = new List<Criteria>();
-        public List<Jury> Jurys { get; set; } = new List<Jury>();
-        public List<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
+        public ObservableCollection<Criteria> Criterias { get; set; } = new ObservableCollection<Criteria>();
+        public ObservableCollection<Jury> Jurys { get; set; } = new ObservableCollection<Jury>();
+        public ObservableCollection<Evaluation> Evaluations { get; set; } = new ObservableCollection<Evaluation>();
 
         public Boolean hasEvaluation(int idCandidate)
         {

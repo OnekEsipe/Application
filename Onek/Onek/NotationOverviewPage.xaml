@@ -18,6 +18,7 @@
                                    WidthRequest="120"/>
                             <Button x:Name="LevelButton"
                                     Text="{Binding SelectedLevel}"
+                                    Command=""
                                     BackgroundColor="DeepSkyBlue"
                                     TextColor="White"
                                     WidthRequest="50"

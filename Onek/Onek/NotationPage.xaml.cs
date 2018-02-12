@@ -17,7 +17,7 @@ namespace Onek
         public ObservableCollection<Descriptor> Items { get; set; }
         public Descriptor SelectedDescripteur { get; set; }
         private Criteria CurrentCriteria;
-        public String Comment { get; set; }
+        public String Comment { get; set; } = "";
 
         public NotationPage(Criteria c)
         {
@@ -29,7 +29,6 @@ namespace Onek
 
             MyListView.ItemsSource = Items;
             ButtonCommentaireCritere.Text = c.Comment;
-
         }
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -46,8 +45,8 @@ namespace Onek
         {
             string title = "Commentaire du critère";
             string text = CurrentCriteria.Comment;
-            CurrentCriteria.Comment = await InputDialog.InputBox(this.Navigation, title, text, CurrentCriteria.Comment);
-            ButtonCommentaireCritere.Text = CurrentCriteria.Comment;
+            Comment = await InputDialog.InputBox(this.Navigation, title, text, CurrentCriteria.Comment);
+            ButtonCommentaireCritere.Text = Comment;
         }
 
         void OnButtonValiderClicked(object sender, EventArgs e)
@@ -55,6 +54,7 @@ namespace Onek
             // Valider (et retour ?)
             CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
             CurrentCriteria.SelectedLevel = SelectedDescripteur.Level;
+            CurrentCriteria.Comment = Comment;
             Navigation.PopAsync();
         }
 
