@@ -14,7 +14,7 @@ namespace Onek
         public DateTime End { get; set; }
         public Boolean IsSigned { get; set; }
         public Boolean IsOpened { get; set; }
-        public ObservableCollection<Criteria> Criterias { get; set; } = new ObservableCollection<Criteria>();
+        public List<Criteria> Criterias { get; set; } = new List<Criteria>();
         public List<Jury> Jurys { get; set; } = new List<Jury>();
         public List<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
 
@@ -35,10 +35,6 @@ namespace Onek
 
                 if (e.IdCandidate == idCandidate)
                     return e;
-                //if (e.hasEvaluation(idCandidate))
-                //{
-                //    return e;
-                //}
             }
             return null;
         }

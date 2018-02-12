@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Onek.data
 {
-    public class Criteria : INotifyPropertyChanged
+    public class Criteria : INotifyPropertyChanged, ICloneable
     {
         public int Id { get; set; }
         public String Text { get; set; }
@@ -62,6 +62,11 @@ namespace Onek.data
         protected void OnPropertyChanged(String propertyName)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

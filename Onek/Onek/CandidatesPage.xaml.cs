@@ -29,25 +29,34 @@ namespace Onek
         {
             if (e.Item == null)
                 return;
+
             //Check if evaluation already exists. If not create new Evaluation
-            int idCandidate = (e.Item as Candidate).Id;
+            Candidate SelectedCandidate = (e.Item as Candidate);
+            int idCandidate = SelectedCandidate.Id;
             Evaluation evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
             if (evaluation == null)
             {
                 evaluation = new Evaluation();
-                evaluation.Criterias = CurrentEvent.Criterias;
+                evaluation.IdCandidate = SelectedCandidate.Id;
+                evaluation.IdEvent = CurrentEvent.Id;
+                evaluation.Criterias = new ObservableCollection<Criteria>();
+                foreach(Criteria c in CurrentEvent.Criterias){
+                    evaluation.Criterias.Add(c.Clone() as Criteria);
+                }
                 CurrentEvent.Evaluations.Add(evaluation);
                 
             }
-            foreach (Criteria c in evaluation.Criterias)
+
+            /*foreach (Criteria c in evaluation.Criterias)
             {
                 if(c.SelectedDescriptor == null)
                     c.SelectedDescriptor = c.Descriptor.First();
-            }
+            }*/
             await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, evaluation));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+            evaluation = null;
         }
 
         void OnFilterChanged(object sender, EventArgs e)
