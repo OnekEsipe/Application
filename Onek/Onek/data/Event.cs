@@ -1,6 +1,7 @@
 ﻿using Onek.data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Onek
@@ -13,7 +14,7 @@ namespace Onek
         public DateTime End { get; set; }
         public Boolean IsSigned { get; set; }
         public Boolean IsOpened { get; set; }
-        public List<Criteria> Criterias { get; set; } = new List<Criteria>();
+        public ObservableCollection<Criteria> Criterias { get; set; } = new ObservableCollection<Criteria>();
         public List<Jury> Jurys { get; set; } = new List<Jury>();
         public List<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
 
@@ -31,10 +32,13 @@ namespace Onek
         {
             foreach(Evaluation e in Evaluations)
             {
-                if (e.hasEvaluation(idCandidate))
-                {
+
+                if (e.IdCandidate == idCandidate)
                     return e;
-                }
+                //if (e.hasEvaluation(idCandidate))
+                //{
+                //    return e;
+                //}
             }
             return null;
         }

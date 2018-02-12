@@ -45,8 +45,14 @@ namespace Onek
 
         void OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            Criteria critere = (sender as Picker).BindingContext as Criteria;
-            critere.SelectedDescriptorIndex = (sender as Picker).SelectedIndex;
+            Picker LevelPicker = sender as Picker;
+            if (LevelPicker.IsFocused)
+            {
+                Criteria critere = LevelPicker.BindingContext as Criteria;
+                critere.SelectedDescriptor = LevelPicker.SelectedItem as Descriptor;
+                //LevelPicker.SelectedItem = critere.SelectedDescriptor;
+            }
+            
         }
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
@@ -60,7 +66,6 @@ namespace Onek
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
             // Enregistrer et Sortir
-            CurrentEvent.Evaluations.Add(Eval);
             //send json to server
             JsonParser.SendJsonToServer(Eval);
             await Navigation.PopAsync();

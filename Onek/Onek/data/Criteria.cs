@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 
@@ -11,8 +12,9 @@ namespace Onek.data
         public String Text { get; set; }
         public String Category { get; set; }
         private String comment = "Zone de commentaire"; // default comment
-        public List<Descriptor> Descriptor { get; set; } = new List<data.Descriptor>();
+        public ObservableCollection<Descriptor> Descriptor { get; set; } = new ObservableCollection<data.Descriptor>();
         public int selectedDescriptorIndex = -1; // -1 pas de note
+        public Descriptor SelectedDescriptor { get;  set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,7 +34,7 @@ namespace Onek.data
             set
             {
                 selectedDescriptorIndex = value;
-                OnPropertyChanged("SelectedDescriptorIndex");
+                //OnPropertyChanged("SelectedDescriptorIndex");
             }
         }
 

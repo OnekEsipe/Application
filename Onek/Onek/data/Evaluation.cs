@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Onek.data
@@ -12,7 +13,7 @@ namespace Onek.data
         public int IdCandidate { get; set; }
         public String Comment { get; set; }
         public DateTime LastUpdatedDate { get; set; }
-        public List<Criteria> Criterias { get; set; }
+        public ObservableCollection<Criteria> Criterias { get; set; }
 
         public Boolean hasEvaluation(int idCandidate)
         {

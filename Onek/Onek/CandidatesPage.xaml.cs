@@ -36,6 +36,13 @@ namespace Onek
             {
                 evaluation = new Evaluation();
                 evaluation.Criterias = CurrentEvent.Criterias;
+                CurrentEvent.Evaluations.Add(evaluation);
+                
+            }
+            foreach (Criteria c in evaluation.Criterias)
+            {
+                if(c.SelectedDescriptor == null)
+                    c.SelectedDescriptor = c.Descriptor.First();
             }
             await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, evaluation));
 

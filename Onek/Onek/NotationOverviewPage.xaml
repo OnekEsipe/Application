@@ -18,12 +18,13 @@
                                    WidthRequest="120"/>
                             <Picker x:Name="NiveauPicker" 
                                     ItemsSource="{Binding Descriptor}" ItemDisplayBinding="{Binding Level}"
-                                    SelectedIndex="{Binding SelectedDescriptorIndex}"
+                                    SelectedItem="{Binding SelectedDescriptor}"
                                     HorizontalOptions="Center"
                                     WidthRequest="50"
                                     BackgroundColor="DeepSkyBlue"
                                     TextColor="White"
-                                    SelectedIndexChanged="OnSelectedIndexChanged"/>
+                                    SelectedIndexChanged="OnSelectedIndexChanged"
+                                     />
                             <Button x:Name="ButtonCommentaireCritere"
                                     Text="{Binding Comment}"
                                     BackgroundColor="White"

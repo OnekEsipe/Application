@@ -31,7 +31,7 @@ namespace Onek
             ButtonCommentaireCritere.Text = c.Comment;
             if(CurrentCriteria.SelectedDescriptorIndex != -1)
             {
-                //Checker 
+                //Check and select value 
             }
         }
 
