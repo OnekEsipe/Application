@@ -13,7 +13,7 @@ namespace Onek.data
         public String Category { get; set; }
         private String comment = "Zone de commentaire"; // default comment
         public ObservableCollection<Descriptor> Descriptor { get; set; } = new ObservableCollection<data.Descriptor>();
-        public String selectedLevel = "";
+        private String selectedLevel = "";
         public Descriptor SelectedDescriptor { get;  set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

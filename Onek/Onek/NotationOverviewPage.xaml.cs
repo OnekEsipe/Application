@@ -67,7 +67,7 @@ namespace Onek
             String level = await DisplayActionSheet("Selectionnez la note", "Retour", "", buttonsLevel.ToArray());
             if (!level.Equals("Retour"))
             {
-                criteria.selectedLevel = level;
+                criteria.SelectedLevel = level;
                 buttonClicked.Text = level;
                 Descriptor selectedDescriptor = null;
                 foreach (Descriptor d in criteria.Descriptor)

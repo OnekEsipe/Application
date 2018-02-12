@@ -54,6 +54,7 @@ namespace Onek
         {
             // Valider (et retour ?)
             CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
+            CurrentCriteria.SelectedLevel = SelectedDescripteur.Level;
             Navigation.PopAsync();
         }
 
