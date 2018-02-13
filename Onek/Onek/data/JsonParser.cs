@@ -7,15 +7,13 @@ using System.Net;
 using Onek.data;
 using System.Text;
 using Xamarin.Forms.PlatformConfiguration;
+using Onek.utils;
 
 namespace Onek
 {
 
     public class JsonParser
     {
-        private static String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        private static String jsonDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        private static String serverURL = "https://173.249.25.49/serveur/api/app/events/[id_event]/admin/export";
 
         /// <summary>
         /// Deserialize json
@@ -34,14 +32,14 @@ namespace Onek
             List<String> EventsJson = new List<string>();
             foreach (int id in EventsToDownload)
             {
-                String downloadEventURL = serverURL.Replace("[id_event]", "" + id);
+                String downloadEventURL = ApplicationConstants.serverEventURL.Replace("[id_event]", "" + id);
                 //Download events data from server
                 try
                 {
                     String jsonString = client.DownloadString(downloadEventURL);
                     EventsJson.Add(jsonString);
                     //Save json into internal memory
-                    String fileName = Path.Combine(jsonDataDirectory, id + "-event.json");
+                    String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, id + "-event.json");
                     File.WriteAllText(fileName, jsonString);
                 }
                 catch(Exception e)
@@ -141,15 +139,15 @@ namespace Onek
         /// <param name="idEvent"></param>
         public static void WriteJsonInInternalMemory(String json, int idCandidate, int idJury, int idEvent)
         {
-            String fileName = Path.Combine(jsonDataDirectory, idCandidate + "-" + idJury + "-" + idEvent + 
-                "-evaluation.json");
+            String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate 
+                + "-" + idJury + "-" + idEvent + "-evaluation.json");
             File.WriteAllText(fileName, json);
         }
 
         public static String ReadJsonFromInternalMemeory(int idCandidate, int idJury, int idEvent)
         {
-            String fileName = Path.Combine(jsonDataDirectory, idCandidate + "-" + idJury + "-" + idEvent +
-                "-evaluation.json");
+            String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
+                + "-" + idJury + "-" + idEvent + "-evaluation.json");
             return File.ReadAllText(fileName);
         }
 
