@@ -22,8 +22,9 @@ namespace Onek
         public NotationPage(Criteria c)
         {
             InitializeComponent();
+            c.Descriptor = new ObservableCollection<Descriptor>(c.Descriptor.OrderBy(x => x.Level));
             CurrentCriteria = c;
-
+            
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor);
             Comment = CurrentCriteria.Comment;
 

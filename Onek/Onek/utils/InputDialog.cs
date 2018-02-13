@@ -13,6 +13,7 @@ namespace Onek.utils
         {
             // wait in this proc, until user did his input 
             var tcs = new TaskCompletionSource<string>();
+            string temp = placeholder;
 
             var lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
             var lblMessage = new Label { Text = text };
@@ -44,7 +45,7 @@ namespace Onek.utils
                 // close page
                 await navigation.PopModalAsync();
                 // pass empty result
-                tcs.SetResult(null);
+                tcs.SetResult(temp);
             };
 
             var btnErase = new Button

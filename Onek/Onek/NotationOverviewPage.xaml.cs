@@ -25,6 +25,7 @@ namespace Onek
             InitializeComponent();
 
             CurrentEvent = e;
+            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
             Eval = evaluation;
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);

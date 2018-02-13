@@ -55,7 +55,7 @@ namespace Onek
   "\"Criterias\":[" +
     "{\"Id\":1," +
     "\"Name\":\"Critère n°1\"," +
-    "\"Text\":\"Texte critère n°1 Oral et Ecrit Retour sur les acquis : On test la longueur en mettant n'importe quoi comme code parce qu'on est des ingenieurs\"," +
+    "\"Text\":\"Texte critère n°1 Oral et Ecrit Retour sur les acquis\"," +
     "\"Category\":\"Catégorie de critère n°1\"," +
     "\"Descriptor\":[" +
       "{\"Text\":\"Très satisfaisant\"," +

@@ -21,7 +21,7 @@ namespace Onek
         {
             InitializeComponent();
             CurrentEvent = e;
-            Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates);
+            Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates.OrderBy(x => x.FullName));
             MyListView.ItemsSource = Items;
         }
 
