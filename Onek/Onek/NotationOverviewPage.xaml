@@ -13,7 +13,8 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label x:Name="CritereText" Text="{Binding Text}" 
-                                   TextColor="DarkBlue" FontSize="Medium" 
+                                   TextColor="DarkBlue" FontSize="Small"
+                                   LineBreakMode="TailTruncation"
                                    HorizontalOptions="CenterAndExpand"
                                    WidthRequest="120"
                                    />
