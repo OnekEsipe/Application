@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Onek.data;
 using System.Text;
 using Xamarin.Forms.PlatformConfiguration;
 
@@ -14,16 +15,19 @@ namespace Onek
     {
         private static String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         private static String jsonDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private static String serverURL = "https://173.249.25.49/serveur/api/app/events/[id_event]/admin/export";
 
         /// <summary>
         /// Deserialize json
         /// </summary>
-        /// <param name="loginUser"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
-        public static List<Event> DeserializeJson(String loginUser)
+        public static List<Event> DeserializeJson(User user)
         {
             //List json to download in login.json (à retirer de cette méthode)
             List<int> EventsToDownload = new List<int>();
+            EventsToDownload.AddRange(user.Events_id);
+            EventsToDownload.Add(3);
             /*List<Login> logins = LoadJson();
             foreach (Login login in logins)
             {
@@ -37,16 +41,24 @@ namespace Onek
             List<String> EventsJson = new List<string>();
             foreach (int id in EventsToDownload)
             {
+                String downloadEventURL = serverURL.Replace("[id_event]", "" + id);
                 //Download events data from server
-                String jsonString = client.DownloadString(User.SERVER_URL + id + "-*");
-                //EventsJson.Add(jsonString);
-                //Save json into internal memory
-                String fileName = Path.Combine(jsonDataDirectory, id + "-event.json");
-                File.WriteAllText(fileName, jsonString);
+                try
+                {
+                    String jsonString = client.DownloadString(downloadEventURL);
+                    EventsJson.Add(jsonString);
+                    //Save json into internal memory
+                    String fileName = Path.Combine(jsonDataDirectory, id + "-event.json");
+                    File.WriteAllText(fileName, jsonString);
+                }
+                catch(Exception e)
+                {
+                    //Handle http error
+                }
             }
             //Test (à supprimer par la suite)
 
-            EventsJson.Add("{" +
+            /*EventsJson.Add("{" +
   "\"Id\":1," +
   "\"Name\":\"event 1\"," +
   "\"Begin\":\"2018-02-07T13:00:00\"," +
@@ -113,7 +125,7 @@ namespace Onek
       "]" +
     "}" +
   "]," +
-  "\"Evaluations\":[]}");
+  "\"Evaluations\":[]}");*/
 
             //Deserialize json
             List<Event> events = new List<Event>();

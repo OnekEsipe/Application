@@ -24,7 +24,7 @@ namespace Onek
             InitializeComponent();
 
             LoggedUser = user;
-            Events = JsonParser.DeserializeJson("loginUser");
+            Events = JsonParser.DeserializeJson(LoggedUser);
             Items = new ObservableCollection<Event>();
             foreach(Event e in Events)
             {

@@ -12,8 +12,8 @@ namespace Onek
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new NavigationPage(new Onek.MainPage());
+            System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+            MainPage = new NavigationPage(new Onek.MainPage());
 		}
 
 		protected override void OnStart ()
