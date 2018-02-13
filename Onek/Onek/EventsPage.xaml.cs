@@ -24,9 +24,12 @@ namespace Onek
             InitializeComponent();
 
             LoggedUser = user;
-            Events = JsonParser.DeserializeJson("loginUser");
+
+
+            Events = JsonParser.DeserializeJson(LoggedUser);
             Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
-			MyListView.ItemsSource = Items;
+
+			      MyListView.ItemsSource = Items;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -34,7 +37,7 @@ namespace Onek
             if (e.Item == null)
                 return;
             
-            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event);
+            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event, LoggedUser);
             //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 
