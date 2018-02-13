@@ -25,7 +25,6 @@ namespace Onek
             //List json to download in login.json (à retirer de cette méthode)
             List<int> EventsToDownload = new List<int>();
             EventsToDownload.AddRange(user.Events_id);
-            EventsToDownload.Add(3);
 
             //Download and parse json files
             WebClient client = new WebClient();
