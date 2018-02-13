@@ -25,14 +25,13 @@ namespace Onek
             //List json to download in login.json (à retirer de cette méthode)
             List<int> EventsToDownload = new List<int>();
             EventsToDownload.AddRange(user.Events_id);
-            EventsToDownload.Add(3);
 
             //Download and parse json files
             WebClient client = new WebClient();
             List<String> EventsJson = new List<string>();
             foreach (int id in EventsToDownload)
             {
-                String downloadEventURL = ApplicationConstants.serverEventURL.Replace("[id_event]", "" + id);
+                String downloadEventURL = ApplicationConstants.serverEventURL.Replace("[id_event]", "" + id).Replace("[login_user]","" + user.Login);
                 //Download events data from server
                 try
                 {
@@ -72,6 +71,7 @@ namespace Onek
             List<User> loginList = new List<User>();
             loginList.Add(new User() { Id = 1, Login = "a", Password = "a", Events_id = { 1, 2, 28 } });
             loginList.Add(new User() { Id = 2, Login = "test", Password = "test", Events_id = { 1, 2, 28 } });
+            loginList.Add(new User() { Id = 6, Login = "ff", Password = "ff", Events_id = { 1, 2, 3 } });
             string text = JsonConvert.SerializeObject(loginList);
                 
 
