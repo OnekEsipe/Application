@@ -55,7 +55,7 @@ namespace Onek
   "\"Criterias\":[" +
     "{\"Id\":1," +
     "\"Name\":\"Critère n°1\"," +
-    "\"Text\":\"Texte critère n°1\"," +
+    "\"Text\":\"Texte critère n°1 Oral et Ecrit Retour sur les acquis : On test la longueur en mettant n'importe quoi comme code parce qu'on est des ingenieurs\"," +
     "\"Category\":\"Catégorie de critère n°1\"," +
     "\"Descriptor\":[" +
       "{\"Text\":\"Très satisfaisant\"," +
@@ -97,7 +97,52 @@ namespace Onek
       "{\"Text\":\"Pas bien\"," +
       "\"Level\":\"D\"}" +
     "]" +
-    "}" +
+    "}," +
+    "{\"Id\":4," +
+    "\"Name\":\"Critère n°4\"," +
+    "\"Text\":\"Texte critère n°4 Oral et Ecrit Retour sur les acquis\"," +
+    "\"Category\":\"Catégorie de critère n°1\"," +
+    "\"Descriptor\":[" +
+      "{\"Text\":\"Très satisfaisant\"," +
+      "\"Level\":\"A\"}," +
+      "{\"Text\":\"Satisfaisant\"," +
+      "\"Level\":\"B\"}," +
+      "{\"Text\":\"Bof\"," +
+      "\"Level\":\"C\"}," +
+      "{\"Text\":\"Pas bien\"," +
+      "\"Level\":\"D\"}" +
+    "]" +
+    "}," +
+    "{\"Id\":5," +
+    "\"Name\":\"Critère n°5\"," +
+    "\"Text\":\"Texte critère n°5 Oral et Ecrit Retour sur les acquis\"," +
+    "\"Category\":\"Catégorie de critère n°1\"," +
+    "\"Descriptor\":[" +
+      "{\"Text\":\"Très satisfaisant\"," +
+      "\"Level\":\"A\"}," +
+      "{\"Text\":\"Satisfaisant\"," +
+      "\"Level\":\"B\"}," +
+      "{\"Text\":\"Bof\"," +
+      "\"Level\":\"C\"}," +
+      "{\"Text\":\"Pas bien\"," +
+      "\"Level\":\"D\"}" +
+    "]" +
+    "}," +
+    "{\"Id\":6," +
+    "\"Name\":\"Critère n°6\"," +
+    "\"Text\":\"Texte critère n°6 Oral et Ecrit Retour sur les acquis\"," +
+    "\"Category\":\"Catégorie de critère n°2\"," +
+    "\"Descriptor\":[" +
+      "{\"Text\":\"Très satisfaisant\"," +
+      "\"Level\":\"A\"}," +
+      "{\"Text\":\"Satisfaisant\"," +
+      "\"Level\":\"B\"}," +
+      "{\"Text\":\"Bof\"," +
+      "\"Level\":\"C\"}," +
+      "{\"Text\":\"Pas bien\"," +
+      "\"Level\":\"D\"}" +
+    "]" +
+    "}," +
   "]," +
   "\"Jurys\":[" +
     "{\"Id\":1," +

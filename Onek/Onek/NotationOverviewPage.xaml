@@ -7,27 +7,27 @@
         <ListView x:Name="MyListView"
                 ItemsSource="{Binding Items}"
                 CachingStrategy="RecycleElement"
-                 ItemTapped="Handle_ItemTapped"
-                  Margin="10, 10">
-            <ListView.HeaderTemplate >
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Critere" FontSize="Small" />
-                        <Label Text="Note" FontSize="Small"/>
-                        <Label Text="Commentaire" FontSize="Small"/>
-                    </StackLayout>
-                </DataTemplate>
-            </ListView.HeaderTemplate>
+                ItemTapped="Handle_ItemTapped"
+                Margin="10, 10"
+                HasUnevenRows="True"
+                  >
+            <ListView.Header>
+                <StackLayout Orientation="Horizontal" Padding="10,5,5,10">
+                    <Label Text="Critere" FontSize="Small" HorizontalOptions="CenterAndExpand" />
+                    <Label Text="Note" FontSize="Small" HorizontalOptions="CenterAndExpand"/>
+                    <Label Text="Commentaire" FontSize="Small" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label x:Name="CritereText" Text="{Binding Text}" 
                                    TextColor="DarkBlue" FontSize="Small"
-                                   LineBreakMode="TailTruncation"
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="Center"
-                                   WidthRequest="120"
+                                   VerticalTextAlignment="Center"
+                                   WidthRequest="150"
                                    />
                             <Button x:Name="LevelButton"
                                     Text="{Binding SelectedLevel}"
@@ -46,7 +46,7 @@
                                     TextColor="Black"
                                     FontSize="Micro"
                                     HorizontalOptions="CenterAndExpand"
-                                    WidthRequest="180"                                    
+                                    WidthRequest="150"                                    
                                     Clicked="OnCritereCommentaireClicked"/>
                         </StackLayout>
                     </ViewCell>
