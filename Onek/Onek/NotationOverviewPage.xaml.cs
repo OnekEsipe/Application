@@ -95,7 +95,7 @@ namespace Onek
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire de l'évalution";
-            string text = Eval.Comment;
+            string text = "Ecrire un commentaire :";
             Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Eval.Comment);
             MyListView.ItemsSource = Items;
             ButtonCommentaireGeneral.Text = Eval.Comment;

@@ -15,7 +15,8 @@
                             <Label x:Name="CritereText" Text="{Binding Text}" 
                                    TextColor="DarkBlue" FontSize="Medium" 
                                    HorizontalOptions="CenterAndExpand"
-                                   WidthRequest="120"/>
+                                   WidthRequest="120"
+                                   />
                             <Button x:Name="LevelButton"
                                     Text="{Binding SelectedLevel}"
                                     Command=""
@@ -26,13 +27,13 @@
                                     Clicked="OnLevelButtonClicked"
                                     />
                             <Button x:Name="ButtonCommentaireCritere"
-                                    Text="{Binding Comment}"
+                                    Text="Afficher le commentaire"
                                     BackgroundColor="White"
-                                    BorderColor="DarkBlue"
-                                    TextColor="DarkBlue"
+                                    BorderColor="White"
+                                    TextColor="Black"
+                                    FontSize="Micro"
                                     HorizontalOptions="CenterAndExpand"
-                                    WidthRequest="180"
-                                    
+                                    WidthRequest="180"                                    
                                     Clicked="OnCritereCommentaireClicked"/>
                         </StackLayout>
                     </ViewCell>

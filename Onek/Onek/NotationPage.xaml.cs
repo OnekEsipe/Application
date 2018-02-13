@@ -44,7 +44,7 @@ namespace Onek
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire du critère";
-            string text = CurrentCriteria.Comment;
+            string text = "Ecrire un commentaire :";
             Comment = await InputDialog.InputBox(this.Navigation, title, text, CurrentCriteria.Comment);
             ButtonCommentaireCritere.Text = Comment;
         }
