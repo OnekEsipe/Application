@@ -22,8 +22,9 @@ namespace Onek
         public NotationPage(Criteria c)
         {
             InitializeComponent();
+            c.Descriptor = new ObservableCollection<Descriptor>(c.Descriptor.OrderBy(x => x.Level));
             CurrentCriteria = c;
-
+            
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor);
             Comment = CurrentCriteria.Comment;
 
@@ -44,7 +45,7 @@ namespace Onek
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire du critère";
-            string text = CurrentCriteria.Comment;
+            string text = "Ecrire un commentaire :";
             Comment = await InputDialog.InputBox(this.Navigation, title, text, CurrentCriteria.Comment);
             ButtonCommentaireCritere.Text = Comment;
         }

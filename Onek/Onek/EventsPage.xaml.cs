@@ -24,13 +24,12 @@ namespace Onek
             InitializeComponent();
 
             LoggedUser = user;
+
+
             Events = JsonParser.DeserializeJson(LoggedUser);
-            Items = new ObservableCollection<Event>();
-            foreach(Event e in Events)
-            {
-                Items.Add(e);
-            }
-			MyListView.ItemsSource = Items;
+            Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
+
+			      MyListView.ItemsSource = Items;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)

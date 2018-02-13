@@ -13,10 +13,11 @@ namespace Onek.utils
         {
             // wait in this proc, until user did his input 
             var tcs = new TaskCompletionSource<string>();
+            string temp = placeholder;
 
             var lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
             var lblMessage = new Label { Text = text };
-            var txtInput = new Entry { Text = placeholder };
+            var txtInput = new Editor { Text = placeholder, WidthRequest = 300, HeightRequest=250, HorizontalOptions = LayoutOptions.Center };
 
             var btnOk = new Button
             {
@@ -44,13 +45,26 @@ namespace Onek.utils
                 // close page
                 await navigation.PopModalAsync();
                 // pass empty result
-                tcs.SetResult(null);
+                tcs.SetResult(temp);
+            };
+
+            var btnErase = new Button
+            {
+                Text = "Effacer",
+                WidthRequest = 200,
+                BackgroundColor = Color.FromRgb(0.8, 0.8, 0.8),
+                HorizontalOptions = LayoutOptions.Center
+            };
+            btnErase.Clicked += (s, e) =>
+            {
+                txtInput.Text = "";
             };
 
             var slButtons = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
                 Children = { btnOk, btnCancel },
+                HorizontalOptions = LayoutOptions.Center
             };
 
             var layout = new StackLayout
@@ -59,7 +73,7 @@ namespace Onek.utils
                 VerticalOptions = LayoutOptions.StartAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 Orientation = StackOrientation.Vertical,
-                Children = { lblTitle, lblMessage, txtInput, slButtons },
+                Children = { lblTitle, lblMessage, txtInput, btnErase, slButtons },
             };
 
             // create and show page

@@ -7,15 +7,28 @@
         <ListView x:Name="MyListView"
                 ItemsSource="{Binding Items}"
                 CachingStrategy="RecycleElement"
-                 ItemTapped="Handle_ItemTapped">
+                ItemTapped="Handle_ItemTapped"
+                Margin="10, 10"
+                HasUnevenRows="True"
+                  >
+            <ListView.Header>
+                <StackLayout Orientation="Horizontal" Padding="10,5,5,10">
+                    <Label Text="Critere" FontSize="Small" HorizontalOptions="CenterAndExpand" />
+                    <Label Text="Note" FontSize="Small" HorizontalOptions="CenterAndExpand"/>
+                    <Label Text="Commentaire" FontSize="Small" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label x:Name="CritereText" Text="{Binding Text}" 
-                                   TextColor="DarkBlue" FontSize="Medium" 
+                                   TextColor="DarkBlue" FontSize="Small"
                                    HorizontalOptions="CenterAndExpand"
-                                   WidthRequest="120"/>
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center"
+                                   WidthRequest="150"
+                                   />
                             <Button x:Name="LevelButton"
                                     Text="{Binding SelectedLevel}"
                                     Command=""
@@ -24,14 +37,16 @@
                                     WidthRequest="50"
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
+                                    BorderRadius="90"
                                     />
                             <Button x:Name="ButtonCommentaireCritere"
-                                    Text="{Binding Comment}"
+                                    Text="Afficher le commentaire"
                                     BackgroundColor="White"
-                                    BorderColor="DarkBlue"
-                                    TextColor="DarkBlue"
+                                    BorderColor="White"
+                                    TextColor="Black"
+                                    FontSize="Micro"
                                     HorizontalOptions="CenterAndExpand"
-                                    WidthRequest="180"
+                                    WidthRequest="150"                                    
                                     Clicked="OnCritereCommentaireClicked"/>
                         </StackLayout>
                     </ViewCell>

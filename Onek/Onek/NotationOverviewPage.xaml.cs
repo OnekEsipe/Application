@@ -27,7 +27,10 @@ namespace Onek
             InitializeComponent();
 
             CurrentEvent = e;
+            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
+
             CurrentCandidate = candidate;
+
             Eval = evaluation;
             LoggedUser = loggedUser;
 
@@ -102,7 +105,7 @@ namespace Onek
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire de l'évalution";
-            string text = Eval.Comment;
+            string text = "Ecrire un commentaire :";
             Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Eval.Comment);
             MyListView.ItemsSource = Items;
             ButtonCommentaireGeneral.Text = Eval.Comment;

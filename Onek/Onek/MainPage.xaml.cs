@@ -29,11 +29,19 @@ namespace Onek
             /*if (CrossConnectivity.Current.IsConnected)
             {
                 //ONLINE LOGIN
+
+                await DisplayAlert("Erreur", "Vous avez internet ! #future", "OK");
+                //return;
+            }*/
+            //else
+            //{
+
                 //await DisplayAlert("Erreur", "Vous avez internet ! #future", "OK");
                 //return;
-            }
-            else
-            {*/
+            //}
+            //else
+            //{
+
                 //OFFLINE LOGIN
                 List<User> logins = JsonParser.LoadLoginJson();
 
@@ -46,7 +54,6 @@ namespace Onek
                         return;
                     }
                 }
-            /*}
 
             await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");*/
         }
