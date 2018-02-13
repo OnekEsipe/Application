@@ -7,7 +7,17 @@
         <ListView x:Name="MyListView"
                 ItemsSource="{Binding Items}"
                 CachingStrategy="RecycleElement"
-                 ItemTapped="Handle_ItemTapped">
+                 ItemTapped="Handle_ItemTapped"
+                  Margin="10, 10">
+            <ListView.HeaderTemplate >
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Critere" FontSize="Small" />
+                        <Label Text="Note" FontSize="Small"/>
+                        <Label Text="Commentaire" FontSize="Small"/>
+                    </StackLayout>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -27,6 +37,7 @@
                                     WidthRequest="50"
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
+                                    BorderRadius="90"
                                     />
                             <Button x:Name="ButtonCommentaireCritere"
                                     Text="Afficher le commentaire"
