@@ -16,6 +16,7 @@
                                    TextColor="DarkBlue" FontSize="Small"
                                    LineBreakMode="TailTruncation"
                                    HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="Center"
                                    WidthRequest="120"
                                    />
                             <Button x:Name="LevelButton"
