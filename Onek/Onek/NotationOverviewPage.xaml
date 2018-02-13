@@ -32,6 +32,7 @@
                                     TextColor="DarkBlue"
                                     HorizontalOptions="CenterAndExpand"
                                     WidthRequest="180"
+                                    
                                     Clicked="OnCritereCommentaireClicked"/>
                         </StackLayout>
                     </ViewCell>

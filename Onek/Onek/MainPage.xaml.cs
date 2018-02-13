@@ -26,14 +26,14 @@ namespace Onek
 
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            if (CrossConnectivity.Current.IsConnected)
+            /*if (CrossConnectivity.Current.IsConnected)
             {
                 //ONLINE LOGIN
                 await DisplayAlert("Erreur", "Vous avez internet ! #future", "OK");
-                return;
-            }
-            else
-            {
+                //return;
+            }*/
+            //else
+            //{
                 //OFFLINE LOGIN
                 List<User> logins = JsonParser.LoadLoginJson();
 
@@ -46,7 +46,7 @@ namespace Onek
                         return;
                     }
                 }
-            }
+            //}
 
             await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
         }
