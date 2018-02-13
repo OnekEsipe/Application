@@ -24,7 +24,7 @@ namespace Onek
             InitializeComponent();
 
             LoggedUser = user;
-            Events = JsonParser.DeserializeJson("loginUser");
+            Events = JsonParser.DeserializeJson(LoggedUser);
             Items = new ObservableCollection<Event>();
             foreach(Event e in Events)
             {
@@ -38,7 +38,7 @@ namespace Onek
             if (e.Item == null)
                 return;
             
-            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event);
+            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event, LoggedUser);
             //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 

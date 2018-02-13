@@ -16,11 +16,13 @@ namespace Onek
     {
         public ObservableCollection<Candidate> Items { get; set; }
         private Event CurrentEvent { get; set; }
+        private User LoggedUser { get; set; }
 
-        public CandidatesPage(Event e)
+        public CandidatesPage(Event e, User loggedUser)
         {
             InitializeComponent();
             CurrentEvent = e;
+            LoggedUser = loggedUser;
             Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates);
             MyListView.ItemsSource = Items;
         }
@@ -46,12 +48,7 @@ namespace Onek
                 CurrentEvent.Evaluations.Add(evaluation); 
             }
 
-            /*foreach (Criteria c in evaluation.Criterias)
-            {
-                if(c.SelectedDescriptor == null)
-                    c.SelectedDescriptor = c.Descriptor.First();
-            }*/
-            await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, evaluation));
+            await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, evaluation, SelectedCandidate, LoggedUser));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
