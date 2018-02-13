@@ -50,12 +50,13 @@ namespace Onek
                     if (LoginEntry.Text != null && PasswordEntry.Text != null
                     && LoginEntry.Text.Equals(u.Login) && PasswordEntry.Text.Equals(u.Password))
                     {
+                        
                         await Navigation.PushAsync(new EventsPage(u));
                         return;
                     }
                 }
 
-            await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");*/
+            await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
         }
 
         async void OnButtonParameterClicked(object sender, EventArgs e)

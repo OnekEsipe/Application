@@ -51,19 +51,16 @@ namespace Onek
             else
             {
                 evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
-                if (evaluation == null)
+                evaluation.IdEvent = CurrentEvent.Id;
+                evaluation.Criterias = new ObservableCollection<Criteria>();
+                foreach (Criteria c in CurrentEvent.Criterias)
                 {
-
-                    evaluation = new Evaluation();
-                    evaluation.IdCandidate = SelectedCandidate.Id;
-                    evaluation.IdEvent = CurrentEvent.Id;
-                    evaluation.Criterias = new ObservableCollection<Criteria>();
-                    foreach (Criteria c in CurrentEvent.Criterias)
-                    {
-                        evaluation.Criterias.Add(c.Clone() as Criteria);
-                    }
-                    CurrentEvent.Evaluations.Add(evaluation);
+                    evaluation.Criterias.Add(c.Clone() as Criteria);
+                    // Ajouter Notes
                 }
+
+                //CurrentEvent.Evaluations.Add(evaluation);
+                
             }
 
             await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, evaluation, SelectedCandidate, LoggedUser));

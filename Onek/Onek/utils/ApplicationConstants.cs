@@ -9,6 +9,6 @@ namespace Onek.utils
 
         public static String pathToLoginFile = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         public static String jsonDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static String serverEventURL = "https://173.249.25.49/serveur/api/app/events/[id_event]/admin/export";
+        public static String serverEventURL = "https://173.249.25.49/serveur/api/app/events/[id_event]/[login_user]/export";
     }
 }
