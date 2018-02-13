@@ -28,14 +28,7 @@ namespace Onek
             List<int> EventsToDownload = new List<int>();
             EventsToDownload.AddRange(user.Events_id);
             EventsToDownload.Add(3);
-            /*List<Login> logins = LoadJson();
-            foreach (Login login in logins)
-            {
-                if (login.login.Equals(loginUser))
-                {
-                    EventsToDownload.AddRange(login.Events_id);
-                }
-            }*/
+
             //Download and parse json files
             WebClient client = new WebClient();
             List<String> EventsJson = new List<string>();
@@ -56,76 +49,6 @@ namespace Onek
                     //Handle http error
                 }
             }
-            //Test (à supprimer par la suite)
-
-            /*EventsJson.Add("{" +
-  "\"Id\":1," +
-  "\"Name\":\"event 1\"," +
-  "\"Begin\":\"2018-02-07T13:00:00\"," +
-  "\"End\":\"2018-02-07T15:00:00\"," +
-  "\"Parameters\":[]," +
-  "\"Criterias\":[" +
-    "{\"Id\":1," +
-    "\"Name\":\"Critère n°1\"," +
-    "\"Text\":\"Texte critère n°1\"," +
-    "\"Category\":\"Catégorie de critère n°1\"," +
-    "\"Descriptor\":[" +
-      "{\"Text\":\"Très satisfaisant\"," +
-      "\"Level\":\"A\"}," +
-      "{\"Text\":\"Satisfaisant\"," +
-      "\"Level\":\"B\"}," +
-      "{\"Text\":\"Bof\"," +
-      "\"Level\":\"C\"}," +
-      "{\"Text\":\"Pas bien\"," +
-      "\"Level\":\"D\"}" +
-    "]" +
-    "}," +
-    "{\"Id\":2," +
-    "\"Name\":\"Critère n°2\"," +
-    "\"Text\":\"Texte critère n°2\"," +
-    "\"Category\":\"Catégorie de critère n°2\"," +
-    "\"Descriptor\":[" +
-      "{\"Text\":\"Très satisfaisant\"," +
-      "\"Level\":\"A\"}," +
-      "{\"Text\":\"Satisfaisant\"," +
-      "\"Level\":\"B\"}," +
-      "{\"Text\":\"Bof\"," +
-      "\"Level\":\"C\"}," +
-      "{\"Text\":\"Pas bien\"," +
-      "\"Level\":\"D\"}" +
-    "]" +
-    "}," +
-    "{\"Id\":3," +
-    "\"Name\":\"Critère n°3\"," +
-    "\"Text\":\"Texte critère n°3\"," +
-    "\"Category\":\"Catégorie de critère n°3\"," +
-    "\"Descriptor\":[" +
-      "{\"Text\":\"Très satisfaisant\"," +
-      "\"Level\":\"A\"}," +
-      "{\"Text\":\"Satisfaisant\"," +
-      "\"Level\":\"B\"}," +
-      "{\"Text\":\"Bof\"," +
-      "\"Level\":\"C\"}," +
-      "{\"Text\":\"Pas bien\"," +
-      "\"Level\":\"D\"}" +
-    "]" +
-    "}" +
-  "]," +
-  "\"Jurys\":[" +
-    "{\"Id\":1," +
-      "\"LastName\":\"L'éponge\"," +
-      "\"FirstName\":\"Bob\"," +
-      "\"Candidates\":[" +
-        "{\"Id\":1," +
-        "\"FirstName\":\"Patrick\"," +
-        "\"LastName\":\"Etoile\"}," +
-        "{\"Id\":2," +
-        "\"FirstName\":\"Carlo\"," +
-        "\"LastName\":\"Poulpe\"}" +
-      "]" +
-    "}" +
-  "]," +
-  "\"Evaluations\":[]}");*/
 
             //Deserialize json
             List<Event> events = new List<Event>();
@@ -167,16 +90,13 @@ namespace Onek
 
 
         /// <summary>
-        /// Generate JSON and send it to the server
+        /// Send json evaluation to the server
         /// </summary>
         /// <param name="eval"></param>
-        public static void SendJsonToServer(Evaluation eval)
+        public static void SendJsonToServer(String json)
         {
-            //Generate json
-            String json = JsonConvert.SerializeObject(eval);
-
             //Send json to server
-            /*HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("url");
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("url");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
             SendToServer(httpWebRequest, json);
@@ -187,7 +107,50 @@ namespace Onek
             {
                 //If response not ok send it again
                 SendToServer(httpWebRequest, json);
-            }*/
+                response = (HttpWebResponse)httpWebRequest.GetResponse();
+            }
+        }
+
+        /// <summary>
+        /// Generate Json evaluation
+        /// </summary>
+        /// <param name="evaluation"></param>
+        /// <returns></returns>
+        public static String GenerateJsonEval(Evaluation evaluation)
+        {
+            return JsonConvert.SerializeObject(evaluation);
+        }
+
+        /// <summary>
+        /// Deserialize json evaluation
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static Evaluation DeserializeJsonEvaluation(String json)
+        {
+            Evaluation evalDeserialized = JsonConvert.DeserializeObject<Evaluation>(json);
+            return evalDeserialized;
+        }
+
+        /// <summary>
+        /// Write json evaluation in internal memory
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="idCandidate"></param>
+        /// <param name="idJury"></param>
+        /// <param name="idEvent"></param>
+        public static void WriteJsonInInternalMemory(String json, int idCandidate, int idJury, int idEvent)
+        {
+            String fileName = Path.Combine(jsonDataDirectory, idCandidate + "-" + idJury + "-" + idEvent + 
+                "-evaluation.json");
+            File.WriteAllText(fileName, json);
+        }
+
+        public static String ReadJsonFromInternalMemeory(int idCandidate, int idJury, int idEvent)
+        {
+            String fileName = Path.Combine(jsonDataDirectory, idCandidate + "-" + idJury + "-" + idEvent +
+                "-evaluation.json");
+            return File.ReadAllText(fileName);
         }
 
 

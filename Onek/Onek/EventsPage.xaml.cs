@@ -38,7 +38,7 @@ namespace Onek
             if (e.Item == null)
                 return;
             
-            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event);
+            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event, LoggedUser);
             //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 

@@ -19,13 +19,17 @@ namespace Onek
         public Criteria SelectedCritere { get; set; }
         private Event CurrentEvent { get; set; }
         private Evaluation Eval { get; set; }
+        private Candidate CurrentCandidate { get; set; }
+        private User LoggedUser { get; set; }
 
-        public NotationOverviewPage(Event e, Evaluation evaluation)
+        public NotationOverviewPage(Event e, Evaluation evaluation, Candidate candidate, User loggedUser)
         {
             InitializeComponent();
 
             CurrentEvent = e;
+            CurrentCandidate = candidate;
             Eval = evaluation;
+            LoggedUser = loggedUser;
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
@@ -86,9 +90,12 @@ namespace Onek
 
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
-            // Enregistrer et Sortir
+            // Save and quit
             //send json to server
-            JsonParser.SendJsonToServer(Eval);
+            Eval.LastUpdatedDate = DateTime.Now;
+            String jsonEval = JsonParser.GenerateJsonEval(Eval);
+            JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
+            //JsonParser.SendJsonToServer(jsonEval);
             await Navigation.PopAsync();
         }
 
