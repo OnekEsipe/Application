@@ -62,6 +62,11 @@ namespace Onek
             {
                 //OFFLINE LOGIN
                 List<User> logins = JsonParser.LoadLoginJson();
+                if(logins == null)
+                {
+                    await DisplayAlert("Erreur", "Vous devez vous connecter à la première utilisation.", "OK");
+                    return;
+                }
                 SHA1Managed sha1 = new SHA1Managed();
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
                 String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());

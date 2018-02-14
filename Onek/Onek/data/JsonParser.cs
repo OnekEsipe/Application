@@ -78,9 +78,13 @@ namespace Onek
 
             string documentsPathR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string filePathR = Path.Combine(documentsPathR, "account.json");*/
-            String jsonString  = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
-            List<User> logins = JsonConvert.DeserializeObject<List<User>>(jsonString);
-            return logins;
+            if (File.Exists(ApplicationConstants.pathToJsonAccountFile))
+            {
+                String jsonString = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
+                List<User> logins = JsonConvert.DeserializeObject<List<User>>(jsonString);
+                return logins;
+            }
+            return null;
         }
 
 
