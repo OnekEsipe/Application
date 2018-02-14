@@ -74,7 +74,11 @@ namespace Onek
 
         async void OnButtonDeconnexionClicked(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            bool answer = await DisplayAlert("Deconnexion", "Voulez-vous vraiment vous deconnecter ?", "Oui", "Non");
+            if (answer)
+            {
+                await Navigation.PopAsync();
+            }
         }
 
         async void OnButtonCodeClicked(object sender, EventArgs e)
