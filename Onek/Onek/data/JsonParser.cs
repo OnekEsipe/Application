@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using Onek.data;
-using System.Text;
-using Xamarin.Forms.PlatformConfiguration;
 using Onek.utils;
 
 namespace Onek
@@ -68,7 +65,7 @@ namespace Onek
         public static List<User> LoadLoginJson()
         {
             //Simulate Json File in Folder
-            List<User> loginList = new List<User>();
+            /*List<User> loginList = new List<User>();
             loginList.Add(new User() { Id = 1, Login = "a", Password = "a", Events_id = { 1, 2, 28 } });
             loginList.Add(new User() { Id = 2, Login = "test", Password = "test", Events_id = { 1, 2, 28 } });
             loginList.Add(new User() { Id = 6, Login = "ff", Password = "ff", Events_id = { 1, 2, 3 } });
@@ -80,8 +77,8 @@ namespace Onek
             System.IO.File.WriteAllText(filePathW, text);
 
             string documentsPathR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string filePathR = Path.Combine(documentsPathR, "account.json");
-            String jsonString  = System.IO.File.ReadAllText(filePathR);
+            string filePathR = Path.Combine(documentsPathR, "account.json");*/
+            String jsonString  = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
             List<User> logins = JsonConvert.DeserializeObject<List<User>>(jsonString);
             return logins;
         }
@@ -163,6 +160,45 @@ namespace Onek
             streamWriter.Write(json);
             streamWriter.Flush();
             streamWriter.Close();
+        }
+
+        /// <summary>
+        /// Deserialize json account
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static List<User> DeserializeJsonAccount(String json)
+        {
+            return JsonConvert.DeserializeObject<List<User>>(json);
+        }
+
+        public static void SaveJsonAccountInMemory(List<User> usersToAdd)
+        {
+            if (File.Exists(ApplicationConstants.pathToJsonAccountFile))
+            {
+                String jsonAccount = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
+                List<User> currentJson = DeserializeJsonAccount(jsonAccount);
+                usersToAdd.ForEach(u =>
+                {
+                    Boolean added = false;
+                    for (int i = 0; i < currentJson.Count; i++)
+                    {
+                        if (currentJson[i].Id == u.Id)
+                        {
+                            currentJson.Remove(currentJson[i]);
+                            currentJson.Insert(i, u);
+                            added = true;
+                        }
+                    }
+                    if (!added)
+                        currentJson.Add(u);
+                });
+                File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(currentJson));
+                jsonAccount = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
+                return;
+            }
+            File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(usersToAdd));
+            String json = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
         }
 
     }
