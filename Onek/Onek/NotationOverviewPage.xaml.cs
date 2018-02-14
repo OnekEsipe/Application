@@ -95,6 +95,12 @@ namespace Onek
         {
             // Save and quit
             //send json to server
+            if (CurrentEvent.End < DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
+                await Navigation.PopAsync();
+                return;
+            }
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
             JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);

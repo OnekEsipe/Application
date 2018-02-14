@@ -36,8 +36,21 @@ namespace Onek
         {
             if (e.Item == null)
                 return;
-            
-            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event, LoggedUser);
+
+            Event TappedEvent = e.Item as Event;
+            if (TappedEvent.Begin > DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement ouvrira le " + TappedEvent.Begin, "OK");
+                return;
+            }
+
+            if (TappedEvent.End < DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement a été fermé le " + TappedEvent.End, "OK");
+                return;
+            }
+
+            CandidatesPage candidatesPage = new CandidatesPage(TappedEvent, LoggedUser);
             //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 
