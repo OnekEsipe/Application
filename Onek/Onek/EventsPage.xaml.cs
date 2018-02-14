@@ -36,8 +36,21 @@ namespace Onek
         {
             if (e.Item == null)
                 return;
-            
-            CandidatesPage candidatesPage = new CandidatesPage(e.Item as Event, LoggedUser);
+
+            Event TappedEvent = e.Item as Event;
+            if (TappedEvent.Begin > DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement ouvrira le " + TappedEvent.Begin, "OK");
+                return;
+            }
+
+            if (TappedEvent.End < DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement a été fermé le " + TappedEvent.End, "OK");
+                return;
+            }
+
+            CandidatesPage candidatesPage = new CandidatesPage(TappedEvent, LoggedUser);
             //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 
@@ -61,7 +74,11 @@ namespace Onek
 
         async void OnButtonDeconnexionClicked(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            bool answer = await DisplayAlert("Deconnexion", "Voulez-vous vraiment vous deconnecter ?", "Oui", "Non");
+            if (answer)
+            {
+                await Navigation.PopAsync();
+            }
         }
 
         async void OnButtonCodeClicked(object sender, EventArgs e)

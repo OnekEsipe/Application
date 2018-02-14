@@ -21,6 +21,7 @@ namespace Onek
         private Evaluation Eval { get; set; }
         private Candidate CurrentCandidate { get; set; }
         private User LoggedUser { get; set; }
+        private bool goToPageNote { get; set; }
 
         public NotationOverviewPage(Event e, Evaluation evaluation, Candidate candidate, User loggedUser)
         {
@@ -36,7 +37,6 @@ namespace Onek
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
-            ButtonCommentaireGeneral.Text = Eval.Comment;
         }
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -55,12 +55,13 @@ namespace Onek
             Button buttonClicked = sender as Button;
             Criteria criteria = buttonClicked.BindingContext as Criteria;
             List<String> buttonsLevel = new List<String>();
+            criteria.Descriptor = new ObservableCollection<Descriptor>(criteria.Descriptor.OrderBy(x => x.Level));
             foreach(Descriptor d in criteria.Descriptor)
             {
                 buttonsLevel.Add(d.Level);
             }
             String level = await DisplayActionSheet("Selectionnez la note", "Retour", "", buttonsLevel.ToArray());
-            if (!level.Equals("Retour"))
+            if ((level != null) && (!level.Equals("Retour")))
             {
                 criteria.SelectedLevel = level;
                 Descriptor selectedDescriptor = null;
@@ -81,6 +82,7 @@ namespace Onek
             if (SelectedCritere == null)
                 return;
 
+            goToPageNote = true;
             await Navigation.PushAsync(new NotationPage(SelectedCritere));
  
         }
@@ -89,17 +91,76 @@ namespace Onek
         {
             base.OnAppearing();
             MyListView.ItemsSource = Items;
+            goToPageNote = false;
+        }
+
+        /*protected override bool OnBackButtonPressed()
+        {
+            if(CurrentEvent.End < DateTime.Now)
+            {
+                DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
+                return base.OnBackButtonPressed();
+            }
+
+            Task<bool> answer = DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
+            answer.ContinueWith(task =>
+                {
+                    if (task.Result)
+                    {
+                        SaveEvaluationAsync();
+                    }
+                });
+
+            return base.OnBackButtonPressed();
+        }*/
+
+        protected override void OnDisappearing()
+        {
+            if (goToPageNote)
+            {
+                return;
+            }
+
+            if (CurrentEvent.End < DateTime.Now)
+            {
+                DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
+                base.OnDisappearing();
+            }
+
+            Task<bool> answer = DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
+            answer.ContinueWith(task =>
+            {
+                if (task.Result)
+                {
+                    SaveEvaluationAsync();
+                }
+            });
+            base.OnDisappearing();
+
         }
 
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
             // Save and quit
             //send json to server
+
+            if (CurrentEvent.End < DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
+                await Navigation.PopAsync();
+                return;
+            }
+
+            SaveEvaluationAsync();
+            await Navigation.PopAsync();
+        }
+
+        void SaveEvaluationAsync()
+        {
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
             JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
             //JsonParser.SendJsonToServer(jsonEval);
-            await Navigation.PopAsync();
         }
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
@@ -108,7 +169,6 @@ namespace Onek
             string text = "Ecrire un commentaire :";
             Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Eval.Comment);
             MyListView.ItemsSource = Items;
-            ButtonCommentaireGeneral.Text = Eval.Comment;
         }
 
         async void OnCritereCommentaireClicked(object sender, EventArgs e)

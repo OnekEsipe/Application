@@ -40,7 +40,7 @@
                                     BorderRadius="90"
                                     />
                             <Button x:Name="ButtonCommentaireCritere"
-                                    Text="Afficher le commentaire"
+                                    Text="Afficher le commentaire du critère"
                                     BackgroundColor="White"
                                     BorderColor="White"
                                     TextColor="Black"
@@ -54,7 +54,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button x:Name="ButtonCommentaireGeneral"
-                    Text="{Binding Comment}"
+                    Text="Afficher le commentaire géneral"
                     BackgroundColor="White"
                     BorderColor="DarkBlue"
                     TextColor="DarkBlue"
