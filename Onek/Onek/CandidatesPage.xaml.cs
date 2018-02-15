@@ -38,35 +38,11 @@ namespace Onek
 
             //Check if evaluation already exists. If not create new Evaluation
             Candidate SelectedCandidate = (e.Item as Candidate);
-            int idCandidate = SelectedCandidate.Id;
-            Evaluation evaluation = null;
-            if (File.Exists(Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
-                + "-" + LoggedUser.Id + "-" + CurrentEvent.Id + "-evaluation.json")))
-            {
-                String jsonString = JsonParser.ReadJsonFromInternalMemeory(idCandidate,
-                    LoggedUser.Id, CurrentEvent.Id);
-                evaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
-            }
-            else
-            {
-                evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
-                evaluation.IdEvent = CurrentEvent.Id;
-                evaluation.Criterias = new ObservableCollection<Criteria>();
-                foreach (Criteria c in CurrentEvent.Criterias)
-                {
-                    evaluation.Criterias.Add(c.Clone() as Criteria);
-                    // Ajouter Notes
-                }
-
-                //CurrentEvent.Evaluations.Add(evaluation);
-                
-            }
-
-            await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, evaluation, SelectedCandidate, LoggedUser));
+            
+            await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, Items, SelectedCandidate, LoggedUser));
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
-            evaluation = null;
         }
 
         void OnFilterChanged(object sender, EventArgs e)

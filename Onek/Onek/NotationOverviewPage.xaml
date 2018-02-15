@@ -4,6 +4,33 @@
              x:Class="Onek.NotationOverviewPage"
              Title="Evaluation">
     <StackLayout>
+        <StackLayout Orientation="Horizontal"
+                     HeightRequest="100">
+            <Button x:Name="LeftButton"
+                    BackgroundColor="DarkBlue"
+                    TextColor="White"
+                    WidthRequest="50"
+                    HorizontalOptions="CenterAndExpand"
+                    Clicked="OnLeftButtonClickedAsync"
+                    BorderRadius="90"
+                    VerticalOptions="Center"/>
+            <Label  x:Name="CandidateNameLabel"
+                    VerticalOptions="Center"
+                    HorizontalOptions="CenterAndExpand"
+                    FontSize="Small"
+                    TextColor="DarkBlue"
+                    WidthRequest="100"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"/>
+            <Button x:Name="RightButton"
+                    BackgroundColor="DarkBlue"
+                    TextColor="White"
+                    WidthRequest="50"
+                    HorizontalOptions="CenterAndExpand"
+                    Clicked="OnRightButtonClickedAsync"
+                    BorderRadius="90"
+                    VerticalOptions="Center"/>
+        </StackLayout>
         <ListView x:Name="MyListView"
                 ItemsSource="{Binding Items}"
                 CachingStrategy="RecycleElement"

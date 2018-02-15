@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,21 +23,59 @@ namespace Onek
         private Candidate CurrentCandidate { get; set; }
         private User LoggedUser { get; set; }
         private bool goToPageNote { get; set; }
+        private ObservableCollection<Candidate> CandidateList { get; set; }
 
-        public NotationOverviewPage(Event e, Evaluation evaluation, Candidate candidate, User loggedUser)
+        public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
         {
             InitializeComponent();
 
+            CurrentCandidate = candidate;
+            CandidateList = candidates;
+            LoggedUser = loggedUser;
             CurrentEvent = e;
+
+            Evaluation evaluation = findEvaluation(candidate);
             evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
 
-            CurrentCandidate = candidate;
-
             Eval = evaluation;
-            LoggedUser = loggedUser;
+
+            CandidateNameLabel.Text = CurrentCandidate.FullName;
+            LeftButton.Text = "<";
+            RightButton.Text = ">";
+
+            int index = CandidateList.IndexOf(CurrentCandidate);
+
+            SetVisibilityArrow(index);
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
+        }
+
+        private Evaluation findEvaluation(Candidate candidate)
+        {
+            int idCandidate = candidate.Id;
+            Evaluation evaluation = null;
+
+            if (File.Exists(Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
+                + "-" + LoggedUser.Id + "-" + CurrentEvent.Id + "-evaluation.json")))
+            {
+                String jsonString = JsonParser.ReadJsonFromInternalMemeory(idCandidate,
+                    LoggedUser.Id, CurrentEvent.Id);
+                evaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
+            }
+            else
+            {
+                evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
+                evaluation.IdEvent = CurrentEvent.Id;
+                evaluation.Criterias = new ObservableCollection<Criteria>();
+                foreach (Criteria c in CurrentEvent.Criterias)
+                {
+                    evaluation.Criterias.Add(c.Clone() as Criteria);
+                    // Ajouter Notes
+                }
+            }
+
+            return evaluation;
         }
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -135,14 +174,31 @@ namespace Onek
                     SaveEvaluationAsync();
                 }
             });
-            base.OnDisappearing();
 
+            base.OnDisappearing();
+        }
+
+        async Task ConfirmSaveBeforeSwitchAsync()
+        {
+            if (CurrentEvent.End < DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
+                base.OnDisappearing();
+            }
+
+            bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
+            if (answer)
+            {
+                SaveEvaluationAsync();
+            }
         }
 
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
             // Save and quit
             //send json to server
+
+            goToPageNote = true;
 
             if (CurrentEvent.End < DateTime.Now)
             {
@@ -184,6 +240,64 @@ namespace Onek
             Criteria critere = (sender as Button).BindingContext as Criteria;
             critere.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment,500);
             MyListView.ItemsSource = Items;
+        }
+
+        async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
+        {
+            await ConfirmSaveBeforeSwitchAsync();
+
+            int index = CandidateList.IndexOf(CurrentCandidate);
+            Candidate leftCandidate = CandidateList[index - 1];
+
+            changeCandidate(leftCandidate, index-1);
+        }
+
+        async Task OnRightButtonClickedAsync(object sender, EventArgs e)
+        {
+            await ConfirmSaveBeforeSwitchAsync();
+
+            int index = CandidateList.IndexOf(CurrentCandidate);
+            Candidate rightCandidate = CandidateList[index + 1];
+
+            changeCandidate(rightCandidate, index+1);
+        }
+
+        void changeCandidate(Candidate newCandidate, int index)
+        {
+            CurrentCandidate = newCandidate;
+
+            Evaluation evaluation = findEvaluation(CurrentCandidate);
+
+            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
+
+            Eval = evaluation;
+
+            CandidateNameLabel.Text = CurrentCandidate.FullName;
+
+            Items = new ObservableCollection<Criteria>(Eval.Criterias);
+            MyListView.ItemsSource = Items;
+
+            SetVisibilityArrow(index);
+        }
+
+        void SetVisibilityArrow(int index)
+        {
+            if (index == 0)
+            {
+                LeftButton.IsEnabled = false;
+            }
+            else
+            {
+                LeftButton.IsEnabled = true;
+            }
+            if (index == CandidateList.Count - 1)
+            {
+                RightButton.IsEnabled = false;
+            }
+            else
+            {
+                RightButton.IsEnabled = true;
+            }
         }
     } 
 }
