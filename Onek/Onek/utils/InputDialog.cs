@@ -34,13 +34,13 @@ namespace Onek.utils
 
             txtInput.TextChanged += (sender, args) =>
             {
-                string _text = txtInput.Text;     
-                if (text.Length > size)       
+                string input = txtInput.Text;     
+                if (input.Length > size)       
                 {
-                    text = text.Remove(_text.Length - 1); 
-                    txtInput.Text = text;    
+                    input = input.Substring(0, 500);
+                    txtInput.Text = input;    
                 }
-                lblMessage.Text = text + " (" + (size - text.Length) + " caractères restants) :";
+                lblMessage.Text = text + " (" + (size - input.Length) + " caractères restants) :";
             };
 
             return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
