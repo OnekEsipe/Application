@@ -122,7 +122,7 @@ namespace Onek
                 return;
 
             goToPageNote = true;
-            await Navigation.PushAsync(new NotationPage(SelectedCritere));
+            await Navigation.PushAsync(new NotationPage(Eval.Criterias, SelectedCritere));
  
         }
 
