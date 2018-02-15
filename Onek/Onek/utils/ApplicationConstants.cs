@@ -12,5 +12,7 @@ namespace Onek.utils
         public static String jsonDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public static String serverEventURL = "https://173.249.25.49/serveur/api/app/events/[id_event]/[login_user]/export";
         public static String serverLoginURL = "https://173.249.25.49/serveur/api/app/login";
+        public static String serverEvaluationURL = "https://173.249.25.49/serveur/api/app/evaluation";
+        public static String pathToJsonToSend = Path.Combine(jsonDataDirectory, "ToSend");
     }
 }

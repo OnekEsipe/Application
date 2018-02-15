@@ -15,6 +15,7 @@ namespace Onek.data
         public ObservableCollection<Descriptor> Descriptor { get; set; } = new ObservableCollection<data.Descriptor>();
         private String selectedLevel = "";
         public Descriptor SelectedDescriptor { get;  set; }
+        public DateTime LastModification { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -24,6 +25,7 @@ namespace Onek.data
             set
             {
                 comment = value;
+                LastModification = DateTime.Now;
                 OnPropertyChanged("Comment");
             }
         }
@@ -34,6 +36,7 @@ namespace Onek.data
             set
             {
                 selectedLevel = value;
+                LastModification = DateTime.Now;
                 OnPropertyChanged("SelectedLevel");
             }
         }
