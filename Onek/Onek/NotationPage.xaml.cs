@@ -31,7 +31,16 @@ namespace Onek
             Comment = CurrentCriteria.Comment;
 
             MyListView.ItemsSource = Items;
-            MyListView.SelectedItem = CurrentCriteria.SelectedDescriptor;
+            if (CurrentCriteria.SelectedDescriptor != null)
+            {
+                MyListView.SelectedItem = CurrentCriteria.SelectedDescriptor;
+                DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
+            }
+            else
+            {
+                DescriptionBox.Text = "";
+            }
+
             ButtonCommentaireCritere.Text = c.Comment;
 
             CritereNameLabel.Text = CurrentCriteria.Text;
@@ -105,7 +114,15 @@ namespace Onek
             ButtonCommentaireCritere.Text = Comment;
 
             CritereNameLabel.Text = CurrentCriteria.Text;
-            MyListView.SelectedItem = CurrentCriteria.SelectedDescriptor;
+            if (CurrentCriteria.SelectedDescriptor != null)
+            {
+                MyListView.SelectedItem = CurrentCriteria.SelectedDescriptor;
+                DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
+            }
+            else
+            {
+                DescriptionBox.Text = "";
+            }
 
             SetVisibilityArrow(index);
         }
