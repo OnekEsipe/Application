@@ -65,7 +65,7 @@
         <Button x:Name="DescriptionBox"
                 HorizontalOptions="Fill"
                 WidthRequest="300"
-                HeightRequest="200"
+                HeightRequest="150"
                 BackgroundColor="LightGray"
                 BorderColor="LightGray"
                 TextColor="Black" 
@@ -79,7 +79,7 @@
                 TextColor="DarkBlue"
                 HorizontalOptions="Fill"
                 WidthRequest="300"
-                HeightRequest="200"
+                HeightRequest="150"
                 Clicked="OnCritereCommentaireClicked" 
                 VerticalOptions="CenterAndExpand"/>
     

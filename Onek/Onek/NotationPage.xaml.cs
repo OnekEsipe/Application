@@ -17,7 +17,7 @@ namespace Onek
         private ObservableCollection<Criteria> CriteriaList { get; set; }
         public ObservableCollection<Descriptor> Items { get; set; }
         public Descriptor SelectedDescripteur { get; set; }
-        private Criteria CurrentCriteria;
+        public Criteria CurrentCriteria;
         public String Comment { get; set; } = "";
 
         public NotationPage(ObservableCollection<Criteria> criterias, Criteria c)
@@ -26,14 +26,15 @@ namespace Onek
             c.Descriptor = new ObservableCollection<Descriptor>(c.Descriptor.OrderBy(x => x.Level));
             CurrentCriteria = c;
             CriteriaList = criterias;
-            
-            Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor);
+
+            Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;
 
             MyListView.ItemsSource = Items;
-            if (CurrentCriteria.SelectedDescriptor != null)
+            SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
+            if (SelectedDescripteur != null)
             {
-                MyListView.SelectedItem = CurrentCriteria.SelectedDescriptor;
+                MyListView.SelectedItem = SelectedDescripteur;
                 DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
             }
             else
@@ -46,7 +47,10 @@ namespace Onek
             CritereNameLabel.Text = CurrentCriteria.Text;
             LeftButton.Text = "<";
             RightButton.Text = ">";
+
+            SetVisibilityArrow(CriteriaList.IndexOf(CurrentCriteria));
         }
+        
 
         void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -85,7 +89,7 @@ namespace Onek
             Navigation.PopAsync();
         }
 
-        async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
+        void OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
             SaveCriteria();
             int index = CriteriaList.IndexOf(CurrentCriteria);
@@ -94,7 +98,7 @@ namespace Onek
            changeCriteria(leftCriteria, index - 1);
         }
 
-        async Task OnRightButtonClickedAsync(object sender, EventArgs e)
+        void OnRightButtonClickedAsync(object sender, EventArgs e)
         {
             SaveCriteria();
             int index = CriteriaList.IndexOf(CurrentCriteria);
@@ -112,11 +116,12 @@ namespace Onek
 
             MyListView.ItemsSource = Items;
             ButtonCommentaireCritere.Text = Comment;
+            SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
 
             CritereNameLabel.Text = CurrentCriteria.Text;
-            if (CurrentCriteria.SelectedDescriptor != null)
+            if (SelectedDescripteur != null)
             {
-                MyListView.SelectedItem = CurrentCriteria.SelectedDescriptor;
+                MyListView.SelectedItem = SelectedDescripteur;
                 DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
             }
             else
