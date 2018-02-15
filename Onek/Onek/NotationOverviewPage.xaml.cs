@@ -165,18 +165,22 @@ namespace Onek
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
+            goToPageNote = true;
+
             string title = "Commentaire de l'évalution";
             string text = "Ecrire un commentaire :";
-            Eval.Comment = await InputDialog.InputBox(this.Navigation, title, text, Eval.Comment);
+            Eval.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment,500);
             MyListView.ItemsSource = Items;
         }
 
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
+            goToPageNote = true;
+
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
             Criteria critere = (sender as Button).BindingContext as Criteria;
-            critere.Comment = await InputDialog.InputBox(this.Navigation, title, text, critere.Comment);
+            critere.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment,500);
             MyListView.ItemsSource = Items;
         }
     } 

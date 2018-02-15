@@ -46,7 +46,7 @@ namespace Onek
         {
             string title = "Commentaire du critère";
             string text = "Ecrire un commentaire :";
-            Comment = await InputDialog.InputBox(this.Navigation, title, text, CurrentCriteria.Comment);
+            Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, CurrentCriteria.Comment,500);
             ButtonCommentaireCritere.Text = Comment;
         }
 

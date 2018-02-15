@@ -15,10 +15,40 @@ namespace Onek.utils
             var tcs = new TaskCompletionSource<string>();
             string temp = placeholder;
 
-            var lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
-            var lblMessage = new Label { Text = text };
-            var txtInput = new Editor { Text = placeholder, WidthRequest = 300, HeightRequest=250, HorizontalOptions = LayoutOptions.Center };
+            Label lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
+            Label lblMessage = new Label { Text = text };
+            Editor txtInput = new Editor { Text = placeholder, WidthRequest = 300, HeightRequest=250, HorizontalOptions = LayoutOptions.Center };
 
+            return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
+        }
+
+        public static Task<string> InputBoxWithSize(INavigation navigation, String title, String text, String placeholder, int size)
+        {
+            // wait in this proc, until user did his input 
+            var tcs = new TaskCompletionSource<string>();
+            string temp = placeholder;
+
+            Label lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
+            Label lblMessage = new Label { Text = text + " ("+ (size-placeholder.Length) + " caractères restants) :" };
+            Editor txtInput = new Editor { Text = placeholder, WidthRequest = 300, HeightRequest = 250, HorizontalOptions = LayoutOptions.Center };
+
+            txtInput.TextChanged += (sender, args) =>
+            {
+                string input = txtInput.Text;     
+                if (input.Length > size)       
+                {
+                    input = input.Substring(0, 500);
+                    txtInput.Text = input;    
+                }
+                lblMessage.Text = text + " (" + (size - input.Length) + " caractères restants) :";
+            };
+
+            return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
+        }
+
+
+        private static Task<string> makeBox(INavigation navigation, Label lblTitle, Label lblMessage, Editor txtInput, TaskCompletionSource<string> tcs, String temp)
+        {
             var btnOk = new Button
             {
                 Text = "Ok",
