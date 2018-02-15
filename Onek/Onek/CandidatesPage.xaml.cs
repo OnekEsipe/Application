@@ -24,7 +24,6 @@ namespace Onek
         {
             InitializeComponent();
             CurrentEvent = e;
-
             Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates.OrderBy(x => x.FullName));
 
             LoggedUser = loggedUser;

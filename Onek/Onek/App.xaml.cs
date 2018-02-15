@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Onek.utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Onek
@@ -13,6 +14,11 @@ namespace Onek
 		{
 			InitializeComponent();
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+            Task.Run(() =>
+            {
+                EvaluationSender.LoadJsons();
+                EvaluationSender.SendJsonEvalToServer();
+            });
             MainPage = new NavigationPage(new Onek.MainPage());
 		}
 

@@ -95,14 +95,15 @@ namespace Onek
         public static void SendJsonToServer(String json)
         {
             //Send json to server
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("url");
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(ApplicationConstants.serverEvaluationURL);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
             SendToServer(httpWebRequest, json);
 
             //Check server response
             HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
-            while (!response.StatusCode.GetTypeCode().Equals(HttpStatusCode.OK))
+            Console.WriteLine(response.StatusCode.ToString());
+            while (!response.StatusCode.Equals(HttpStatusCode.OK))
             {
                 //If response not ok send it again
                 SendToServer(httpWebRequest, json);
@@ -142,7 +143,15 @@ namespace Onek
         {
             String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate 
                 + "-" + idJury + "-" + idEvent + "-evaluation.json");
+            String fileNameForSendingQueue = Path.Combine(ApplicationConstants.pathToJsonToSend, idCandidate
+                + "-" + idJury + "-" + idEvent + "-evaluation.json");
             File.WriteAllText(fileName, json);
+            //Add file in dir for sender
+            if (!Directory.Exists(ApplicationConstants.pathToJsonToSend))
+            {
+                Directory.CreateDirectory(ApplicationConstants.pathToJsonToSend);
+            }
+            File.WriteAllText(fileNameForSendingQueue, json);
         }
 
         public static String ReadJsonFromInternalMemeory(int idCandidate, int idJury, int idEvent)

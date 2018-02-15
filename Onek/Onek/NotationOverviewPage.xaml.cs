@@ -161,6 +161,8 @@ namespace Onek
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
             JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
             //JsonParser.SendJsonToServer(jsonEval);
+            EvaluationSender.AddEvaluationInQueue(jsonEval);
+            EvaluationSender.SendJsonEvalToServer();
         }
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
