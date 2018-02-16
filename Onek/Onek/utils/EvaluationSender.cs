@@ -39,6 +39,7 @@ namespace Onek.utils
                 {
                     try
                     {
+                        httpWebRequest = WebRequest.Create(ApplicationConstants.serverEvaluationURL) as HttpWebRequest;
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
                         StreamWriter writer = new StreamWriter(httpWebRequest.GetRequestStream());
@@ -46,36 +47,87 @@ namespace Onek.utils
                         writer.Flush();
                         writer.Close();
                         HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
-                        if (response.StatusCode.Equals(HttpStatusCode.OK))
+                        if (response.StatusCode.Equals(HttpStatusCode.OK) ||
+                            response.StatusCode.Equals(HttpStatusCode.Conflict) ||
+                            response.StatusCode.Equals(HttpStatusCode.BadRequest))
                         {
                             String delete = "";
                             EvaluationsToSend.TryDequeue(out delete);
                             Evaluation deletedEval = JsonParser.DeserializeJsonEvaluation(delete);
-                            if (deletedEval != null)
+                            DeleteFile(deletedEval);
+                            //if conflict get the latest from server
+                            if (response.StatusCode.Equals(HttpStatusCode.Conflict))
                             {
-                                String toDelete = Path.Combine(ApplicationConstants.pathToJsonToSend,
-                                    deletedEval.IdCandidate + "-" + deletedEval.IdJury + "-" +
-                                    deletedEval.IdEvent + "-evaluation.json");
-                                //if evaluation json is sent delete it from internal memory
-                                if (File.Exists(toDelete))
-                                {
-                                    File.Delete(toDelete);
-                                }
+                                DownloadLatestVersion(deletedEval);
                             }
                         }
                     }
-                    catch (Exception e)
+                    catch (WebException e)
                     {
-                        //SI 400 supprimer json
-                        Console.WriteLine("Fichier non envoyé");
+                        //If communication error or internal error 
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Add Evaluation json in sending queue
+        /// </summary>
+        /// <param name="jsonEvaluation"></param>
         public static void AddEvaluationInQueue(String jsonEvaluation)
         {            
             EvaluationsToSend.Enqueue(jsonEvaluation);
+        }
+
+        /// <summary>
+        /// Delete file sended
+        /// </summary>
+        /// <param name="deletedEval"></param>
+        private static void DeleteFile(Evaluation deletedEval)
+        {
+            
+            if (deletedEval != null)
+            {
+                String toDelete = Path.Combine(ApplicationConstants.pathToJsonToSend,
+                    deletedEval.IdCandidate + "-" + deletedEval.IdJury + "-" +
+                    deletedEval.IdEvent + "-evaluation.json");
+                //if evaluation json is sent delete it from internal memory
+                if (File.Exists(toDelete))
+                {
+                    File.Delete(toDelete);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Download the latest version of event
+        /// </summary>
+        /// <param name="deletedEval"></param>
+        private static void DownloadLatestVersion(Evaluation deletedEval)
+        {
+            int idEvent = deletedEval.IdEvent;
+            int idJury = deletedEval.IdJury;
+            List<User> users = JsonParser.LoadLoginJson();
+            User user = null;
+            if (users != null)
+            {
+                foreach (User u in users)
+                {
+                    if (u.Id == idJury)
+                    {
+                        user = u;
+                        break;
+                    }
+                }
+                if (user != null)
+                {
+                    String eventURL = ApplicationConstants.serverEventURL
+                        .Replace("[id_event]", "" + idEvent).Replace("[login_user]", "" + user.Login);
+                    String jsonString = JsonParser.DownloadEventJson(eventURL);
+                    String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idEvent + "-event.json");
+                    File.WriteAllText(fileName, jsonString);
+                }
+            }
         }
     }
 }
