@@ -61,22 +61,19 @@ namespace Onek
             int idCandidate = candidate.Id;
             Evaluation evaluation = null;
 
+            evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
+            evaluation.IdEvent = CurrentEvent.Id;
+
             if (File.Exists(Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
                 + "-" + LoggedUser.Id + "-" + CurrentEvent.Id + "-evaluation.json")))
             {
                 String jsonString = JsonParser.ReadJsonFromInternalMemeory(idCandidate,
                     LoggedUser.Id, CurrentEvent.Id);
-                evaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
-            }
-            else
-            {
-                evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
-                evaluation.IdEvent = CurrentEvent.Id;
-                evaluation.Criterias = new ObservableCollection<Criteria>();
-                foreach (Criteria c in CurrentEvent.Criterias)
+                Evaluation localevaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
+
+                if(localevaluation.LastUpdatedDate > evaluation.LastUpdatedDate)
                 {
-                    evaluation.Criterias.Add(c.Clone() as Criteria);
-                    // Ajouter Notes
+                    evaluation = localevaluation;
                 }
             }
 
@@ -105,7 +102,7 @@ namespace Onek
                 buttonsLevel.Add(d.Level);
             }
             String level = await DisplayActionSheet("Selectionnez la note", "Retour", "", buttonsLevel.ToArray());
-            if ((level != null) && (!level.Equals("Retour")))
+            if ((level != null) && (!level.Equals("Retour")) && (!level.Equals(criteria.SelectedLevel)))
             {
                 criteria.SelectedLevel = level;
                 Descriptor selectedDescriptor = null;
@@ -235,7 +232,10 @@ namespace Onek
 
             string title = "Commentaire de l'évalution";
             string text = "Ecrire un commentaire :";
-            Eval.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment, 500);
+            string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment, 500);
+            if (!answer.Equals(Eval.Comment)) {
+                Eval.Comment = answer;
+            }
             MyListView.ItemsSource = Items;
         }
 
@@ -246,7 +246,11 @@ namespace Onek
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
             Criteria critere = (sender as Button).BindingContext as Criteria;
-            critere.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment, 500);
+            string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment, 500);
+            if (!answer.Equals(critere.Comment))
+            {
+                critere.Comment = answer;
+            }
             MyListView.ItemsSource = Items;
         }
 

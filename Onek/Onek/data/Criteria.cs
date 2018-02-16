@@ -11,9 +11,9 @@ namespace Onek.data
         public int Id { get; set; }
         public String Text { get; set; }
         public String Category { get; set; }
-        private String comment = "Zone de commentaire"; // default comment
+        private String comment; 
         public ObservableCollection<Descriptor> Descriptor { get; set; } = new ObservableCollection<data.Descriptor>();
-        private String selectedLevel = "";
+        private String selectedLevel;
         public Descriptor SelectedDescriptor { get;  set; }
         public DateTime LastModification { get; set; }
         public bool isModified { get; set; } = false;
@@ -25,13 +25,13 @@ namespace Onek.data
             get { return comment; }
             set
             {
-                if (comment != null && comment != value)
-                {
+                //if (comment != null && comment != value)
+                //{
                     comment = value;
                     LastModification = DateTime.Now;
                     isModified = true;
                     OnPropertyChanged("Comment");
-                }
+                //}
             }
         }
 
@@ -40,13 +40,13 @@ namespace Onek.data
             get { return selectedLevel; }
             set
             {
-                if (selectedLevel != null && selectedLevel != value)
-                {
+                //if (selectedLevel != null && selectedLevel != value)
+                //{
                     selectedLevel = value;
                     LastModification = DateTime.Now;
                     isModified = true;
                     OnPropertyChanged("SelectedLevel");
-                }
+                //}
             }
         }
 
