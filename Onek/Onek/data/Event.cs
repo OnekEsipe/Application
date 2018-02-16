@@ -14,7 +14,7 @@ namespace Onek
         public DateTime End { get; set; }
         public Boolean IsSigned { get; set; }
         public Boolean IsOpened { get; set; }
-        public ObservableCollection<Criteria> Criterias { get; set; } = new ObservableCollection<Criteria>();
+        //public ObservableCollection<Criteria> Criterias { get; set; } = new ObservableCollection<Criteria>();
         public ObservableCollection<Jury> Jurys { get; set; } = new ObservableCollection<Jury>();
         public ObservableCollection<Evaluation> Evaluations { get; set; } = new ObservableCollection<Evaluation>();
 

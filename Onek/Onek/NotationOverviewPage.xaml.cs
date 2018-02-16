@@ -72,12 +72,12 @@ namespace Onek
             {
                 evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
                 evaluation.IdEvent = CurrentEvent.Id;
-                evaluation.Criterias = new ObservableCollection<Criteria>();
-                foreach (Criteria c in CurrentEvent.Criterias)
+                //evaluation.Criterias = new ObservableCollection<Criteria>();
+                /*foreach (Criteria c in CurrentEvent.Criterias)
                 {
                     evaluation.Criterias.Add(c.Clone() as Criteria);
                     // Ajouter Notes
-                }
+                }*/
             }
 
             return evaluation;
