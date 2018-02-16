@@ -39,6 +39,11 @@ namespace Onek
 
             Eval = evaluation;
 
+            foreach(Criteria c in Eval.Criterias)
+            {
+                c.isModified = false;
+            }
+
             CandidateNameLabel.Text = CurrentCandidate.FullName;
             LeftButton.Text = "<";
             RightButton.Text = ">";
@@ -95,7 +100,7 @@ namespace Onek
             Criteria criteria = buttonClicked.BindingContext as Criteria;
             List<String> buttonsLevel = new List<String>();
             criteria.Descriptor = new ObservableCollection<Descriptor>(criteria.Descriptor.OrderBy(x => x.Level));
-            foreach(Descriptor d in criteria.Descriptor)
+            foreach (Descriptor d in criteria.Descriptor)
             {
                 buttonsLevel.Add(d.Level);
             }
@@ -123,7 +128,7 @@ namespace Onek
 
             goToPageNote = true;
             await Navigation.PushAsync(new NotationPage(Eval.Criterias, SelectedCritere));
- 
+
         }
 
         protected override void OnAppearing()
@@ -133,50 +138,40 @@ namespace Onek
             goToPageNote = false;
         }
 
-        /*protected override bool OnBackButtonPressed()
-        {
-            if(CurrentEvent.End < DateTime.Now)
-            {
-                DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
-                return base.OnBackButtonPressed();
-            }
-
-            Task<bool> answer = DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
-            answer.ContinueWith(task =>
-                {
-                    if (task.Result)
-                    {
-                        SaveEvaluationAsync();
-                    }
-                });
-
-            return base.OnBackButtonPressed();
-        }*/
-
         protected override void OnDisappearing()
         {
             if (goToPageNote)
             {
                 return;
             }
-
             if (CurrentEvent.End < DateTime.Now)
             {
                 DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
                 base.OnDisappearing();
             }
 
-            Task<bool> answer = DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
-            answer.ContinueWith(task =>
+            foreach (Criteria c in Eval.Criterias)
             {
-                if (task.Result)
+                if (c.isModified)
                 {
-                    SaveEvaluationAsync();
+                    Task<bool> answer = DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
+                    answer.ContinueWith(task =>
+                    {
+                        if (task.Result)
+                        {
+                            SaveEvaluation();
+                        }
+                    });
+
+                    base.OnDisappearing();
+                    return;
                 }
-            });
+            }
 
             base.OnDisappearing();
+
         }
+
 
         async Task ConfirmSaveBeforeSwitchAsync()
         {
@@ -186,10 +181,17 @@ namespace Onek
                 base.OnDisappearing();
             }
 
-            bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
-            if (answer)
+            foreach (Criteria c in Eval.Criterias)
             {
-                SaveEvaluationAsync();
+                if (c.isModified)
+                {
+                    bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
+                    if (answer)
+                    {
+                        SaveEvaluation();
+                    }
+                    return;
+                }
             }
         }
 
@@ -203,15 +205,15 @@ namespace Onek
             if (CurrentEvent.End < DateTime.Now)
             {
                 await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
-                await Navigation.PopAsync();
+                //await Navigation.PopAsync();
                 return;
             }
 
-            SaveEvaluationAsync();
+            SaveEvaluation();
             await Navigation.PopAsync();
         }
 
-        void SaveEvaluationAsync()
+        void SaveEvaluation()
         {
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
@@ -219,6 +221,12 @@ namespace Onek
             //JsonParser.SendJsonToServer(jsonEval);
             EvaluationSender.AddEvaluationInQueue(jsonEval);
             EvaluationSender.SendJsonEvalToServer();
+
+
+            foreach (Criteria c in Eval.Criterias)
+            {
+                c.isModified = false;
+            }
         }
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
@@ -227,7 +235,7 @@ namespace Onek
 
             string title = "Commentaire de l'évalution";
             string text = "Ecrire un commentaire :";
-            Eval.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment,500);
+            Eval.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment, 500);
             MyListView.ItemsSource = Items;
         }
 
@@ -238,7 +246,7 @@ namespace Onek
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
             Criteria critere = (sender as Button).BindingContext as Criteria;
-            critere.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment,500);
+            critere.Comment = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment, 500);
             MyListView.ItemsSource = Items;
         }
 
@@ -249,7 +257,7 @@ namespace Onek
             int index = CandidateList.IndexOf(CurrentCandidate);
             Candidate leftCandidate = CandidateList[index - 1];
 
-            changeCandidate(leftCandidate, index-1);
+            changeCandidate(leftCandidate, index - 1);
         }
 
         async Task OnRightButtonClickedAsync(object sender, EventArgs e)
@@ -259,7 +267,7 @@ namespace Onek
             int index = CandidateList.IndexOf(CurrentCandidate);
             Candidate rightCandidate = CandidateList[index + 1];
 
-            changeCandidate(rightCandidate, index+1);
+            changeCandidate(rightCandidate, index + 1);
         }
 
         void changeCandidate(Candidate newCandidate, int index)
@@ -271,6 +279,11 @@ namespace Onek
             evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
 
             Eval = evaluation;
+
+            foreach (Criteria c in Eval.Criterias)
+            {
+                c.isModified = false;
+            }
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
 
@@ -299,5 +312,6 @@ namespace Onek
                 RightButton.IsEnabled = true;
             }
         }
-    } 
+    }
 }
+
