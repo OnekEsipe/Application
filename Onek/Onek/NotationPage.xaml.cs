@@ -80,7 +80,14 @@ namespace Onek
         void SaveCriteria()
         {
             CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
-            CurrentCriteria.SelectedLevel = SelectedDescripteur.Level;
+            if (SelectedDescripteur != null)
+            {
+                CurrentCriteria.SelectedLevel = SelectedDescripteur.Level;
+            }
+            else
+            {
+                CurrentCriteria.SelectedLevel = "";
+            }
             CurrentCriteria.Comment = Comment;
         }
 
