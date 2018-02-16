@@ -71,12 +71,36 @@ namespace Onek
                     LoggedUser.Id, CurrentEvent.Id);
                 Evaluation localevaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
 
-                if(localevaluation.LastUpdatedDate > evaluation.LastUpdatedDate)
+                if(localevaluation.LastUpdatedDate !=null && evaluation.LastUpdatedDate!=null && localevaluation.LastUpdatedDate > evaluation.LastUpdatedDate)
                 {
                     evaluation = localevaluation;
                 }
             }
 
+            if (evaluation.Criterias.Count == 0)
+            {
+                foreach (Criteria cEvent in CurrentEvent.Criterias)
+                {
+                    evaluation.Criterias.Add(cEvent.Clone() as Criteria);
+                }
+            }
+            else {
+                foreach (Criteria cEvent in CurrentEvent.Criterias)
+                {
+                    foreach (Criteria cEval in evaluation.Criterias)
+                    {
+                        if (cEval.Id == cEvent.Id)
+                        {
+                            break;
+                        }
+                        if (evaluation.Criterias.IndexOf(cEval) == evaluation.Criterias.Count - 1)
+                        {
+                            evaluation.Criterias.Add(cEvent.Clone() as Criteria);
+                        }
+                    }
+                }
+            }
+            
             return evaluation;
         }
 
@@ -232,6 +256,10 @@ namespace Onek
 
             string title = "Commentaire de l'évalution";
             string text = "Ecrire un commentaire :";
+            if (Eval.Comment == null)
+            {
+                Eval.Comment = "";
+            }
             string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment, 500);
             if (!answer.Equals(Eval.Comment)) {
                 Eval.Comment = answer;
@@ -246,6 +274,10 @@ namespace Onek
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
             Criteria critere = (sender as Button).BindingContext as Criteria;
+            if(critere.Comment == null)
+            {
+                critere.Comment = "";
+            }
             string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, critere.Comment, 500);
             if (!answer.Equals(critere.Comment))
             {

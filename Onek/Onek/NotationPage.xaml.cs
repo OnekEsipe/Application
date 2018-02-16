@@ -66,6 +66,10 @@ namespace Onek
         {
             string title = "Commentaire du critère";
             string text = "Ecrire un commentaire :";
+            if (CurrentCriteria.Comment == null)
+            {
+                CurrentCriteria.Comment = "";
+            }
             string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, CurrentCriteria.Comment,500);
             if(!answer.Equals(Comment))
             {
