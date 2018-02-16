@@ -24,7 +24,6 @@ namespace Onek
             EventsToDownload.AddRange(user.Events_id);
 
             //Download and parse json files
-            WebClient client = new WebClient();
             List<String> EventsJson = new List<string>();
             foreach (int id in EventsToDownload)
             {
@@ -32,7 +31,7 @@ namespace Onek
                 //Download events data from server
                 try
                 {
-                    String jsonString = client.DownloadString(downloadEventURL);
+                    String jsonString = DownloadEventJson(downloadEventURL);
                     EventsJson.Add(jsonString);
                     //Save json into internal memory
                     String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, id + "-event.json");
@@ -55,6 +54,17 @@ namespace Onek
                 }
             }
             return events;
+        }
+
+        /// <summary>
+        /// Download event json
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static String DownloadEventJson(String url)
+        {
+            WebClient client = new WebClient();
+            return client.DownloadString(url);
         }
 
 
