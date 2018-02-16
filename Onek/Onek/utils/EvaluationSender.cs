@@ -39,6 +39,7 @@ namespace Onek.utils
                 {
                     try
                     {
+                        httpWebRequest = WebRequest.Create(ApplicationConstants.serverEvaluationURL) as HttpWebRequest;
                         httpWebRequest.ContentType = "application/json";
                         httpWebRequest.Method = "POST";
                         StreamWriter writer = new StreamWriter(httpWebRequest.GetRequestStream());
