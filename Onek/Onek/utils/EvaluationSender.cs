@@ -46,7 +46,9 @@ namespace Onek.utils
                         writer.Flush();
                         writer.Close();
                         HttpWebResponse response = httpWebRequest.GetResponse() as HttpWebResponse;
-                        if (response.StatusCode.Equals(HttpStatusCode.OK) || response.StatusCode.Equals(HttpStatusCode.Conflict))
+                        if (response.StatusCode.Equals(HttpStatusCode.OK) ||
+                            response.StatusCode.Equals(HttpStatusCode.Conflict) ||
+                            response.StatusCode.Equals(HttpStatusCode.BadRequest))
                         {
                             String delete = "";
                             EvaluationsToSend.TryDequeue(out delete);
@@ -61,11 +63,7 @@ namespace Onek.utils
                     }
                     catch (WebException e)
                     {
-                        //If internal error delete file
-                        String delete = "";
-                        EvaluationsToSend.TryDequeue(out delete);
-                        Evaluation deletedEval = JsonParser.DeserializeJsonEvaluation(delete);
-                        DeleteFile(deletedEval);
+                        //If communication error or internal error 
                     }
                 }
             }
