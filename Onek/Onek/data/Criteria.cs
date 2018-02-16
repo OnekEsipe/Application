@@ -16,6 +16,7 @@ namespace Onek.data
         private String selectedLevel = "";
         public Descriptor SelectedDescriptor { get;  set; }
         public DateTime LastModification { get; set; }
+        public bool isModified { get; set; } = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -24,9 +25,13 @@ namespace Onek.data
             get { return comment; }
             set
             {
-                comment = value;
-                LastModification = DateTime.Now;
-                OnPropertyChanged("Comment");
+                if (comment != null && comment != value)
+                {
+                    comment = value;
+                    LastModification = DateTime.Now;
+                    isModified = true;
+                    OnPropertyChanged("Comment");
+                }
             }
         }
 
@@ -35,9 +40,13 @@ namespace Onek.data
             get { return selectedLevel; }
             set
             {
-                selectedLevel = value;
-                LastModification = DateTime.Now;
-                OnPropertyChanged("SelectedLevel");
+                if (selectedLevel != null && selectedLevel != value)
+                {
+                    selectedLevel = value;
+                    LastModification = DateTime.Now;
+                    isModified = true;
+                    OnPropertyChanged("SelectedLevel");
+                }
             }
         }
 
