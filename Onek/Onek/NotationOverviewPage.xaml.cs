@@ -61,23 +61,20 @@ namespace Onek
             int idCandidate = candidate.Id;
             Evaluation evaluation = null;
 
+            evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
+            evaluation.IdEvent = CurrentEvent.Id;
+
             if (File.Exists(Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
                 + "-" + LoggedUser.Id + "-" + CurrentEvent.Id + "-evaluation.json")))
             {
                 String jsonString = JsonParser.ReadJsonFromInternalMemeory(idCandidate,
                     LoggedUser.Id, CurrentEvent.Id);
-                evaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
-            }
-            else
-            {
-                evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
-                evaluation.IdEvent = CurrentEvent.Id;
-                //evaluation.Criterias = new ObservableCollection<Criteria>();
-                /*foreach (Criteria c in CurrentEvent.Criterias)
+                Evaluation localevaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
+
+                if(localevaluation.LastUpdatedDate > evaluation.LastUpdatedDate)
                 {
-                    evaluation.Criterias.Add(c.Clone() as Criteria);
-                    // Ajouter Notes
-                }*/
+                    evaluation = localevaluation;
+                }
             }
 
             return evaluation;
