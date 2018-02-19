@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Onek.utils;
+using Plugin.Connectivity;
 
 namespace Onek
 {
@@ -19,38 +20,58 @@ namespace Onek
         /// <returns></returns>
         public static List<Event> DeserializeJson(User user)
         {
-            //List json to download in login.json (à retirer de cette méthode)
-            List<int> EventsToDownload = new List<int>();
-            EventsToDownload.AddRange(user.Events_id);
-
-            //Download and parse json files
-            List<String> EventsJson = new List<string>();
-            foreach (int id in EventsToDownload)
+            List<Event> events = new List<Event>();
+            if (CrossConnectivity.Current.IsConnected)
             {
-                String downloadEventURL = ApplicationConstants.serverEventURL.Replace("[id_event]", "" + id).Replace("[login_user]","" + user.Login);
-                //Download events data from server
-                try
+                //List json to download in login.json (à retirer de cette méthode)
+                List<int> EventsToDownload = new List<int>();
+                EventsToDownload.AddRange(user.Events_id);
+
+                //Download and parse json files
+                List<String> EventsJson = new List<string>();
+                foreach (int id in EventsToDownload)
                 {
-                    String jsonString = DownloadEventJson(downloadEventURL);
-                    EventsJson.Add(jsonString);
-                    //Save json into internal memory
-                    String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, id + "-event.json");
-                    File.WriteAllText(fileName, jsonString);
+                    String downloadEventURL = ApplicationConstants.serverEventURL.Replace("[id_event]", "" + id).Replace("[login_user]", "" + user.Login);
+                    //Download events data from server
+                    try
+                    {
+                        String jsonString = DownloadEventJson(downloadEventURL);
+                        EventsJson.Add(jsonString);
+                        //Save json into internal memory
+                        String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, id + "-event.json");
+                        File.WriteAllText(fileName, jsonString);
+                    }
+                    catch (Exception e)
+                    {
+                        //Handle http error
+                    }
                 }
-                catch(Exception e)
+
+                //Deserialize json
+                foreach (String json in EventsJson)
                 {
-                    //Handle http error
+                    Event eventDeserialized = JsonConvert.DeserializeObject<Event>(json);
+                    if (eventDeserialized != null)
+                    {
+                        events.Add(eventDeserialized);
+                    }
                 }
             }
-
-            //Deserialize json
-            List<Event> events = new List<Event>();
-            foreach (String json in EventsJson)
+            else
             {
-                Event eventDeserialized = JsonConvert.DeserializeObject<Event>(json);
-                if (eventDeserialized != null)
+                foreach (int eventId in user.Events_id)
                 {
-                    events.Add(eventDeserialized);
+                    String file = Path.Combine(ApplicationConstants.jsonDataDirectory,
+                            eventId + "-event.json");
+                    if (File.Exists(file))
+                    {
+                        String json = File.ReadAllText(file);
+                        Event e = JsonConvert.DeserializeObject<Event>(json);
+                        if (e != null)
+                        {
+                            events.Add(e);
+                        }
+                    }
                 }
             }
             return events;
