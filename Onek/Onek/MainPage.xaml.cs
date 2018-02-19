@@ -16,6 +16,10 @@ namespace Onek
 	public partial class MainPage : ContentPage
 	{
 
+        private bool hasSuceeded = false;
+        private bool noConnection = false;
+        private User user;
+
         public MainPage()
 	    {
 			InitializeComponent();
@@ -30,8 +34,13 @@ namespace Onek
 
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            if (CrossConnectivity.Current.IsConnected)
+            IndicatorOn();
+            string loginText = LoginEntry.Text;
+            string passwordText = PasswordEntry.Text;
+
+            await Task.Run(async () =>
             {
+
                 //Check server communication
                 if(LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
                 { 
@@ -41,8 +50,8 @@ namespace Onek
                     if (LoginEntry.Text != null && PasswordEntry != null)
                     {
                         //Send login request
-                        loginManager.Login = LoginEntry.Text;
-                        loginManager.Password = PasswordEntry.Text;
+                        loginManager.Login = loginText;
+                        loginManager.Password = passwordText;
                         String loginJson = loginManager.GenerateLoginJson();
                         HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
                         //Check login response
@@ -57,13 +66,14 @@ namespace Onek
                             //Save user in local jsonAccount
                             JsonParser.SaveJsonAccountInMemory(users);
                             //Display event page
+                            hasSuceeded = true;
                             await Navigation.PushAsync(new EventsPage(user));
                             return;
                         }
                         //Wrong credentials
                         else if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
                         {
-                            await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+                            //await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
                         }
                     }
                     
@@ -74,35 +84,76 @@ namespace Onek
                     await DisplayAlert("Erreur", "Impossible de contacter le serveur, vérifiez votre URL dans les paramètres", "OK");
                     return;
                 }
-            }
-            else
-            {
-                //OFFLINE LOGIN
-                List<User> logins = JsonParser.LoadLoginJson();
-                if(logins == null)
+                else
                 {
-                    await DisplayAlert("Erreur", "Vous devez vous connecter à la première utilisation.", "OK");
-                    return;
-                }
-                SHA1Managed sha1 = new SHA1Managed();
-                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
-                String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-                foreach (User u in logins)
-                {
-                    if (LoginEntry.Text != null && PasswordEntry.Text != null
-                    && LoginEntry.Text.Equals(u.Login) 
-                    && hashedPassword.Equals(u.Password))
+                    //OFFLINE LOGIN
+                    List<User> logins = JsonParser.LoadLoginJson();
+                    if (logins == null)
                     {
-
-                        await Navigation.PushAsync(new EventsPage(u));
-                        return;
+                        noConnection = true;
+                    }
+                    SHA1Managed sha1 = new SHA1Managed();
+                    var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
+                    String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+                    foreach (User u in logins)
+                    {
+                        if (LoginEntry.Text != null && PasswordEntry.Text != null
+                        && LoginEntry.Text.Equals(u.Login)
+                        && hashedPassword.Equals(u.Password))
+                        {
+                            user = u;
+                            hasSuceeded = true;
+                        }
                     }
                 }
+            });
+            
+
+            if (hasSuceeded)
+            {
+                await Navigation.PushAsync(new EventsPage(user));
+                hasSuceeded = false;
+                IndicatorOff();
+                return;
+            }
+            if (noConnection)
+            {
+                await DisplayAlert("Erreur", "Vous devez vous connecter à la première utilisation.", "OK");
+                noConnection = false;
+                IndicatorOff();
+                return;
             }
 
             await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+            IndicatorOff();
         }
 
+        void IndicatorOn()
+        {
+            waitingLayout.IsVisible = true;
+            activityIndicator.IsRunning = true;
+            MainLayout.IsEnabled = false;
+            ButtonLogin.IsEnabled = false;
+            LoginEntry.IsEnabled = false;
+            PasswordEntry.IsEnabled = false;
+            ButtonForget.IsEnabled = false;
+            ButtonInscription.IsEnabled = false;
+            ButtonParameter.IsEnabled = false;
+        }
+
+        void IndicatorOff()
+        {
+            waitingLayout.IsVisible = false;
+            activityIndicator.IsRunning = false;
+            MainLayout.IsEnabled = true;
+            ButtonLogin.IsEnabled = true;
+            LoginEntry.IsEnabled = true;
+            PasswordEntry.IsEnabled = true;
+            ButtonForget.IsEnabled = true;
+            ButtonInscription.IsEnabled = true;
+            ButtonParameter.IsEnabled = true;
+        }
+        
         async void OnButtonParameterClicked(object sender, EventArgs e)
         {
             string title = "Changement de serveur";
