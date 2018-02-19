@@ -16,28 +16,25 @@
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
 
-            <!--Built in Cells-->
+
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding FullName}" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10,5,5,10">
+                            <Label Text="{Binding FullName}" 
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Image HorizontalOptions="EndAndExpand"                                   
+                                   WidthRequest="20"
+                                   HeightRequest="20">
+                                <Image.Source>
+                                    <FileImageSource File="{Binding StatusImage}"/>
+                                </Image.Source>
+                            </Image>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
-            <!--Custom View Cells-->
-            <!--
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <StackLayout>
-                <Label Text="{Binding Text}" 
-                       Style="{DynamicResource ListItemTextStyle}" />
-                <Label Text="{Binding Detail}" 
-                       Style="{DynamicResource ListItemDetailTextStyle}"/>
-              </StackLayout>
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-        -->
+            -->
         </ListView>
     </StackLayout>
 </ContentPage>

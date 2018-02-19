@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Onek.data
 {
-    public class Evaluation : INotifyPropertyChanged
+    public class Evaluation : INotifyPropertyChanged, ICloneable
     {
         public int Id { get; set; }
         public int IdJury { get; set; }
@@ -16,6 +16,7 @@ namespace Onek.data
         public DateTime LastUpdatedDate { get; set; }
         private ObservableCollection<Criteria> criterias = new ObservableCollection<Criteria>();
         public event PropertyChangedEventHandler PropertyChanged;
+        public bool isModified { get; set; } = false;
 
         public Boolean hasEvaluation(int idCandidate)
         {
@@ -28,6 +29,7 @@ namespace Onek.data
             set
             {
                 comment = value;
+                isModified = true;
                 OnPropertyChanged("Comment");
             }
         }
@@ -38,6 +40,7 @@ namespace Onek.data
             set
             {
                 criterias = value;
+                isModified = true;
                 OnPropertyChanged("Criterias");
             }
         }
@@ -52,6 +55,20 @@ namespace Onek.data
         protected void OnPropertyChanged(String propertyName)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        public object Clone()
+        {
+            Evaluation clone = MemberwiseClone() as Evaluation;
+
+            clone.Criterias = new ObservableCollection<Criteria>();
+
+            foreach(Criteria criteria in Criterias)
+            {
+                clone.Criterias.Add(criteria.Clone() as Criteria);
+            }
+
+            return clone;
         }
     }
 }

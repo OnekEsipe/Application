@@ -24,9 +24,15 @@ namespace Onek
         {
             InitializeComponent();
             CurrentEvent = e;
+            LoggedUser = loggedUser;
             Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates.OrderBy(x => x.FullName));
 
-            LoggedUser = loggedUser;
+            foreach (Candidate c in Items)
+            {
+                c.eval = findEvaluation(c);
+                checkStatus(c);
+            }
+
 
             MyListView.ItemsSource = Items;
         }
@@ -37,8 +43,8 @@ namespace Onek
                 return;
 
             //Check if evaluation already exists. If not create new Evaluation
-            Candidate SelectedCandidate = (e.Item as Candidate);
-            
+            Candidate SelectedCandidate = (e.Item as Candidate).Clone() as Candidate;
+
             await Navigation.PushAsync(new NotationOverviewPage(CurrentEvent, Items, SelectedCandidate, LoggedUser));
 
             //Deselect Item
@@ -58,5 +64,86 @@ namespace Onek
                                                                || eventItem.FullName.ToLower()[eventItem.FullName.ToLower().IndexOf(FilterCandidateEntry.Text.ToLower()) - 1] == ' '));
             }
         }
+
+        private Evaluation findEvaluation(Candidate candidate)
+        {
+            int idCandidate = candidate.Id;
+            Evaluation evaluation = null;
+
+            evaluation = CurrentEvent.GetEvaluationForCandidate(idCandidate);
+            evaluation.IdEvent = CurrentEvent.Id;
+
+            if (File.Exists(Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
+                + "-" + LoggedUser.Id + "-" + CurrentEvent.Id + "-evaluation.json")))
+            {
+                String jsonString = JsonParser.ReadJsonFromInternalMemeory(idCandidate,
+                    LoggedUser.Id, CurrentEvent.Id);
+                Evaluation localevaluation = JsonParser.DeserializeJsonEvaluation(jsonString);
+
+                if (localevaluation.LastUpdatedDate != null && evaluation.LastUpdatedDate != null && localevaluation.LastUpdatedDate > evaluation.LastUpdatedDate)
+                {
+                    evaluation = localevaluation;
+                }
+            }
+
+            foreach (Criteria cEvent in CurrentEvent.Criterias)
+            {
+                if (evaluation.Criterias.Count == 0)
+                {
+                    evaluation.Criterias.Add(cEvent.Clone() as Criteria);
+                }
+                else
+                {
+                    foreach (Criteria cEval in evaluation.Criterias)
+                    {
+                        if (cEval.Id == cEvent.Id)
+                        {
+                            break;
+                        }
+                        if (evaluation.Criterias.IndexOf(cEval) == evaluation.Criterias.Count - 1)
+                        {
+                            evaluation.Criterias.Add(cEvent.Clone() as Criteria);
+                        }
+                    }
+                }
+            }
+            
+            return evaluation;
+        }
+
+        private void checkStatus(Candidate candidate)
+        {
+            int numberOfNoted = 0;
+            foreach (Criteria criteria in candidate.eval.Criterias)
+            {
+                if (!criteria.SelectedLevel.Equals(""))
+                {
+                    numberOfNoted++;
+                }
+            }
+            if (numberOfNoted == 0)
+            {
+                candidate.StatusImage = "red.png";
+                return;
+            }
+            if (numberOfNoted == candidate.eval.Criterias.Count)
+            {
+                candidate.StatusImage = "green.png";
+                return;
+            }
+            candidate.StatusImage = "yellow.png";
+        }
+
+        protected override void OnAppearing()
+        {            
+            foreach (Candidate c in Items)
+            {
+                c.eval = findEvaluation(c);
+            }
+            MyListView.ItemsSource = Items;
+            
+            base.OnAppearing();
+        }
+
     }
 }
