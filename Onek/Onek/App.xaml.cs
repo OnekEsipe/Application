@@ -13,12 +13,20 @@ namespace Onek
 		public App ()
 		{
 			InitializeComponent();
+
+            //For https connexion
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+
+            //Read config file to load server URL
+            ApplicationConstants.ReadConfigFile();
+
+            //Load and send json which were not sended to server
             Task.Run(() =>
             {
                 EvaluationSender.LoadJsons();
                 EvaluationSender.SendJsonEvalToServer();
             });
+
             MainPage = new NavigationPage(new Onek.MainPage());
 		}
 
