@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 
 namespace Onek.data
@@ -29,11 +30,30 @@ namespace Onek.data
                 streamWriter.Write(jsonLogin);
                 streamWriter.Flush();
                 streamWriter.Close();
-                return (HttpWebResponse)httpWebRequest.GetResponse();
+                HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+                return response;
             }
             catch (Exception e)
             {
-                return null;
+                WebException webException = e as WebException;
+                return webException.Response as HttpWebResponse; 
+            }
+        }
+
+        /// <summary>
+        /// Check if server can be contacted 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static Boolean checkServerCommunication(String url)
+        {
+            try
+            {
+                Ping pinger = new Ping();
+                return pinger.Send(url).Status == IPStatus.Success;
+            }catch(Exception e)
+            {
+                return false;
             }
         }
     }

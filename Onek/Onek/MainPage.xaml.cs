@@ -32,31 +32,47 @@ namespace Onek
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                //ONLINE LOGIN
-                User user = null;
-                LoginManager loginManager = new LoginManager();
-                if (LoginEntry.Text != null && PasswordEntry != null)
-                {
-                    //Send login request
-                    loginManager.Login = LoginEntry.Text;
-                    loginManager.Password = PasswordEntry.Text;
-                    String loginJson = loginManager.GenerateLoginJson();
-                    HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
-                    //Check login response
-                    if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
+                //Check server communication
+                if(LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
+                { 
+                    //ONLINE LOGIN
+                    User user = null;
+                    LoginManager loginManager = new LoginManager();
+                    if (LoginEntry.Text != null && PasswordEntry != null)
                     {
-                        //Get user json account
-                        Stream responseStream = httpWebResponse.GetResponseStream();
-                        StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
-                        String jsonAccount = streamReader.ReadToEnd();
-                        List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
-                        user = users.First();
-                        //Save user in local jsonAccount
-                        JsonParser.SaveJsonAccountInMemory(users);
-                        //Display event page
-                        await Navigation.PushAsync(new EventsPage(user));
-                        return;
+                        //Send login request
+                        loginManager.Login = LoginEntry.Text;
+                        loginManager.Password = PasswordEntry.Text;
+                        String loginJson = loginManager.GenerateLoginJson();
+                        HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
+                        //Check login response
+                        if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
+                        {
+                            //Get user json account
+                            Stream responseStream = httpWebResponse.GetResponseStream();
+                            StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
+                            String jsonAccount = streamReader.ReadToEnd();
+                            List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
+                            user = users.First();
+                            //Save user in local jsonAccount
+                            JsonParser.SaveJsonAccountInMemory(users);
+                            //Display event page
+                            await Navigation.PushAsync(new EventsPage(user));
+                            return;
+                        }
+                        //Wrong credentials
+                        else if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
+                        {
+                            await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+                        }
                     }
+                    
+                }
+                //No server connection
+                else
+                {
+                    await DisplayAlert("Erreur", "Impossible de contacter le serveur, vérifiez votre URL dans les paramètres", "OK");
+                    return;
                 }
             }
             else
@@ -91,9 +107,9 @@ namespace Onek
         {
             string title = "Changement de serveur";
             string text = "Entrez une adresse : ";
-            String ServerAdress = await InputDialog.InputBox(this.Navigation, title, text, "");
-
-            // Check if Server Adress is OK and Change it in Settings App
+            String ServerAdress = await InputDialog.InputBox(this.Navigation, title, text, ApplicationConstants.URL);
+            if(ServerAdress != null || !ServerAdress.Equals(""))
+                ApplicationConstants.URL = ServerAdress;
         }
 
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
