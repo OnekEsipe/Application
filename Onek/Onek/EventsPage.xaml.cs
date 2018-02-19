@@ -26,6 +26,7 @@ namespace Onek
             LoggedUser = user;
 
             Events = JsonParser.DeserializeJson(LoggedUser);
+
             Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
 
 			      MyListView.ItemsSource = Items;
