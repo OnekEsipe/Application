@@ -18,6 +18,8 @@ namespace Onek
 
         private bool hasSuceeded = false;
         private bool noConnection = false;
+        private bool isError = false;
+        private bool noServer = false;
         private User user;
 
         public MainPage()
@@ -40,14 +42,13 @@ namespace Onek
 
             await Task.Run(async () =>
             {
-
                 //Check server communication
-                if(LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
-                { 
+                if (LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
+                {
                     //ONLINE LOGIN
-                    User user = null;
+                    user = null;
                     LoginManager loginManager = new LoginManager();
-                    if (LoginEntry.Text != null && PasswordEntry != null)
+                    if (loginText != null && passwordText != null)
                     {
                         //Send login request
                         loginManager.Login = loginText;
@@ -67,22 +68,18 @@ namespace Onek
                             JsonParser.SaveJsonAccountInMemory(users);
                             //Display event page
                             hasSuceeded = true;
-                            await Navigation.PushAsync(new EventsPage(user));
-                            return;
                         }
                         //Wrong credentials
                         else if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
                         {
-                            //await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+                            isError = true;
+                        }
+                        //No server connection
+                        else
+                        {
+                            noServer = true;
                         }
                     }
-                    
-                }
-                //No server connection
-                else
-                {
-                    await DisplayAlert("Erreur", "Impossible de contacter le serveur, vérifiez votre URL dans les paramètres", "OK");
-                    return;
                 }
                 else
                 {
@@ -91,18 +88,22 @@ namespace Onek
                     if (logins == null)
                     {
                         noConnection = true;
+
                     }
-                    SHA1Managed sha1 = new SHA1Managed();
-                    var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
-                    String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-                    foreach (User u in logins)
+                    else
                     {
-                        if (LoginEntry.Text != null && PasswordEntry.Text != null
-                        && LoginEntry.Text.Equals(u.Login)
-                        && hashedPassword.Equals(u.Password))
+                        SHA1Managed sha1 = new SHA1Managed();
+                        var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
+                        String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+                        foreach (User u in logins)
                         {
-                            user = u;
-                            hasSuceeded = true;
+                            if (loginText != null && passwordText != null
+                            && loginText.Equals(u.Login)
+                            && hashedPassword.Equals(u.Password))
+                            {
+                                user = u;
+                                hasSuceeded = true;
+                            }
                         }
                     }
                 }
@@ -120,6 +121,20 @@ namespace Onek
             {
                 await DisplayAlert("Erreur", "Vous devez vous connecter à la première utilisation.", "OK");
                 noConnection = false;
+                IndicatorOff();
+                return;
+            }
+            if (isError)
+            {
+                await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+                isError = false;
+                IndicatorOff();
+                return;
+            }
+            if(noServer)
+            {
+                await DisplayAlert("Erreur", "Impossible de contacter le serveur, vérifiez votre URL dans les paramètres", "OK");
+                noServer = false;
                 IndicatorOff();
                 return;
             }
