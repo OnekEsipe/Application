@@ -135,5 +135,10 @@ namespace Onek
                 return;
             }
         }
+
+        async void OnButtonChangePasswordClicked(object sender, EventArgs e)
+        {
+            //Action
+        }
     }
 }

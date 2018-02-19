@@ -11,52 +11,40 @@
                HorizontalOptions="FillAndExpand"
                IsPassword="False"
                TextChanged="OnFilterChanged"/>
-        
+
         <ListView x:Name="MyListView"
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
                 CachingStrategy="RecycleElement">
-            
-        <!--Built in Cells-->
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextCell Text="{Binding Name}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    
-        <!--Custom View Cells-->
-        <!--
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <StackLayout>
-                <Label Text="{Binding Text}" 
-                       Style="{DynamicResource ListItemTextStyle}" />
-                <Label Text="{Binding Detail}" 
-                       Style="{DynamicResource ListItemDetailTextStyle}"/>
-              </StackLayout>
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-        -->
-      </ListView>
-
-        <StackLayout  VerticalOptions="CenterAndExpand"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackLayout VerticalOptions="CenterAndExpand"
                       HorizontalOptions="CenterAndExpand"
-                      Orientation="Horizontal">
-            
-            <Button x:Name="ButtonDeconnect"
-                    Text="Deconnexion"
-                    BackgroundColor="DarkBlue"
-                    TextColor="White" 
-                    Clicked="OnButtonDeconnexionClicked"/>
-            
+                     Orientation="Vertical">
             <Button x:Name="ButtonCode"
-                    Text="Inscription par code"
-                    BackgroundColor="DarkBlue"
-                    TextColor="White" 
-                    Clicked="OnButtonCodeClicked"/>
+                        Text="Inscription par code"
+                        BackgroundColor="DarkBlue"
+                        TextColor="White" 
+                        Clicked="OnButtonCodeClicked"/>
+            <StackLayout  VerticalOptions="CenterAndExpand"
+                          HorizontalOptions="CenterAndExpand"
+                          Orientation="Horizontal">
+                <Button x:Name="ButtonDeconnect"
+                            Text="Deconnexion"
+                            BackgroundColor="DarkBlue"
+                            TextColor="White" 
+                            Clicked="OnButtonDeconnexionClicked"/>
+                <Button x:Name="ButtonChangePassword"
+                                Text="Changer Mot de Passe"
+                                BackgroundColor="DarkBlue"
+                                TextColor="White" 
+                                Clicked="OnButtonChangePasswordClicked"/>
+             </StackLayout>
         </StackLayout>
     </StackLayout>
 </ContentPage>
