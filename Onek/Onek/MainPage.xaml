@@ -4,21 +4,21 @@
              xmlns:local="clr-namespace:Onek"
              x:Class="Onek.MainPage"
              Title="Accueil">
+    <AbsoluteLayout>
+        <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
 
-    <StackLayout>
-
-        <Image Source="logo.png" 
+            <Image Source="logo.png" 
                WidthRequest="120"
                HeightRequest="120"/>
-        
-        <Entry  x:Name="LoginEntry"
+
+            <Entry  x:Name="LoginEntry"
                 Placeholder="Nom d'utilisateur"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
                 IsPassword="False"/>
 
-        <Entry  x:Name="PasswordEntry"
+            <Entry  x:Name="PasswordEntry"
                 VerticalOptions="CenterAndExpand"
                 Placeholder="Mot de Passe"
                 PlaceholderColor="Gray"
@@ -26,13 +26,14 @@
                 WidthRequest="250"
                 IsPassword="True"/>
 
-        <Button x:Name="ButtonLogin"
+            <Button x:Name="ButtonLogin"
                 Text="Connexion"
                 BackgroundColor="DarkBlue"
                 TextColor="White" 
                 Clicked="OnButtonLoginClicked"/>
 
-        <Button Text="Mot de Passe oublié ?"
+            <Button x:Name="ButtonForget"
+                    Text="Mot de Passe oublié ?"
                 TextColor="Blue" 
                 VerticalOptions="CenterAndExpand"
                 FontAttributes="None"
@@ -41,24 +42,41 @@
                 Clicked="onButtonOublieClicked"
                />
 
-        <BoxView VerticalOptions="CenterAndExpand"
+            <BoxView VerticalOptions="CenterAndExpand"
                  HeightRequest="1"
                  WidthRequest="250"
                  Color="DarkBlue" />
 
-        <Label Text="Pas de compte ?"
+            <Label Text="Pas de compte ?"
                TextColor="Gray"
                 VerticalOptions="CenterAndExpand" />
-        
-        <Button Text="Inscription"
+
+            <Button x:Name="ButtonInscription"
+                Text="Inscription"
                 BackgroundColor="DarkBlue"
                 TextColor="White" 
                 Clicked="OnButtonInscriptionClicked"/>
 
-        <Button Text="Paramètres"
+            <Button x:Name="ButtonParameter"
+                    Text="Paramètres"
                 BackgroundColor="DarkBlue"
                 TextColor="White" 
                 Clicked="OnButtonParameterClicked"/>
-    </StackLayout>
-
+        </StackLayout>
+        <AbsoluteLayout x:Name="waitingLayout" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="#77000000">
+            <RelativeLayout>
+                <ActivityIndicator x:Name="activityIndicator"
+                                   IsRunning="False" 
+                                   Color="DarkBlue" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"
+                                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.5}"
+                                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.5}" />
+            </RelativeLayout>
+        </AbsoluteLayout>
+    </AbsoluteLayout>
 </ContentPage>

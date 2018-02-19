@@ -16,6 +16,10 @@ namespace Onek
 	public partial class MainPage : ContentPage
 	{
 
+        private bool hasSuceeded = false;
+        private bool noConnection = false;
+        private User user;
+
         public MainPage()
 	    {
 			InitializeComponent();
@@ -30,63 +34,111 @@ namespace Onek
 
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            if (CrossConnectivity.Current.IsConnected)
+            IndicatorOn();
+            string loginText = LoginEntry.Text;
+            string passwordText = PasswordEntry.Text;
+
+            await Task.Run(async () =>
             {
-                //ONLINE LOGIN
-                User user = null;
-                LoginManager loginManager = new LoginManager();
-                if (LoginEntry.Text != null && PasswordEntry != null)
+                if (CrossConnectivity.Current.IsConnected)
                 {
-                    //Send login request
-                    loginManager.Login = LoginEntry.Text;
-                    loginManager.Password = PasswordEntry.Text;
-                    String loginJson = loginManager.GenerateLoginJson();
-                    HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
-                    //Check login response
-                    if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
-                    {
-                        //Get user json account
-                        Stream responseStream = httpWebResponse.GetResponseStream();
-                        StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
-                        String jsonAccount = streamReader.ReadToEnd();
-                        List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
-                        user = users.First();
-                        //Save user in local jsonAccount
-                        JsonParser.SaveJsonAccountInMemory(users);
-                        //Display event page
-                        await Navigation.PushAsync(new EventsPage(user));
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                //OFFLINE LOGIN
-                List<User> logins = JsonParser.LoadLoginJson();
-                if(logins == null)
-                {
-                    await DisplayAlert("Erreur", "Vous devez vous connecter à la première utilisation.", "OK");
-                    return;
-                }
-                SHA1Managed sha1 = new SHA1Managed();
-                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
-                String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-                foreach (User u in logins)
-                {
-                    if (LoginEntry.Text != null && PasswordEntry.Text != null
-                    && LoginEntry.Text.Equals(u.Login) 
-                    && hashedPassword.Equals(u.Password))
+                    //ONLINE LOGIN
+                    user = null;
+                    LoginManager loginManager = new LoginManager();
+                    if (loginText != null && passwordText != null)
                     {
 
-                        await Navigation.PushAsync(new EventsPage(u));
-                        return;
+                        //Send login request
+                        loginManager.Login = loginText;
+                        loginManager.Password = passwordText;
+                        String loginJson = loginManager.GenerateLoginJson();
+                        HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
+                        //Check login response
+                        if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
+                        {
+                            //Get user json account
+                            Stream responseStream = httpWebResponse.GetResponseStream();
+                            StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
+                            String jsonAccount = streamReader.ReadToEnd();
+                            List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
+                            user = users.First();
+                            //Save user in local jsonAccount
+                            JsonParser.SaveJsonAccountInMemory(users);
+                            //Display event page
+                            hasSuceeded = true;
+                        }
                     }
                 }
+                else
+                {
+                    //OFFLINE LOGIN
+                    List<User> logins = JsonParser.LoadLoginJson();
+                    if (logins == null)
+                    {
+                        noConnection = true;
+                    }
+                    SHA1Managed sha1 = new SHA1Managed();
+                    var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
+                    String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+                    foreach (User u in logins)
+                    {
+                        if (LoginEntry.Text != null && PasswordEntry.Text != null
+                        && LoginEntry.Text.Equals(u.Login)
+                        && hashedPassword.Equals(u.Password))
+                        {
+                            user = u;
+                            hasSuceeded = true;
+                        }
+                    }
+                }
+            });
+            
+
+            if (hasSuceeded)
+            {
+                await Navigation.PushAsync(new EventsPage(user));
+                hasSuceeded = false;
+                IndicatorOff();
+                return;
+            }
+            if (noConnection)
+            {
+                await DisplayAlert("Erreur", "Vous devez vous connecter à la première utilisation.", "OK");
+                noConnection = false;
+                IndicatorOff();
+                return;
             }
 
             await DisplayAlert("Erreur", "Le nom d'utilisateur ou le mot de passe est erroné", "OK");
+            IndicatorOff();
         }
 
+        void IndicatorOn()
+        {
+            waitingLayout.IsVisible = true;
+            activityIndicator.IsRunning = true;
+            MainLayout.IsEnabled = false;
+            ButtonLogin.IsEnabled = false;
+            LoginEntry.IsEnabled = false;
+            PasswordEntry.IsEnabled = false;
+            ButtonForget.IsEnabled = false;
+            ButtonInscription.IsEnabled = false;
+            ButtonParameter.IsEnabled = false;
+        }
+
+        void IndicatorOff()
+        {
+            waitingLayout.IsVisible = false;
+            activityIndicator.IsRunning = false;
+            MainLayout.IsEnabled = true;
+            ButtonLogin.IsEnabled = true;
+            LoginEntry.IsEnabled = true;
+            PasswordEntry.IsEnabled = true;
+            ButtonForget.IsEnabled = true;
+            ButtonInscription.IsEnabled = true;
+            ButtonParameter.IsEnabled = true;
+        }
+        
         async void OnButtonParameterClicked(object sender, EventArgs e)
         {
             string title = "Changement de serveur";
