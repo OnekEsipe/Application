@@ -14,5 +14,6 @@ namespace Onek.utils
         public static String serverLoginURL = "https://173.249.25.49/serveur/api/app/login";
         public static String serverEvaluationURL = "https://173.249.25.49/serveur/api/app/evaluation";
         public static String pathToJsonToSend = Path.Combine(jsonDataDirectory, "ToSend");
+        public static String serverRegisterEventURL = "https://173.249.25.49/serveur/api/app/events/code";
     }
 }
