@@ -108,8 +108,16 @@ namespace Onek
             string title = "Changement de serveur";
             string text = "Entrez une adresse : ";
             String ServerAdress = await InputDialog.InputBox(this.Navigation, title, text, ApplicationConstants.URL);
-            if(ServerAdress != null || !ServerAdress.Equals(""))
+            if (ServerAdress != null || !ServerAdress.Equals(""))
+            {
+                //Change server URL in applicationConstants
                 ApplicationConstants.URL = ServerAdress;
+                //Remove events and evaluation files saved localy
+                File.Delete(Path.Combine(ApplicationConstants.jsonDataDirectory, "*"));
+                File.Delete(ApplicationConstants.pathToJsonAccountFile);
+                File.Delete(Path.Combine(ApplicationConstants.pathToJsonToSend, "*"));
+            }
+
         }
 
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
