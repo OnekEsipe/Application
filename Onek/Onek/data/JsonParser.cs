@@ -133,7 +133,6 @@ namespace Onek
 
             //Check server response
             HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
-            Console.WriteLine(response.StatusCode.ToString());
             while (!response.StatusCode.Equals(HttpStatusCode.OK))
             {
                 //If response not ok send it again
@@ -198,7 +197,7 @@ namespace Onek
         /// </summary>
         /// <param name="httpWebRequest"></param>
         /// <param name="json"></param>
-        private static void SendToServer(HttpWebRequest httpWebRequest, String json)
+        public static void SendToServer(HttpWebRequest httpWebRequest, String json)
         {
             StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream());
             streamWriter.Write(json);
