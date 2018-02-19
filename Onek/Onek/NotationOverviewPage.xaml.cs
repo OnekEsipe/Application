@@ -226,12 +226,12 @@ namespace Onek
             if (CurrentEvent.End < DateTime.Now)
             {
                 await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
-                //await Navigation.PopAsync();
+                await Navigation.PopAsync();
                 return;
             }
 
             SaveEvaluation();
-            await Navigation.PopAsync();
+            //await Navigation.PopAsync();
         }
 
         void SaveEvaluation()

@@ -87,5 +87,10 @@ namespace Onek
             string text = "Entrez un code : ";
             string myinput = await InputDialog.InputBox(this.Navigation, title, text,"");
         }
+
+        async void OnButtonChangePasswordClicked(object sender, EventArgs e)
+        {
+            //Action
+        }
     }
 }
