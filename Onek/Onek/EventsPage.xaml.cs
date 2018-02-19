@@ -1,10 +1,12 @@
 ﻿using Onek.data;
 using Onek.utils;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -83,9 +85,60 @@ namespace Onek
 
         async void OnButtonCodeClicked(object sender, EventArgs e)
         {
-            string title = "S'inscrire à un évènement";
-            string text = "Entrez un code : ";
-            string myinput = await InputDialog.InputBox(this.Navigation, title, text,"");
+            //Check connection
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                string title = "S'inscrire à un évènement";
+                string text = "Entrez un code : ";
+                string code = await InputDialog.InputBox(this.Navigation, title, text,"");
+                //Check code lenght
+                if (code.Length != 10)
+                {
+                    await DisplayAlert(title, "Le code saisit n'est pas conforme", "", "OK");
+                    return;
+                }
+                //Create json to send to server
+                String jsonEventCode = "{\"Login\":\"" + LoggedUser.Login + "\", \"Event_code\":\"" + code + "\"}";
+                //Send json to server
+                try
+                {
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(ApplicationConstants.serverRegisterEventURL);
+                    httpWebRequest.ContentType = "application/json";
+                    httpWebRequest.Method = "POST";
+                    JsonParser.SendToServer(httpWebRequest, jsonEventCode);
+                    HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+                    if (response.StatusCode.Equals(HttpStatusCode.OK))
+                    {
+                        await DisplayAlert(title, "Inscription à l'évènement confirmée", "", "OK");
+                        return;
+                    }
+                } catch (Exception exception)
+                {
+                    WebException webException = exception as WebException;
+                    HttpWebResponse response = webException.Response as HttpWebResponse;
+                    if (response.StatusCode.Equals(HttpStatusCode.Forbidden))
+                    {
+                        await DisplayAlert(title, "L'évènement n'est pas ouvert à l'inscription", "", "OK");
+                        return;
+                    }
+                    else if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                    {
+                        await DisplayAlert(title, "Le code évènement rentré est incorrect", "", "OK");
+                        return;
+                    }
+                    await DisplayAlert(title, "Erreur lors de l'envoi au serveur, veuillez réessayer", "", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Connexion", "Vous devez être connecté à internet pour vous inscrire avec un code", "", "OK");
+                return;
+            }
+        }
+
+        async void OnButtonChangePasswordClicked(object sender, EventArgs e)
+        {
+            //Action
         }
     }
 }
