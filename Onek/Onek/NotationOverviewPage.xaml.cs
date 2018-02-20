@@ -224,6 +224,8 @@ namespace Onek
             }
             Eval.isModified = false;
             checkStatus(CurrentCandidate);
+
+            Navigation.PushAsync(new SigningPage());
         }
 
         private void checkStatus(Candidate candidate)
