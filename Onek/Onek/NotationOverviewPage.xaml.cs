@@ -50,7 +50,7 @@ namespace Onek
             LeftButton.Text = "<";
             RightButton.Text = ">";
 
-            int index = CandidateList.IndexOf(CurrentCandidate);
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
 
             SetVisibilityArrow(index);
 
@@ -289,8 +289,8 @@ namespace Onek
         async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
             await ConfirmSaveBeforeSwitchAsync();
-
-            int index = CandidateList.IndexOf(CurrentCandidate);
+            
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate leftCandidate = CandidateList[index - 1].Clone() as Candidate;
 
             changeCandidate(leftCandidate, index - 1);
@@ -300,7 +300,7 @@ namespace Onek
         {
             await ConfirmSaveBeforeSwitchAsync();
 
-            int index = CandidateList.IndexOf(CurrentCandidate);
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate rightCandidate = CandidateList[index + 1].Clone() as Candidate;
 
             changeCandidate(rightCandidate, index + 1);
