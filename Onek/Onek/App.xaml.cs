@@ -23,8 +23,16 @@ namespace Onek
             //Load and send json which were not sended to server
             Task.Run(() =>
             {
-                EvaluationSender.LoadJsons();
-                EvaluationSender.SendJsonEvalToServer();
+                try
+                {
+                    EvaluationSender.Test();
+                    EvaluationSender.LoadJsons();
+                    EvaluationSender.SendJsonEvalToServer();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
             });
 
             MainPage = new NavigationPage(new Onek.MainPage());
@@ -32,8 +40,9 @@ namespace Onek
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            
+            // Handle when your app starts
+        }
 
 		protected override void OnSleep ()
 		{

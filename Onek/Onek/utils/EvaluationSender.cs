@@ -9,11 +9,18 @@ using System.Text;
 
 namespace Onek.utils
 {
-    public class EvaluationSender
+    public static class EvaluationSender
     {
         public static ConcurrentQueue<String> EvaluationsToSend { get; set; } = new ConcurrentQueue<string>();
         private static Boolean isOnline = CrossConnectivity.Current.IsConnected;
         private static HttpWebRequest httpWebRequest = WebRequest.Create(ApplicationConstants.serverEvaluationURL) as HttpWebRequest;
+
+        static EvaluationSender()
+        {
+            EvaluationsToSend = new ConcurrentQueue<string>();
+            isOnline = CrossConnectivity.Current.IsConnected;
+            httpWebRequest = WebRequest.Create(ApplicationConstants.serverEvaluationURL) as HttpWebRequest;
+        }
 
         public static void LoadJsons()
         {
