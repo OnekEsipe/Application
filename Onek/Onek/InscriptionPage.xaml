@@ -39,7 +39,7 @@
                     BackgroundColor="DarkBlue"
                     TextColor="White" 
                     VerticalOptions="CenterAndExpand"
-                    Clicked="OnButtonClicked"/>
+                    Clicked="OnButtonInscriptionClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

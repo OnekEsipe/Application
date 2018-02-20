@@ -180,8 +180,10 @@ namespace Onek
                 ApplicationConstants.URL = ServerAdress;
                 //Remove events and evaluation files saved localy
                 File.Delete(Path.Combine(ApplicationConstants.jsonDataDirectory, "*"));
-                File.Delete(ApplicationConstants.pathToJsonAccountFile);
-                File.Delete(Path.Combine(ApplicationConstants.pathToJsonToSend, "*"));
+                if(File.Exists(ApplicationConstants.pathToJsonAccountFile))
+                    File.Delete(ApplicationConstants.pathToJsonAccountFile);
+                if(Directory.Exists(ApplicationConstants.pathToJsonToSend))
+                    File.Delete(Path.Combine(ApplicationConstants.pathToJsonToSend, "*"));
             }
 
         }
