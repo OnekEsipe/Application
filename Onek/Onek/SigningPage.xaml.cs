@@ -19,7 +19,7 @@ namespace Onek
         Dictionary<long, SKPath> inProgressPaths = new Dictionary<long, SKPath>();
         List<SKPath> completedPaths = new List<SKPath>();
 
-        SKPaint paint = new SKPaint
+        public SKPaint paint = new SKPaint
         {
             Style = SKPaintStyle.Stroke,
             Color = SKColors.Blue,
@@ -96,24 +96,10 @@ namespace Onek
                 canvas.DrawPath(path, paint);
             }
         }
-    }
-    
-    public class TouchActionEventArgs : EventArgs
-    {
-        public TouchActionEventArgs(long id, TouchActionType type, Point location, bool isInContact)
+        
+        void OnValidateButtonClicked(object sender, EventArgs e)
         {
-            Id = id;
-            Type = type;
-            Location = location;
-            IsInContact = isInContact;
+            
         }
-
-        public long Id { private set; get; }
-
-        public TouchActionType Type { private set; get; }
-
-        public Point Location { private set; get; }
-
-        public bool IsInContact { private set; get; }
     }
 }

@@ -40,19 +40,25 @@ namespace Onek
             string loginText = LoginEntry.Text;
             string passwordText = PasswordEntry.Text;
 
+            
+
             await Task.Run(async () =>
             {
+                SHA1Managed sha1 = new SHA1Managed();
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
+                String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+
                 //Check server communication
                 if (LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
                 {
                     //ONLINE LOGIN
                     user = null;
                     LoginManager loginManager = new LoginManager();
-                    if (loginText != null && passwordText != null)
+                    if (loginText != null && hashedPassword != null)
                     {
                         //Send login request
                         loginManager.Login = loginText;
-                        loginManager.Password = passwordText;
+                        loginManager.Password = hashedPassword;
                         String loginJson = loginManager.GenerateLoginJson();
                         HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
                         //Check login response
@@ -91,13 +97,9 @@ namespace Onek
 
                     }
                     else
-                    {
-                        SHA1Managed sha1 = new SHA1Managed();
-                        var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
-                        String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-                        foreach (User u in logins)
+                    { foreach (User u in logins)
                         {
-                            if (loginText != null && passwordText != null
+                            if (loginText != null && hashedPassword != null
                             && loginText.Equals(u.Login)
                             && hashedPassword.Equals(u.Password))
                             {

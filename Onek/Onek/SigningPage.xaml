@@ -5,12 +5,40 @@
              xmlns:tt="clr-namespace:Onek.TouchTracking"
              x:Class="Onek.SigningPage"
              Title="Signature">
-    <Grid BackgroundColor="White">
-        <skia:SKCanvasView x:Name="canvasView"
-                           PaintSurface="OnCanvasViewPaintSurface" />
-        <Grid.Effects>
-            <tt:TouchEffect Capture="True"
+    <StackLayout>
+        <Entry x:Name="entryName" 
+               Placeholder="Entrez le nom du jury signant" 
+               VerticalOptions="StartAndExpand"
+               HorizontalOptions="FillAndExpand"
+               MinimumHeightRequest="50"
+               HeightRequest="50"
+               WidthRequest="250"/>
+        <Grid BackgroundColor="Gray"
+              HorizontalOptions="FillAndExpand" 
+              VerticalOptions="FillAndExpand"
+              MinimumHeightRequest="350"
+              HeightRequest="450"
+              WidthRequest="250"
+              ColumnSpacing="2"
+              RowSpacing="2"
+              >
+            <skia:SKCanvasView x:Name="canvasView" BackgroundColor="White"
+                           PaintSurface="OnCanvasViewPaintSurface" Margin="2,2,2,2" />
+            <Grid.Effects>
+                <tt:TouchEffect Capture="True"
                             TouchAction="OnTouchEffectAction" />
-        </Grid.Effects>
-    </Grid>
+            </Grid.Effects>
+        </Grid>
+        <Button x:Name="validateButton" 
+               Text="Valider" 
+               VerticalOptions="EndAndExpand"
+               HorizontalOptions="FillAndExpand"                
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                MinimumHeightRequest="50"
+                HeightRequest="50"
+                WidthRequest="250"
+                Clicked="OnValidateButtonClicked"
+               />
+    </StackLayout>
 </ContentPage>
