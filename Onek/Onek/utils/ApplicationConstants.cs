@@ -74,7 +74,7 @@ namespace Onek.utils
         private static void URLChanged()
         {
             serverEventURL = "https://" + URL + "/api/app/events/[id_event]/[login_user]/export";
-            serverEvaluationURL = "https:/" + URL + "/api/app/evaluation";
+            serverEvaluationURL = "https://" + URL + "/api/app/evaluation";
             serverLoginURL = "https://" + URL + "/api/app/login";
             serverRegisterEventURL = "https://" + URL + "/api/app/events/code";
             String[] urlSplitted = URL.Split('/');
