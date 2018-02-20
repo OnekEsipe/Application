@@ -138,6 +138,7 @@ namespace Onek
 
         async void OnButtonChangePasswordClicked(object sender, EventArgs e)
         {
+            await Navigation.PushAsync(new ModifyPasswordPage(LoggedUser));
             //Action
         }
     }
