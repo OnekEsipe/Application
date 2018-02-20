@@ -25,7 +25,6 @@ namespace Onek
             {
                 try
                 {
-                    EvaluationSender.Test();
                     EvaluationSender.LoadJsons();
                     EvaluationSender.SendJsonEvalToServer();
                 }

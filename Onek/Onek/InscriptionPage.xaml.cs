@@ -45,6 +45,11 @@ namespace Onek
                 await DisplayAlert("Erreur", "Le mot de passe doit contenir au moins 6 caractères dont au moins une lettre en majuscule", "OK");
                 return;
             }
+            if (CreateAccountManager.CheckMail(MailEntry.Text) == false)
+            {
+                await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
+                return;
+            }
             accountManager.Login = LoginEntry.Text;
             accountManager.Lastname = NomEntry.Text;
             accountManager.Firstname = PrenomEntry.Text;
@@ -78,7 +83,7 @@ namespace Onek
                 //If conflict, warn user
                 if (response.StatusCode.Equals(HttpStatusCode.Conflict))
                 {
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
+                    StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                     String errorMessage = reader.ReadToEnd();
                     await DisplayAlert("Erreur", errorMessage, "OK");
                     return;

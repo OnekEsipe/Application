@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -24,6 +25,19 @@ namespace Onek.data
                 return false;
             return true;
             
+        }
+
+        public static Boolean CheckMail(String mail)
+        {
+            try
+            {
+                MailAddress mailAddress = new MailAddress(mail);
+                return true;
+            }
+            catch(FormatException e)
+            {
+                return false;
+            }
         }
     }
 }
