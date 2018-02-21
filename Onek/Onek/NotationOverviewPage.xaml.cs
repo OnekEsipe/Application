@@ -67,10 +67,16 @@ namespace Onek
             MyListView.ItemsSource = Items;
         }
 
-        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
                 return;
+
+            if (Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
 
             ButtonNoter.IsEnabled = true;
             SelectedCritere = e.Item as Criteria;
