@@ -50,7 +50,7 @@ namespace Onek
             LeftButton.Text = "<";
             RightButton.Text = ">";
 
-            int index = CandidateList.IndexOf(CurrentCandidate);
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
 
             SetVisibilityArrow(index);
 
@@ -206,7 +206,7 @@ namespace Onek
             //await Navigation.PopAsync();
         }
 
-        void SaveEvaluation()
+        async void SaveEvaluation()
         {
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             CandidateList[index] = CurrentCandidate;
@@ -225,7 +225,10 @@ namespace Onek
             Eval.isModified = false;
             checkStatus(CurrentCandidate);
 
-            Navigation.PushAsync(new SigningPage());
+            if (CurrentCandidate.StatusImage == "green.png")
+            {
+                await Navigation.PushAsync(new SigningPage(Eval));
+            }
         }
 
         private void checkStatus(Candidate candidate)
@@ -292,7 +295,7 @@ namespace Onek
         {
             await ConfirmSaveBeforeSwitchAsync();
 
-            int index = CandidateList.IndexOf(CurrentCandidate);
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate leftCandidate = CandidateList[index - 1].Clone() as Candidate;
 
             changeCandidate(leftCandidate, index - 1);
@@ -302,7 +305,7 @@ namespace Onek
         {
             await ConfirmSaveBeforeSwitchAsync();
 
-            int index = CandidateList.IndexOf(CurrentCandidate);
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate rightCandidate = CandidateList[index + 1].Clone() as Candidate;
 
             changeCandidate(rightCandidate, index + 1);

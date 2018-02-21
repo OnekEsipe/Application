@@ -16,7 +16,7 @@
         <Grid BackgroundColor="Gray"
               HorizontalOptions="FillAndExpand" 
               VerticalOptions="FillAndExpand"
-              MinimumHeightRequest="350"
+              MinimumHeightRequest="450"
               HeightRequest="450"
               WidthRequest="250"
               ColumnSpacing="2"
@@ -29,16 +29,21 @@
                             TouchAction="OnTouchEffectAction" />
             </Grid.Effects>
         </Grid>
-        <Button x:Name="validateButton" 
-               Text="Valider" 
-               VerticalOptions="EndAndExpand"
-               HorizontalOptions="FillAndExpand"                
+        <StackLayout Orientation="Horizontal" 
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand" >
+            <Button x:Name="retourButton" 
+               Text="Retour"                 
                 BackgroundColor="DarkBlue"
                 TextColor="White"
-                MinimumHeightRequest="50"
-                HeightRequest="50"
-                WidthRequest="250"
-                Clicked="OnValidateButtonClicked"
+                Clicked="OnRetourButtonClickedAsync"
                />
+        <Button x:Name="validateButton" 
+               Text="Valider"              
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                Clicked="OnValidateButtonClickedAsync"
+               />
+        </StackLayout>
     </StackLayout>
 </ContentPage>
