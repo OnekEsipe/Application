@@ -249,7 +249,7 @@ namespace Onek
 
         async void SaveEvaluation()
         {
-            if (CurrentCandidate.StatusImage == "green.png" && !Eval.isSigned)
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
             {
                 await Navigation.PushAsync(new SigningPage(Eval));
             }
