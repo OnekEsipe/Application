@@ -239,12 +239,18 @@ namespace Onek
                 await Navigation.PopAsync();
                 return;
             }
-
-            SaveEvaluation();
-            if (Eval.isSigned)
+            if(!Eval.isSigned)
             {
-                await Navigation.PopAsync();
+                SaveEvaluation();
+                if (Eval.isSigned)
+                {
+                    await Navigation.PopAsync();
+                }
             }
+            else
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+            }            
         }
 
         async void SaveEvaluation()
