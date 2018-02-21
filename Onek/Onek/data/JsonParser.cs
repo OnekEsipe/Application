@@ -37,11 +37,15 @@ namespace Onek
                         String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, id + "-event.json");
                         if (!File.Exists(fileName))
                             File.Create(fileName);
+                        else if (File.Exists(fileName))
+                        {
+                            File.Delete(fileName);
+                            File.Create(fileName);
+                        }
                         File.WriteAllText(fileName, jsonString);
                     }
                     catch (Exception e)
                     {
-                        return null;
                     }
                 }
                 //Deserialize json
@@ -158,6 +162,13 @@ namespace Onek
                 + "-" + idJury + "-" + idEvent + "-evaluation.json");
             String fileNameForSendingQueue = Path.Combine(ApplicationConstants.pathToJsonToSend, idCandidate
                 + "-" + idJury + "-" + idEvent + "-evaluation.json");
+            if (!File.Exists(fileName))
+                File.Create(fileName);
+            else if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+                File.Create(fileName);
+            }
             File.WriteAllText(fileName, json);
             //Add file in dir for sender
             if (!Directory.Exists(ApplicationConstants.pathToJsonToSend))
@@ -166,6 +177,11 @@ namespace Onek
             }
             if (!File.Exists(fileNameForSendingQueue))
                 File.Create(fileNameForSendingQueue);
+            else if (File.Exists(fileNameForSendingQueue))
+            {
+                File.Delete(fileNameForSendingQueue);
+                File.Create(fileNameForSendingQueue);
+            }
             File.WriteAllText(fileNameForSendingQueue, json);
         }
 
@@ -238,6 +254,8 @@ namespace Onek
                     if (!added)
                         currentJson.Add(u);
                 });
+                File.Delete(ApplicationConstants.pathToJsonAccountFile);
+                File.Create(ApplicationConstants.pathToJsonAccountFile);
                 File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(currentJson));
                 return;
             }
