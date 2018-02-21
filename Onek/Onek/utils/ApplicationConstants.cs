@@ -77,13 +77,6 @@ namespace Onek.utils
             String configFileName = "Config.json";
             String configFile = Path.Combine(configDir, configFileName);
             String jsonConfig = "{\"ServerURL\":\"" + URL + "\"}";
-            if (!File.Exists(configFile))
-                File.Create(configFile);
-            else if (File.Exists(configFile))
-            {
-                File.Delete(configFile);
-                File.Create(configFile);
-            }
             File.WriteAllText(configFile, jsonConfig);
         }
 
