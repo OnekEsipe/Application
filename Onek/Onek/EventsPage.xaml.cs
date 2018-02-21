@@ -31,7 +31,7 @@ namespace Onek
 
             Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
 
-			      MyListView.ItemsSource = Items;
+			MyListView.ItemsSource = Items;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -53,7 +53,6 @@ namespace Onek
             }
 
             CandidatesPage candidatesPage = new CandidatesPage(TappedEvent, LoggedUser);
-            //candidatesPage.BindingContext = e;
             await Navigation.PushAsync(candidatesPage);
 
             //Deselect Item
@@ -139,7 +138,6 @@ namespace Onek
         async void OnButtonChangePasswordClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new ModifyPasswordPage(LoggedUser));
-            //Action
         }
     }
 }

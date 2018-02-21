@@ -14,7 +14,7 @@ namespace Onek
     {
 
         /// <summary>
-        /// Deserialize json
+        /// Download json events, deserialize json and write them in internal memory
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -23,13 +23,9 @@ namespace Onek
             List<Event> events = new List<Event>();
             if (CrossConnectivity.Current.IsConnected)
             {
-                //List json to download in login.json (à retirer de cette méthode)
-                List<int> EventsToDownload = new List<int>();
-                EventsToDownload.AddRange(user.Events_id);
-
                 //Download and parse json files
                 List<String> EventsJson = new List<string>();
-                foreach (int id in EventsToDownload)
+                foreach (int id in user.Events_id)
                 {
                     String downloadEventURL = ApplicationConstants.serverEventURL.Replace("[id_event]", "" + id).Replace("[login_user]", "" + user.Login);
                     //Download events data from server
@@ -39,14 +35,15 @@ namespace Onek
                         EventsJson.Add(jsonString);
                         //Save json into internal memory
                         String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, id + "-event.json");
+                        if (!File.Exists(fileName))
+                            File.Create(fileName);
                         File.WriteAllText(fileName, jsonString);
                     }
                     catch (Exception e)
                     {
-                        //Handle http error
+                        return null;
                     }
                 }
-
                 //Deserialize json
                 foreach (String json in EventsJson)
                 {
@@ -95,20 +92,6 @@ namespace Onek
         /// <returns>List<Login></Login></returns>
         public static List<User> LoadLoginJson()
         {
-            //Simulate Json File in Folder
-            /*List<User> loginList = new List<User>();
-            loginList.Add(new User() { Id = 1, Login = "a", Password = "a", Events_id = { 1, 2, 28 } });
-            loginList.Add(new User() { Id = 2, Login = "test", Password = "test", Events_id = { 1, 2, 28 } });
-            loginList.Add(new User() { Id = 6, Login = "ff", Password = "ff", Events_id = { 1, 2, 3 } });
-            string text = JsonConvert.SerializeObject(loginList);
-                
-
-            string documentsPathW = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string filePathW = Path.Combine(documentsPathW, "account.json");
-            System.IO.File.WriteAllText(filePathW, text);
-
-            string documentsPathR = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string filePathR = Path.Combine(documentsPathR, "account.json");*/
             if (File.Exists(ApplicationConstants.pathToJsonAccountFile))
             {
                 String jsonString = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
@@ -181,6 +164,8 @@ namespace Onek
             {
                 Directory.CreateDirectory(ApplicationConstants.pathToJsonToSend);
             }
+            if (!File.Exists(fileNameForSendingQueue))
+                File.Create(fileNameForSendingQueue);
             File.WriteAllText(fileNameForSendingQueue, json);
         }
 
@@ -222,9 +207,19 @@ namespace Onek
             return JsonConvert.DeserializeObject<List<User>>(json);
         }
 
+        /// <summary>
+        /// Save users in the json account file in the internal memory. (Used for offline login)
+        /// </summary>
+        /// <param name="usersToAdd"></param>
         public static void SaveJsonAccountInMemory(List<User> usersToAdd)
         {
-            if (File.Exists(ApplicationConstants.pathToJsonAccountFile))
+            if (!File.Exists(ApplicationConstants.pathToJsonAccountFile))
+            {
+                File.Create(ApplicationConstants.pathToJsonAccountFile);
+                File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(usersToAdd));
+            }
+            //If file exists check if user is in the file and update user's information
+            else
             {
                 String jsonAccount = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
                 List<User> currentJson = DeserializeJsonAccount(jsonAccount);
@@ -244,11 +239,8 @@ namespace Onek
                         currentJson.Add(u);
                 });
                 File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(currentJson));
-                jsonAccount = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
                 return;
             }
-            File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(usersToAdd));
-            String json = File.ReadAllText(ApplicationConstants.pathToJsonAccountFile);
         }
 
     }
