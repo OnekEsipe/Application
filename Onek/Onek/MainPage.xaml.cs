@@ -46,63 +46,56 @@ namespace Onek
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
                 String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
                 //Check server communication
-                if (ConnectionTester.checkServerCommunication(ApplicationConstants.PingableURL))
+                
+                //ONLINE LOGIN
+                user = null;
+                LoginManager loginManager = new LoginManager();
+                if (loginText != null && hashedPassword != null)
                 {
-                    //ONLINE LOGIN
-                    user = null;
-                    LoginManager loginManager = new LoginManager();
-                    if (loginText != null && hashedPassword != null)
+                    //Send login request
+                    loginManager.Login = loginText;
+                    loginManager.Password = hashedPassword;
+                    String loginJson = loginManager.GenerateLoginJson();
+                    HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
+                    //Check login response
+                    if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
                     {
-                        //Send login request
-                        loginManager.Login = loginText;
-                        loginManager.Password = hashedPassword;
-                        String loginJson = loginManager.GenerateLoginJson();
-                        HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
-                        //Check login response
-                        if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
-                        {
-                            //Get user json account
-                            Stream responseStream = httpWebResponse.GetResponseStream();
-                            StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
-                            String jsonAccount = streamReader.ReadToEnd();
-                            List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
-                            user = users.First();
-                            //Save user in local jsonAccount
-                            JsonParser.SaveJsonAccountInMemory(users);
-                            //Display event page
-                            hasSuceeded = true;
-                        }
-                        //Wrong credentials
-                        else if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
-                        {
-                            isError = true;
-                        }
-                        //No server connection
-                        else
-                        {
-                            noServer = true;
-                        }
+                        //Get user json account
+                        Stream responseStream = httpWebResponse.GetResponseStream();
+                        StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
+                        String jsonAccount = streamReader.ReadToEnd();
+                        List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
+                        user = users.First();
+                        //Save user in local jsonAccount
+                        JsonParser.SaveJsonAccountInMemory(users);
+                        //Display event page
+                        hasSuceeded = true;
                     }
-                }
-                else
-                {
-                    //OFFLINE LOGIN
-                    List<User> logins = JsonParser.LoadLoginJson();
-                    if (logins == null)
+                    //Wrong credentials
+                    else if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
                     {
-                        noConnection = true;
-
+                        isError = true;
                     }
+                    //No server connection
                     else
                     {
-                        foreach (User u in logins)
+                        //OFFLINE LOGIN
+                        List<User> logins = JsonParser.LoadLoginJson();
+                        if (logins == null)
                         {
-                            if (loginText != null && passwordText != null
-                            && loginText.Equals(u.Login)
-                            && hashedPassword.Equals(u.Password))
+                            noConnection = true;
+                        }
+                        else
+                        {
+                            foreach (User u in logins)
                             {
-                                user = u;
-                                hasSuceeded = true;
+                                if (loginText != null && passwordText != null
+                                && loginText.Equals(u.Login)
+                                && hashedPassword.Equals(u.Password))
+                                {
+                                    user = u;
+                                    hasSuceeded = true;
+                                }
                             }
                         }
                     }
