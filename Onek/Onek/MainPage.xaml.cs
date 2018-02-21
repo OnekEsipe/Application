@@ -27,6 +27,7 @@ namespace Onek
 			InitializeComponent();
 		}
 
+        //Executed when page is diplayed
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -34,22 +35,23 @@ namespace Onek
             PasswordEntry.Text = "";
         }
 
+        /// <summary>
+        /// Executed when user click on button login, check login information and redirect user to events page if
+        /// login is OK
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
             IndicatorOn();
             string loginText = LoginEntry.Text;
             string passwordText = PasswordEntry.Text;
-
-            
-
             await Task.Run(async () =>
             {
+                //Hash password
                 SHA1Managed sha1 = new SHA1Managed();
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
                 String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-
-                //Check server communication
-                
                 //ONLINE LOGIN
                 user = null;
                 LoginManager loginManager = new LoginManager();
@@ -104,8 +106,6 @@ namespace Onek
                     }
                 }
             });
-
-
             if (hasSuceeded)
             {
                 await Navigation.PushAsync(new EventsPage(user));
@@ -166,6 +166,11 @@ namespace Onek
             ButtonParameter.IsEnabled = true;
         }
         
+        /// <summary>
+        /// Display a pop-up to change the server url
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonParameterClicked(object sender, EventArgs e)
         {
             string title = "Changement de serveur";

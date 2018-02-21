@@ -26,9 +26,18 @@ namespace Onek.utils
         //Server URL
         private static String url;
         private const String defaultURL = "173.249.25.49/serveur";
-        public static String PingableURL = URL;
         //Directory to save configuration file
         private static String configDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        static ApplicationConstants()
+        {
+            if (!Directory.Exists(pathToPersonnalFolder))
+                Directory.CreateDirectory(pathToPersonnalFolder);
+            if (!Directory.Exists(jsonDataDirectory))
+                Directory.CreateDirectory(jsonDataDirectory);
+            if (!Directory.Exists(configDir))
+                Directory.CreateDirectory(configDir);
+        }
 
         public static String URL 
         {
@@ -83,10 +92,6 @@ namespace Onek.utils
             serverCreateAccountURL = "https://" + URL + "/api/app/createjury";
             serverResetPasswordURL = "https://" + URL + "/api/app/password/reset";
             serverChangePasswordURL = "https://" + URL + "/api/app/password/modify";
-            String[] urlSplitted = URL.Split('/');
-            PingableURL = "";
-            if (urlSplitted != null && urlSplitted.Length >= 1)
-                PingableURL = urlSplitted[0];
             
         }
 
