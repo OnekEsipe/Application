@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:tt="clr-namespace:Onek.TouchTracking"
+             x:Class="Onek.SigningPage"
+             Title="Signature">
+    <StackLayout>
+        <Entry x:Name="entryName" 
+               Placeholder="Entrez le nom du jury signant" 
+               VerticalOptions="StartAndExpand"
+               HorizontalOptions="FillAndExpand"
+               MinimumHeightRequest="50"
+               HeightRequest="50"
+               WidthRequest="250"/>
+        <Grid BackgroundColor="Gray"
+              HorizontalOptions="FillAndExpand" 
+              VerticalOptions="FillAndExpand"
+              MinimumHeightRequest="450"
+              HeightRequest="450"
+              WidthRequest="250"
+              ColumnSpacing="2"
+              RowSpacing="2"
+              >
+            <skia:SKCanvasView x:Name="canvasView" BackgroundColor="White"
+                           PaintSurface="OnCanvasViewPaintSurface" Margin="2,2,2,2" />
+            <Grid.Effects>
+                <tt:TouchEffect Capture="True"
+                            TouchAction="OnTouchEffectAction" />
+            </Grid.Effects>
+        </Grid>
+        <StackLayout Orientation="Horizontal" 
+                     VerticalOptions="CenterAndExpand"
+                     HorizontalOptions="CenterAndExpand" >
+            <Button x:Name="retourButton" 
+               Text="Retour"                 
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                Clicked="OnRetourButtonClickedAsync"
+               />
+        <Button x:Name="validateButton" 
+               Text="Valider"              
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                Clicked="OnValidateButtonClickedAsync"
+               />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

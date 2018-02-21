@@ -40,11 +40,14 @@ namespace Onek
             string loginText = LoginEntry.Text;
             string passwordText = PasswordEntry.Text;
 
+            
+
             await Task.Run(async () =>
             {
                 SHA1Managed sha1 = new SHA1Managed();
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
                 String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+
                 //Check server communication
                 
                 //ONLINE LOGIN
@@ -101,7 +104,7 @@ namespace Onek
                     }
                 }
             });
-            
+
 
             if (hasSuceeded)
             {
@@ -124,7 +127,8 @@ namespace Onek
                 IndicatorOff();
                 return;
             }
-            if(noServer)
+
+            if (noServer)
             {
                 await DisplayAlert("Erreur", "Impossible de contacter le serveur, vérifiez votre URL dans les paramètres", "OK");
                 noServer = false;
