@@ -24,6 +24,7 @@ namespace Onek
         private Candidate CurrentCandidate { get; set; }
         private User LoggedUser { get; set; }
         private bool goToPageNote { get; set; }
+        private bool comeBackFromSigning { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
 
         public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
@@ -45,6 +46,8 @@ namespace Onek
                 c.isModified = false;
             }
             Eval.isModified = false;
+
+            comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
             LeftButton.Text = "<";
@@ -155,6 +158,12 @@ namespace Onek
             {
                 ButtonEnregister.Text = "Enregistrer";
             }
+
+            if (Eval.isSigned && comeBackFromSigning)
+            {
+                SaveEvaluation();
+                comeBackFromSigning = false;
+            }
         }
 
         protected override async void OnDisappearing()
@@ -238,6 +247,7 @@ namespace Onek
             //send json to server
 
             goToPageNote = true;
+            comeBackFromSigning = false;
 
             if (CurrentEvent.End < DateTime.Now)
             {
@@ -245,7 +255,7 @@ namespace Onek
                 await Navigation.PopAsync();
                 return;
             }
-            if(!Eval.isSigned)
+            if (!Eval.isSigned)
             {
                 SaveEvaluation();
                 if (Eval.isSigned)
@@ -256,7 +266,7 @@ namespace Onek
             else
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
-            }            
+            }
         }
 
         async void SaveEvaluation()
@@ -264,32 +274,35 @@ namespace Onek
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
             {
                 await Navigation.PushAsync(new SigningPage(Eval));
-            }
-
-            Eval.LastUpdatedDate = DateTime.Now;
-            String jsonEval = JsonParser.GenerateJsonEval(Eval);
-            JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
-            EvaluationSender.AddEvaluationInQueue(jsonEval);
-            EvaluationSender.SendJsonEvalToServer();
-
-
-            foreach (Criteria c in Eval.Criterias)
-            {
-                c.isModified = false;
-            }
-            Eval.isModified = false;
-
-            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
-            CandidateList[index] = CurrentCandidate;
-                        
-            checkStatus(CurrentCandidate);
-            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
-            {
-                ButtonEnregister.Text = "Signer";
+                comeBackFromSigning = true;
             }
             else
             {
-                ButtonEnregister.Text = "Enregistrer";
+                Eval.LastUpdatedDate = DateTime.Now;
+                String jsonEval = JsonParser.GenerateJsonEval(Eval);
+                JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
+                EvaluationSender.AddEvaluationInQueue(jsonEval);
+                EvaluationSender.SendJsonEvalToServer();
+
+
+                foreach (Criteria c in Eval.Criterias)
+                {
+                    c.isModified = false;
+                }
+                Eval.isModified = false;
+
+                int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
+                CandidateList[index] = CurrentCandidate;
+
+                checkStatus(CurrentCandidate);
+                if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+                {
+                    ButtonEnregister.Text = "Signer";
+                }
+                else
+                {
+                    ButtonEnregister.Text = "Enregistrer";
+                }
             }
         }
 
@@ -318,13 +331,14 @@ namespace Onek
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
-            if(Eval.isSigned)
+            if (Eval.isSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
                 return;
             }
 
             goToPageNote = true;
+            comeBackFromSigning = false;
 
             string title = "Commentaire de l'évalution";
             string text = "Ecrire un commentaire :";
@@ -349,6 +363,7 @@ namespace Onek
             }
 
             goToPageNote = true;
+            comeBackFromSigning = false;
 
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
@@ -401,6 +416,7 @@ namespace Onek
             }
 
             Eval.isModified = false;
+            comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
 
