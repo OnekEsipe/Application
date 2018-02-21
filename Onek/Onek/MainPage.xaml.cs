@@ -46,7 +46,7 @@ namespace Onek
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
                 String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
                 //Check server communication
-                if (LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
+                if (ConnectionTester.checkServerCommunication(ApplicationConstants.PingableURL))
                 {
                     //ONLINE LOGIN
                     user = null;
