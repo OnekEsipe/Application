@@ -6,7 +6,9 @@ using System.Text;
 using Foundation;
 using Plugin.Connectivity;
 using UIKit;
+using Xamarin.Forms;
 
+[assembly: ExportEffect(typeof(Onek.iOS.ConnectionTester), "ConnectionTester")]
 namespace Onek.iOS
 {
     class ConnectionTester
