@@ -71,6 +71,12 @@ namespace Onek
 
         async void OnLevelButtonClicked(object sender, EventArgs e)
         {
+            if (Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
+
             Button buttonClicked = sender as Button;
             Criteria criteria = buttonClicked.BindingContext as Criteria;
             List<String> buttonsLevel = new List<String>();
@@ -98,6 +104,11 @@ namespace Onek
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
         {
+            if (Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
             if (SelectedCritere == null)
                 return;
 
@@ -203,7 +214,10 @@ namespace Onek
             }
 
             SaveEvaluation();
-            //await Navigation.PopAsync();
+            if (Eval.isSigned)
+            {
+                await Navigation.PopAsync();
+            }
         }
 
         async void SaveEvaluation()
@@ -256,6 +270,12 @@ namespace Onek
 
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
+            if(Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
+
             goToPageNote = true;
 
             string title = "Commentaire de l'évalution";
@@ -274,6 +294,12 @@ namespace Onek
 
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
+            if (Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
+
             goToPageNote = true;
 
             string title = "Commentaire du critère";
