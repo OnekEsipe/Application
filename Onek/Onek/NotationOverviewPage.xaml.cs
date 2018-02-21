@@ -50,6 +50,15 @@ namespace Onek
             LeftButton.Text = "<";
             RightButton.Text = ">";
 
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+            {
+                ButtonEnregister.Text = "Signer";
+            }
+            else
+            {
+                ButtonEnregister.Text = "Enregistrer";
+            }
+
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
 
             SetVisibilityArrow(index);
@@ -100,6 +109,15 @@ namespace Onek
                 criteria.SelectedDescriptor = selectedDescriptor;
             }
             MyListView.ItemsSource = Items;
+
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+            {
+                ButtonEnregister.Text = "Signer";
+            }
+            else
+            {
+                ButtonEnregister.Text = "Enregistrer";
+            }
         }
 
         async void OnButtonNoterClicked(object sender, EventArgs e)
@@ -122,6 +140,15 @@ namespace Onek
             base.OnAppearing();
             MyListView.ItemsSource = Items;
             goToPageNote = false;
+
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+            {
+                ButtonEnregister.Text = "Signer";
+            }
+            else
+            {
+                ButtonEnregister.Text = "Enregistrer";
+            }
         }
 
         protected override async void OnDisappearing()
@@ -222,7 +249,7 @@ namespace Onek
 
         async void SaveEvaluation()
         {
-            if (CurrentCandidate.StatusImage == "green.png")
+            if (CurrentCandidate.StatusImage == "green.png" && !Eval.isSigned)
             {
                 await Navigation.PushAsync(new SigningPage(Eval));
             }
@@ -242,11 +269,16 @@ namespace Onek
 
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             CandidateList[index] = CurrentCandidate;
-
-            
+                        
             checkStatus(CurrentCandidate);
-
-            
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+            {
+                ButtonEnregister.Text = "Signer";
+            }
+            else
+            {
+                ButtonEnregister.Text = "Enregistrer";
+            }
         }
 
         private void checkStatus(Candidate candidate)
@@ -362,6 +394,15 @@ namespace Onek
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
+
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+            {
+                ButtonEnregister.Text = "Signer";
+            }
+            else
+            {
+                ButtonEnregister.Text = "Enregistrer";
+            }
 
             SetVisibilityArrow(index);
         }
