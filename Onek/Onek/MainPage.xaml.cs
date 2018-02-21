@@ -49,62 +49,56 @@ namespace Onek
                 String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
 
                 //Check server communication
-                if (LoginManager.checkServerCommunication(ApplicationConstants.PingableURL))
+                
+                //ONLINE LOGIN
+                user = null;
+                LoginManager loginManager = new LoginManager();
+                if (loginText != null && hashedPassword != null)
                 {
-                    //ONLINE LOGIN
-                    user = null;
-                    LoginManager loginManager = new LoginManager();
-                    if (loginText != null && hashedPassword != null)
+                    //Send login request
+                    loginManager.Login = loginText;
+                    loginManager.Password = hashedPassword;
+                    String loginJson = loginManager.GenerateLoginJson();
+                    HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
+                    //Check login response
+                    if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
                     {
-                        //Send login request
-                        loginManager.Login = loginText;
-                        loginManager.Password = hashedPassword;
-                        String loginJson = loginManager.GenerateLoginJson();
-                        HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
-                        //Check login response
-                        if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
+                        //Get user json account
+                        Stream responseStream = httpWebResponse.GetResponseStream();
+                        StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
+                        String jsonAccount = streamReader.ReadToEnd();
+                        List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
+                        user = users.First();
+                        //Save user in local jsonAccount
+                        JsonParser.SaveJsonAccountInMemory(users);
+                        //Display event page
+                        hasSuceeded = true;
+                    }
+                    //Wrong credentials
+                    else if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
+                    {
+                        isError = true;
+                    }
+                    //No server connection
+                    else
+                    {
+                        //OFFLINE LOGIN
+                        List<User> logins = JsonParser.LoadLoginJson();
+                        if (logins == null)
                         {
-                            //Get user json account
-                            Stream responseStream = httpWebResponse.GetResponseStream();
-                            StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
-                            String jsonAccount = streamReader.ReadToEnd();
-                            List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
-                            user = users.First();
-                            //Save user in local jsonAccount
-                            JsonParser.SaveJsonAccountInMemory(users);
-                            //Display event page
-                            hasSuceeded = true;
+                            noConnection = true;
                         }
-                        //Wrong credentials
-                        else if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
-                        {
-                            isError = true;
-                        }
-                        //No server connection
                         else
                         {
-                            noServer = true;
-                        }
-                    }
-                }
-                else
-                {
-                    //OFFLINE LOGIN
-                    List<User> logins = JsonParser.LoadLoginJson();
-                    if (logins == null)
-                    {
-                        noConnection = true;
-
-                    }
-                    else
-                    { foreach (User u in logins)
-                        {
-                            if (loginText != null && hashedPassword != null
-                            && loginText.Equals(u.Login)
-                            && hashedPassword.Equals(u.Password))
+                            foreach (User u in logins)
                             {
-                                user = u;
-                                hasSuceeded = true;
+                                if (loginText != null && passwordText != null
+                                && loginText.Equals(u.Login)
+                                && hashedPassword.Equals(u.Password))
+                                {
+                                    user = u;
+                                    hasSuceeded = true;
+                                }
                             }
                         }
                     }
@@ -133,6 +127,7 @@ namespace Onek
                 IndicatorOff();
                 return;
             }
+
             if (noServer)
             {
                 await DisplayAlert("Erreur", "Impossible de contacter le serveur, vérifiez votre URL dans les paramètres", "OK");
@@ -182,24 +177,73 @@ namespace Onek
                 ApplicationConstants.URL = ServerAdress;
                 //Remove events and evaluation files saved localy
                 File.Delete(Path.Combine(ApplicationConstants.jsonDataDirectory, "*"));
-                File.Delete(ApplicationConstants.pathToJsonAccountFile);
-                File.Delete(Path.Combine(ApplicationConstants.pathToJsonToSend, "*"));
+                if(File.Exists(ApplicationConstants.pathToJsonAccountFile))
+                    File.Delete(ApplicationConstants.pathToJsonAccountFile);
+                if(Directory.Exists(ApplicationConstants.pathToJsonToSend))
+                    File.Delete(Path.Combine(ApplicationConstants.pathToJsonToSend, "*"));
             }
 
         }
 
+        /// <summary>
+        /// Open page to register as a jury
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new InscriptionPage());
         }
 
+        /// <summary>
+        /// Reset password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void onButtonOublieClicked(object sender, EventArgs e)
         {
             string title = "Récupétation de mot de passe";
             string text = "Entrez votre adresse mail :";
+            //Open pop-up
             String Mail = await InputDialog.InputBox(this.Navigation, title, text, "");
-
-            //Faire demande envoi de mail
+            //if mail is not valid
+            if(Mail != null && CreateAccountManager.CheckMail(Mail) == false)
+            {
+                await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
+                return;
+            }
+            String jsonResetPassword = "{ \"Mail\" : \"" + Mail + "\" }";
+            //Send reset password request
+            try
+            {
+                HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverResetPasswordURL) as HttpWebRequest;
+                webRequest.ContentType = "application/json";
+                webRequest.Method = "POST";
+                JsonParser.SendToServer(webRequest, jsonResetPassword);
+                HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
+                //If response OK, quit
+                if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                {
+                    await DisplayAlert("Mot de passe oublié", "Vous allez recevoir un e-mail pour réinitialiser votre mot de passe", "OK");
+                    await Navigation.PopAsync();
+                }
+            }
+            catch (Exception exception)
+            {
+                WebException webException = exception as WebException;
+                HttpWebResponse response = webException.Response as HttpWebResponse;
+                //If conflict, warn user
+                if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                {
+                    await DisplayAlert("Erreur", "Aucun compte n'est rattaché à cette adresse email", "OK");
+                    return;
+                }
+                else
+                {
+                    await DisplayAlert("Erreur", "Erreur lors de l'envoi ou du traitement de la requête", "OK");
+                    return;
+                }
+            }
         }
     }
 }

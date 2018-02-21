@@ -184,6 +184,13 @@ namespace Onek
             File.WriteAllText(fileNameForSendingQueue, json);
         }
 
+        /// <summary>
+        /// Read json eval from internal memory
+        /// </summary>
+        /// <param name="idCandidate"></param>
+        /// <param name="idJury"></param>
+        /// <param name="idEvent"></param>
+        /// <returns></returns>
         public static String ReadJsonFromInternalMemeory(int idCandidate, int idJury, int idEvent)
         {
             String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate

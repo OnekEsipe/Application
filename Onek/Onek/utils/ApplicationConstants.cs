@@ -20,6 +20,9 @@ namespace Onek.utils
         public static String serverLoginURL = "https://" + URL + "/api/app/login";
         public static String serverEvaluationURL = "https://" + URL + "/api/app/evaluation";
         public static String serverRegisterEventURL = "https://" + URL + "/api/app/events/code";
+        public static String serverCreateAccountURL = "https://" + URL + "/api/app/createjury";
+        public static String serverResetPasswordURL = "https://" + URL + "/api/app/password/reset";
+        public static String serverChangePasswordURL = "https://" + URL + "/api/app/password/modify";
         //Server URL
         private static String url;
         private const String defaultURL = "173.249.25.49/serveur";
@@ -77,6 +80,9 @@ namespace Onek.utils
             serverEvaluationURL = "https://" + URL + "/api/app/evaluation";
             serverLoginURL = "https://" + URL + "/api/app/login";
             serverRegisterEventURL = "https://" + URL + "/api/app/events/code";
+            serverCreateAccountURL = "https://" + URL + "/api/app/createjury";
+            serverResetPasswordURL = "https://" + URL + "/api/app/password/reset";
+            serverChangePasswordURL = "https://" + URL + "/api/app/password/modify";
             String[] urlSplitted = URL.Split('/');
             PingableURL = "";
             if (urlSplitted != null && urlSplitted.Length >= 1)
