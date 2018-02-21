@@ -29,6 +29,16 @@ namespace Onek.utils
         //Directory to save configuration file
         private static String configDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
+        static ApplicationConstants()
+        {
+            if (!Directory.Exists(pathToPersonnalFolder))
+                Directory.CreateDirectory(pathToPersonnalFolder);
+            if (!Directory.Exists(jsonDataDirectory))
+                Directory.CreateDirectory(jsonDataDirectory);
+            if (!Directory.Exists(configDir))
+                Directory.CreateDirectory(configDir);
+        }
+
         public static String URL 
         {
             get { return url; }
