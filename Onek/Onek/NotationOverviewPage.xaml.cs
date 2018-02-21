@@ -222,8 +222,10 @@ namespace Onek
 
         async void SaveEvaluation()
         {
-            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
-            CandidateList[index] = CurrentCandidate;
+            if (CurrentCandidate.StatusImage == "green.png")
+            {
+                await Navigation.PushAsync(new SigningPage(Eval));
+            }
 
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
@@ -237,12 +239,14 @@ namespace Onek
                 c.isModified = false;
             }
             Eval.isModified = false;
+
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
+            CandidateList[index] = CurrentCandidate;
+
+            
             checkStatus(CurrentCandidate);
 
-            if (CurrentCandidate.StatusImage == "green.png")
-            {
-                await Navigation.PushAsync(new SigningPage(Eval));
-            }
+            
         }
 
         private void checkStatus(Candidate candidate)
