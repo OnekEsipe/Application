@@ -34,7 +34,7 @@ namespace Onek.data
                 MailAddress mailAddress = new MailAddress(mail);
                 return true;
             }
-            catch(FormatException e)
+            catch(Exception e)
             {
                 return false;
             }

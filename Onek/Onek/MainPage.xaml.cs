@@ -197,7 +197,14 @@ namespace Onek
         /// <param name="e"></param>
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new InscriptionPage());
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                await Navigation.PushAsync(new InscriptionPage());
+            }
+            else
+            {
+                await DisplayAlert("Erreur", "Vous devez être en ligne pour utiliser cette fonctionnalité", "OK");
+            }
         }
 
         /// <summary>
@@ -209,45 +216,52 @@ namespace Onek
         {
             string title = "Récupétation de mot de passe";
             string text = "Entrez votre adresse mail :";
-            //Open pop-up
-            String Mail = await InputDialog.InputBox(this.Navigation, title, text, "");
-            //if mail is not valid
-            if(Mail != null && CreateAccountManager.CheckMail(Mail) == false)
+            if (CrossConnectivity.Current.IsConnected)
             {
-                await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
-                return;
-            }
-            String jsonResetPassword = "{ \"Mail\" : \"" + Mail + "\" }";
-            //Send reset password request
-            try
-            {
-                HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverResetPasswordURL) as HttpWebRequest;
-                webRequest.ContentType = "application/json";
-                webRequest.Method = "POST";
-                JsonParser.SendToServer(webRequest, jsonResetPassword);
-                HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
-                //If response OK, quit
-                if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                //Open pop-up
+                String Mail = await InputDialog.InputBox(this.Navigation, title, text, "");
+                //if mail is not valid
+                if (Mail != null && !Mail.Equals("") && CreateAccountManager.CheckMail(Mail) == false)
                 {
-                    await DisplayAlert("Mot de passe oublié", "Vous allez recevoir un e-mail pour réinitialiser votre mot de passe", "OK");
-                    await Navigation.PopAsync();
+                    await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
+                }
+                else if (Mail != null && !Mail.Equals(""))
+                {
+                    String jsonResetPassword = "{ \"Mail\" : \"" + Mail + "\" }";
+                    //Send reset password request
+                    try
+                    {
+                        HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverResetPasswordURL) as HttpWebRequest;
+                        webRequest.ContentType = "application/json";
+                        webRequest.Method = "POST";
+                        JsonParser.SendToServer(webRequest, jsonResetPassword);
+                        HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
+                        //If response OK, quit
+                        if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                        {
+                            await DisplayAlert("Mot de passe oublié", "Vous allez recevoir un e-mail pour réinitialiser votre mot de passe", "OK");
+                            await Navigation.PopAsync();
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        WebException webException = exception as WebException;
+                        HttpWebResponse response = webException.Response as HttpWebResponse;
+                        //If conflict, warn user
+                        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                        {
+                            await DisplayAlert("Erreur", "Aucun compte n'est rattaché à cette adresse email", "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Erreur", "Erreur lors de l'envoi ou du traitement de la requête", "OK");
+                        }
+                    }
                 }
             }
-            catch (Exception exception)
+            else
             {
-                WebException webException = exception as WebException;
-                HttpWebResponse response = webException.Response as HttpWebResponse;
-                //If conflict, warn user
-                if (response.StatusCode.Equals(HttpStatusCode.Conflict))
-                {
-                    await DisplayAlert("Erreur", "Aucun compte n'est rattaché à cette adresse email", "OK");
-                    return;
-                }
-                else
-                {
-                    await DisplayAlert("Erreur", "Erreur lors de l'envoi ou du traitement de la requête", "OK");
-                    return;
-                }
+                await DisplayAlert("Erreur", "Vous devez être en ligne pour utiliser cette fonctionnalité", "OK");
             }
         }
     }
