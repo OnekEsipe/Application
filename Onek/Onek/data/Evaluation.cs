@@ -17,6 +17,8 @@ namespace Onek.data
         private ObservableCollection<Criteria> criterias = new ObservableCollection<Criteria>();
         public event PropertyChangedEventHandler PropertyChanged;
         public bool isModified { get; set; } = false;
+        public bool isSigned { get; set; }
+        public List<Signature> Signatures { get; set; } = new List<Signature>();
 
         public Boolean hasEvaluation(int idCandidate)
         {

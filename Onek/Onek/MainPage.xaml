@@ -54,7 +54,7 @@
             <Button x:Name="ButtonInscription"
                 Text="Inscription"
                 BackgroundColor="DarkBlue"
-                TextColor="White" 
+                TextColor="White"
                 Clicked="OnButtonInscriptionClicked"/>
 
             <Button x:Name="ButtonParameter"
