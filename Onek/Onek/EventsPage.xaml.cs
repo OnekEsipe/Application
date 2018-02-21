@@ -137,7 +137,10 @@ namespace Onek
 
         async void OnButtonChangePasswordClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ModifyPasswordPage(LoggedUser));
+            if (CrossConnectivity.Current.IsConnected)
+                await Navigation.PushAsync(new ModifyPasswordPage(LoggedUser));
+            else
+                await DisplayAlert("Erreur", "Vous devez être en ligne pour modifier votre mot de passe", "OK");
         }
     }
 }
