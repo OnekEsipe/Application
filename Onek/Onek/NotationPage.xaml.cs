@@ -19,7 +19,6 @@ namespace Onek
         public Descriptor SelectedDescripteur { get; set; }
         public Criteria CurrentCriteria;
         public String Comment { get; set; } = "";
-        private Button lastButton { get; set; }
 
         public NotationPage(ObservableCollection<Criteria> criterias, Criteria c)
         {
@@ -35,12 +34,33 @@ namespace Onek
             SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
             if (SelectedDescripteur != null)
             {
-                MyListView.SelectedItem = SelectedDescripteur;
                 DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
+
+                foreach (Descriptor d in CurrentCriteria.Descriptor)
+                {
+                    if (d.Level == SelectedDescripteur.Level)
+                    {
+                        d.BackgroundColor = Color.DarkBlue;
+                        d.TextColor = Color.White;
+                    }
+                    else
+                    {
+                        d.BackgroundColor = Color.LightBlue;
+                        d.TextColor = Color.Black;
+                    }
+                }
             }
             else
             {
                 DescriptionBox.Text = "";
+
+                foreach (Descriptor d in CurrentCriteria.Descriptor)
+                {
+                    
+                     d.BackgroundColor = Color.LightBlue;
+                     d.TextColor = Color.Black;
+                    
+                }
             }
 
             ButtonCommentaireCritere.Text = c.Comment;
@@ -55,18 +75,29 @@ namespace Onek
 
         void OnClickedDescriptor(object sender, ItemTappedEventArgs e)
         {
-            if (lastButton != null)
-            {
-                lastButton.BackgroundColor = Color.LightBlue;
-            }
-            (sender as Button).BackgroundColor = Color.DarkBlue;
-            (sender as Button).TextColor = Color.White;
-            lastButton = (sender as Button);
+            SelectedDescripteur = CurrentCriteria.Descriptor.Where(w => w.Level.Equals((sender as Button).Text)).First();
 
-            SelectedDescripteur = CurrentCriteria.Descriptor.Where(w => w.Level.Equals(lastButton.Text)).First();
-
+            changeColorButtonsDescriptor();
+                  
             DescriptionBox.Text = SelectedDescripteur.Text;
             ButtonValider.IsEnabled = true;
+        }
+
+        private void changeColorButtonsDescriptor()
+        {
+            foreach (Descriptor d in CurrentCriteria.Descriptor)
+            {
+                if (d.Level == SelectedDescripteur.Level)
+                {
+                    d.BackgroundColor = Color.DarkBlue;
+                    d.TextColor = Color.White;
+                }
+                else
+                {
+                    d.BackgroundColor = Color.LightBlue;
+                    d.TextColor = Color.Black;
+                }
+            }
         }
 
         void OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -92,7 +123,6 @@ namespace Onek
 
         void OnButtonValiderClicked(object sender, EventArgs e)
         {
-            // Valider (et retour ?)
             SaveCriteria();
             Navigation.PopAsync();
         }
@@ -148,12 +178,32 @@ namespace Onek
             CritereNameLabel.Text = CurrentCriteria.Text;
             if (SelectedDescripteur != null)
             {
-                MyListView.SelectedItem = SelectedDescripteur;
                 DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
+
+                foreach (Descriptor d in CurrentCriteria.Descriptor)
+                {
+                    if (d.Level == SelectedDescripteur.Level)
+                    {
+                        d.BackgroundColor = Color.DarkBlue;
+                        d.TextColor = Color.White;
+                    }
+                    else
+                    {
+                        d.BackgroundColor = Color.LightBlue;
+                        d.TextColor = Color.Black;
+                    }
+                }
             }
             else
             {
                 DescriptionBox.Text = "";
+
+                foreach (Descriptor d in CurrentCriteria.Descriptor)
+                {
+                    d.BackgroundColor = Color.LightBlue;
+                    d.TextColor = Color.Black;
+                    
+                }
             }
             
 

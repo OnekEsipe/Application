@@ -42,7 +42,7 @@
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand"
                         ItemTapped="OnItemTapped"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-10}"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=30}"
                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=-0.5, Constant=-70}"
                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=Constant, Constant=70}"
                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=420}"
@@ -53,14 +53,14 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal" 
-                                   Padding="0,10,0,0">
+                            <StackLayout Orientation="Horizontal">
                                 <Button Text="{Binding Level}"
                                         FontAttributes="Bold"
                                         Rotation="90"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
-                                        BackgroundColor="LightBlue"
+                                        BackgroundColor="{Binding BackgroundColor}"
+                                        TextColor="{Binding TextColor}"
                                         HeightRequest="50"
                                         WidthRequest="50"
                                         MinimumHeightRequest="50"
