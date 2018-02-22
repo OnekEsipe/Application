@@ -30,31 +30,41 @@
                     Clicked="OnRightButtonClickedAsync"
                     BorderRadius="90"
                     VerticalOptions="Center"/>
-        </StackLayout><RelativeLayout HorizontalOptions="CenterAndExpand"
+        </StackLayout>
+        <RelativeLayout HorizontalOptions="CenterAndExpand"
                         VerticalOptions="StartAndExpand"
                         HeightRequest="80">
-            <ListView x:Name="MyListView"
-                ItemsSource="{Binding Items}"
-                ItemTapped="Handle_ItemTapped"
-                CachingStrategy="RecycleElement"
-                Rotation="270"
-                BackgroundColor="LightGray"                  
-                RowHeight="55"
-                SeparatorColor="Black"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-40}"
-                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=-0.5, Constant=40}"
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=Constant, Constant=80}"
-                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                >
+            <ListView   x:Name="MyListView"
+                        ItemsSource="{Binding Items}"
+                        CachingStrategy="RecycleElement"
+                        Rotation="270"                 
+                        RowHeight="70"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        ItemTapped="OnItemTapped"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-10}"
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=-0.5, Constant=-70}"
+                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=Constant, Constant=70}"
+                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=420}"
+                        SeparatorVisibility="None"
+                        HasUnevenRows="True"
+                        HeightRequest="420"
+                        >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Level}"
-                                   FontAttributes="Bold"
-                                   Rotation="90"
+                            <StackLayout Orientation="Horizontal" 
+                                   Padding="0,10,0,0">
+                                <Button Text="{Binding Level}"
+                                        FontAttributes="Bold"
+                                        Rotation="90"
+                                        CornerRadius="90"
+                                        Clicked="OnClickedDescriptor"
+                                        BackgroundColor="LightBlue"
+                                        HeightRequest="50"
+                                        WidthRequest="50"
+                                        MinimumHeightRequest="50"
+                                        MinimumWidthRequest="50"
                                    />
                             </StackLayout>
                         </ViewCell>
@@ -71,7 +81,7 @@
                 TextColor="Black" 
                 IsEnabled="False"
                 VerticalOptions="CenterAndExpand"/>
-    
+
         <Button x:Name="ButtonCommentaireCritere"
                 Text="{Binding Comment}"
                 BackgroundColor="White"
@@ -82,7 +92,7 @@
                 HeightRequest="150"
                 Clicked="OnCritereCommentaireClicked" 
                 VerticalOptions="CenterAndExpand"/>
-    
+
         <StackLayout  VerticalOptions="CenterAndExpand"
                           HorizontalOptions="CenterAndExpand"
                           Orientation="Horizontal">
