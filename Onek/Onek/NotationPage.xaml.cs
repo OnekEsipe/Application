@@ -19,6 +19,7 @@ namespace Onek
         public Descriptor SelectedDescripteur { get; set; }
         public Criteria CurrentCriteria;
         public String Comment { get; set; } = "";
+        private Button lastButton { get; set; }
 
         public NotationPage(ObservableCollection<Criteria> criterias, Criteria c)
         {
@@ -52,14 +53,25 @@ namespace Onek
         }
         
 
-        void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        void OnClickedDescriptor(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item == null)
-                return;
+            if (lastButton != null)
+            {
+                lastButton.BackgroundColor = Color.LightBlue;
+            }
+            (sender as Button).BackgroundColor = Color.DarkBlue;
+            (sender as Button).TextColor = Color.White;
+            lastButton = (sender as Button);
 
-            SelectedDescripteur = e.Item as Descriptor;
+            SelectedDescripteur = CurrentCriteria.Descriptor.Where(w => w.Level.Equals(lastButton.Text)).First();
+
             DescriptionBox.Text = SelectedDescripteur.Text;
             ButtonValider.IsEnabled = true;
+        }
+
+        void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
         }
 
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
@@ -126,7 +138,7 @@ namespace Onek
         {
             CurrentCriteria = newCriteria;
 
-            Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor);
+            Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;
 
             MyListView.ItemsSource = Items;
@@ -143,6 +155,7 @@ namespace Onek
             {
                 DescriptionBox.Text = "";
             }
+            
 
             SetVisibilityArrow(index);
         }
@@ -166,6 +179,5 @@ namespace Onek
                 RightButton.IsEnabled = true;
             }
         }
-
     }
 }
