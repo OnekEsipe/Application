@@ -106,26 +106,34 @@
                                    />
             </Grid>
         </RelativeLayout>
-        <Button x:Name="DescriptionBox"
-                HorizontalOptions="Fill"
+        <Frame HorizontalOptions="Fill"
                 WidthRequest="300"
                 HeightRequest="150"
+                VerticalOptions="CenterAndExpand"
                 BackgroundColor="LightGray"
-                BorderColor="LightGray"
-                TextColor="Black" 
-                IsEnabled="False"
-                VerticalOptions="CenterAndExpand"/>
-
-        <Button x:Name="ButtonCommentaireCritere"
-                Text="{Binding Comment}"
+                OutlineColor="DarkBlue">
+            <Label  x:Name="DescriptionBox"
+                    HorizontalOptions="Fill"
+                    WidthRequest="300"
+                    HeightRequest="150"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"/>    
+        </Frame>
+        <Label Text="Commentaire du critère :"
+               TextColor="Gray"
+                VerticalOptions="CenterAndExpand" />
+        
+        <Editor x:Name="EditorCommentaireCritere"
                 BackgroundColor="White"
-                BorderColor="DarkBlue"
                 TextColor="DarkBlue"
                 HorizontalOptions="Fill"
                 WidthRequest="300"
                 HeightRequest="150"
-                Clicked="OnCritereCommentaireClicked" 
-                VerticalOptions="CenterAndExpand"/>
+                TextChanged="OnEditorCommentaireChanged" 
+                VerticalOptions="CenterAndExpand" />
 
         <StackLayout  VerticalOptions="CenterAndExpand"
                           HorizontalOptions="CenterAndExpand"

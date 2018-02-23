@@ -100,7 +100,7 @@ namespace Onek
                 }
             }
 
-            ButtonCommentaireCritere.Text = c.Comment;
+            EditorCommentaireCritere.Text = c.Comment;
 
             CritereNameLabel.Text = CurrentCriteria.Text;
             LeftButton.Text = "<";
@@ -137,20 +137,20 @@ namespace Onek
             }
         }
         
-        async void OnCritereCommentaireClicked(object sender, EventArgs e)
+        void OnEditorCommentaireChanged(object sender, EventArgs e)
         {
-            string title = "Commentaire du critère";
-            string text = "Ecrire un commentaire :";
             if (CurrentCriteria.Comment == null)
             {
                 CurrentCriteria.Comment = "";
             }
-            string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, CurrentCriteria.Comment,500);
-            if(!answer.Equals(Comment))
+            Editor editor = sender as Editor;
+            if(editor != null && editor.Text != null)
             {
-                Comment = answer;
+                Comment = editor.Text;
             }
-            ButtonCommentaireCritere.Text = Comment;
+
+            EditorCommentaireCritere.Text = Comment;
+            ButtonValider.IsEnabled = true;
         }
 
         void OnButtonValiderClicked(object sender, EventArgs e)
@@ -203,7 +203,7 @@ namespace Onek
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;
 
-            ButtonCommentaireCritere.Text = Comment;
+            EditorCommentaireCritere.Text = Comment;
             SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
 
             CritereNameLabel.Text = CurrentCriteria.Text;
