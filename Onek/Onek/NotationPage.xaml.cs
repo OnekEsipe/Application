@@ -1,6 +1,7 @@
 ﻿using Onek.data;
 using Onek.utils;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace Onek
         public Descriptor SelectedDescripteur { get; set; }
         public Criteria CurrentCriteria;
         public String Comment { get; set; } = "";
+        public Constraint constraintX { get; set; }
+        private Dictionary<string, Button> buttons =  new Dictionary<string, Button>();
 
         public NotationPage(ObservableCollection<Criteria> criterias, Criteria c)
         {
@@ -27,10 +30,17 @@ namespace Onek
             CurrentCriteria = c;
             CriteriaList = criterias;
 
+            buttons.Add("A", AButton);
+            buttons.Add("B", BButton);
+            buttons.Add("C", CButton);
+            buttons.Add("D", DButton);
+            buttons.Add("E", EButton);
+            buttons.Add("F", FButton);
+
+
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;
-
-            MyListView.ItemsSource = Items;
+            
             SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
             if (SelectedDescripteur != null)
             {
@@ -40,13 +50,13 @@ namespace Onek
                 {
                     if (d.Level == SelectedDescripteur.Level)
                     {
-                        d.BackgroundColor = Color.DarkBlue;
-                        d.TextColor = Color.White;
+                        buttons[d.Level].BackgroundColor = Color.DarkBlue;
+                        buttons[d.Level].TextColor = Color.White;
                     }
                     else
                     {
-                        d.BackgroundColor = Color.LightBlue;
-                        d.TextColor = Color.Black;
+                        buttons[d.Level].BackgroundColor = Color.LightBlue;
+                        buttons[d.Level].TextColor = Color.Black;
                     }
                 }
             }
@@ -56,10 +66,36 @@ namespace Onek
 
                 foreach (Descriptor d in CurrentCriteria.Descriptor)
                 {
+
+                    buttons[d.Level].BackgroundColor = Color.LightBlue;
+                    buttons[d.Level].TextColor = Color.Black;
                     
-                     d.BackgroundColor = Color.LightBlue;
-                     d.TextColor = Color.Black;
-                    
+                }
+            }
+
+            int count = CurrentCriteria.Descriptor.Count;
+            foreach (KeyValuePair<string, Button> entry in buttons)
+            {
+                if (count > 0)
+                {
+                    entry.Value.IsVisible = true;
+                }
+                else
+                {
+                    entry.Value.IsVisible = false;
+                }
+                count--;
+
+
+                if (Device.Idiom == TargetIdiom.Phone)
+                {
+                    entry.Value.HeightRequest = 50;
+                    entry.Value.WidthRequest = 50;
+                }
+                else
+                {
+                    entry.Value.HeightRequest = 70;
+                    entry.Value.WidthRequest = 70;
                 }
             }
 
@@ -89,22 +125,17 @@ namespace Onek
             {
                 if (d.Level == SelectedDescripteur.Level)
                 {
-                    d.BackgroundColor = Color.DarkBlue;
-                    d.TextColor = Color.White;
+                    buttons[d.Level].BackgroundColor = Color.DarkBlue;
+                    buttons[d.Level].TextColor = Color.White;
                 }
                 else
                 {
-                    d.BackgroundColor = Color.LightBlue;
-                    d.TextColor = Color.Black;
+                    buttons[d.Level].BackgroundColor = Color.LightBlue;
+                    buttons[d.Level].TextColor = Color.Black;
                 }
             }
         }
-
-        void OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            ((ListView)sender).SelectedItem = null;
-        }
-
+        
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
             string title = "Commentaire du critère";
@@ -171,7 +202,6 @@ namespace Onek
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;
 
-            MyListView.ItemsSource = Items;
             ButtonCommentaireCritere.Text = Comment;
             SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
 
@@ -184,13 +214,13 @@ namespace Onek
                 {
                     if (d.Level == SelectedDescripteur.Level)
                     {
-                        d.BackgroundColor = Color.DarkBlue;
-                        d.TextColor = Color.White;
+                        buttons[d.Level].BackgroundColor = Color.DarkBlue;
+                        buttons[d.Level].TextColor = Color.White;
                     }
                     else
                     {
-                        d.BackgroundColor = Color.LightBlue;
-                        d.TextColor = Color.Black;
+                        buttons[d.Level].BackgroundColor = Color.LightBlue;
+                        buttons[d.Level].TextColor = Color.Black;
                     }
                 }
             }
@@ -200,12 +230,25 @@ namespace Onek
 
                 foreach (Descriptor d in CurrentCriteria.Descriptor)
                 {
-                    d.BackgroundColor = Color.LightBlue;
-                    d.TextColor = Color.Black;
+                    buttons[d.Level].BackgroundColor = Color.LightBlue;
+                    buttons[d.Level].TextColor = Color.Black;
                     
                 }
             }
-            
+
+            int count = CurrentCriteria.Descriptor.Count;
+            foreach (KeyValuePair<string, Button> entry in buttons)
+            {
+                if (count > 0)
+                {
+                    entry.Value.IsVisible = true;
+                }
+                else
+                {
+                    entry.Value.IsVisible = false;
+                }
+                count--;
+            }
 
             SetVisibilityArrow(index);
         }
