@@ -23,9 +23,10 @@ namespace Onek
         public Constraint constraintX { get; set; }
         private Dictionary<string, Button> buttons =  new Dictionary<string, Button>();
 
-        public NotationPage(ObservableCollection<Criteria> criterias, Criteria c)
+        public NotationPage(Candidate candidate, ObservableCollection<Criteria> criterias, Criteria c)
         {
             InitializeComponent();
+            Title = candidate.FullName;
             c.Descriptor = new ObservableCollection<Descriptor>(c.Descriptor.OrderBy(x => x.Level));
             CurrentCriteria = c;
             CriteriaList = criterias;

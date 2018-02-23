@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Onek.NotationPage"
              Title="Critère">
-    <StackLayout Orientation="Vertical">
+    <StackLayout Orientation="Vertical" Margin="10, 10">
         <StackLayout Orientation="Horizontal"
                      HeightRequest="100">
             <Button x:Name="LeftButton"
@@ -132,7 +132,7 @@
                           Orientation="Horizontal">
 
             <Button x:Name="ButtonValider"
-                        Text="Valider"
+                        Text="Enregistrer"
                         BackgroundColor="DarkBlue"
                         TextColor="White" 
                         Clicked="OnButtonValiderClicked"

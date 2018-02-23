@@ -140,7 +140,7 @@ namespace Onek
                 return;
 
             goToPageNote = true;
-            await Navigation.PushAsync(new NotationPage(Eval.Criterias, SelectedCritere));
+            await Navigation.PushAsync(new NotationPage(CurrentCandidate, Eval.Criterias, SelectedCritere));
 
         }
 
@@ -148,7 +148,6 @@ namespace Onek
         {
             base.OnAppearing();
             MyListView.ItemsSource = Items;
-            goToPageNote = false;
 
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
             {
@@ -159,11 +158,18 @@ namespace Onek
                 ButtonEnregister.Text = "Enregistrer";
             }
 
-            if (Eval.isSigned && comeBackFromSigning)
+            if (!Eval.isSigned && comeBackFromSigning)
+            {
+                return;
+            }
+            if (goToPageNote)
             {
                 SaveEvaluation();
-                comeBackFromSigning = false;
             }
+            
+            comeBackFromSigning = false;
+            goToPageNote = false;
+
         }
 
         protected override async void OnDisappearing()
@@ -271,7 +277,7 @@ namespace Onek
 
         async void SaveEvaluation()
         {
-            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned && CurrentEvent.SignatureNeeded)
             {
                 await Navigation.PushAsync(new SigningPage(Eval));
                 comeBackFromSigning = true;
