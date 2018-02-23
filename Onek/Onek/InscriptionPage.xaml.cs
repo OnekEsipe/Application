@@ -18,7 +18,13 @@ namespace Onek
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InscriptionPage : ContentPage
 	{
-		public InscriptionPage ()
+        private bool wrongCompleted { get; set; }
+        private bool wrongPassword { get; set; }
+        private bool wrongMail { get; set; }
+        private bool succeed { get; set; }
+        private bool error { get; set; }
+
+        public InscriptionPage ()
 		{
 			InitializeComponent ();
 		}
@@ -31,64 +37,135 @@ namespace Onek
         /// <param name="e"></param>
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
         {
-            CreateAccountManager accountManager = new CreateAccountManager();
-            if(LoginEntry.Text == null || NomEntry.Text == null || PrenomEntry.Text == null || 
-                MailEntry.Text == null || PasswordEntry.Text == null || LoginEntry.Text.Equals("") ||
-                NomEntry.Text.Equals("") || PrenomEntry.Text.Equals("")|| MailEntry.Text.Equals("") || 
-                PasswordEntry.Text.Equals(""))
+
+            IndicatorOn();
+            string loginText = LoginEntry.Text;
+            string passwordText = PasswordEntry.Text;
+            string mailText = MailEntry.Text;
+            string nomText = NomEntry.Text;
+            string prenomText = PrenomEntry.Text;
+
+            String errorMessage = "";
+
+            error = false;
+            succeed = false;
+            wrongPassword = false;
+            wrongMail = false;
+            wrongCompleted = false;
+
+            await Task.Run(async () =>
             {
-                await DisplayAlert("Erreur", "Tous les champs doivent être renseignés", "OK");
-                return;
-            }
-            if(CreateAccountManager.CheckPassword(PasswordEntry.Text) == false)
-            {
-                await DisplayAlert("Erreur", "Le mot de passe doit contenir au moins 6 caractères dont au moins une lettre en majuscule", "OK");
-                return;
-            }
-            if (CreateAccountManager.CheckMail(MailEntry.Text) == false)
-            {
-                await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
-                return;
-            }
-            accountManager.Login = LoginEntry.Text;
-            accountManager.Lastname = NomEntry.Text;
-            accountManager.Firstname = PrenomEntry.Text;
-            accountManager.Mail = MailEntry.Text;
-            //Compute password hash (SHA1)
-            SHA1Managed sha1 = new SHA1Managed();
-            var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
-            String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
-            accountManager.Password = hashedPassword;
-            //Create json 
-            String createAccountJson = JsonConvert.SerializeObject(accountManager);
-            //Send json
-            try
-            {
-                HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverCreateAccountURL) as HttpWebRequest;
-                webRequest.ContentType = "application/json";
-                webRequest.Method = "POST";
-                JsonParser.SendToServer(webRequest, createAccountJson);
-                HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
-                //If response OK, quit
-                if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                CreateAccountManager accountManager = new CreateAccountManager();
+                if (loginText == null || nomText == null || prenomText == null ||
+                    mailText == null || passwordText == null || loginText.Equals("") ||
+                    nomText.Equals("") || prenomText.Equals("") || mailText.Equals("") ||
+                    passwordText.Equals(""))
                 {
-                    await DisplayAlert("Création de compte", "Votre compte a bien été créé", "OK");
-                    await Navigation.PopAsync();
-                }
-            }
-            catch (Exception exception)
-            {
-                WebException webException = exception as WebException;
-                HttpWebResponse response = webException.Response as HttpWebResponse;
-                //If conflict, warn user
-                if (response.StatusCode.Equals(HttpStatusCode.Conflict))
-                {
-                    StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                    String errorMessage = reader.ReadToEnd();
-                    await DisplayAlert("Erreur", errorMessage, "OK");
+                    wrongCompleted = true;
                     return;
                 }
+                if (CreateAccountManager.CheckPassword(PasswordEntry.Text) == false)
+                {
+                    wrongPassword = true;
+                    return;
+                }
+                if (CreateAccountManager.CheckMail(MailEntry.Text) == false)
+                {
+                    wrongMail = true;
+                    return;
+                }
+                accountManager.Login = LoginEntry.Text;
+                accountManager.Lastname = NomEntry.Text;
+                accountManager.Firstname = PrenomEntry.Text;
+                accountManager.Mail = MailEntry.Text;
+                //Compute password hash (SHA1)
+                SHA1Managed sha1 = new SHA1Managed();
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(PasswordEntry.Text));
+                String hashedPassword = String.Join("", hash.Select(b => b.ToString("x2")).ToArray());
+                accountManager.Password = hashedPassword;
+                //Create json 
+                String createAccountJson = JsonConvert.SerializeObject(accountManager);
+                //Send json
+                try
+                {
+                    HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverCreateAccountURL) as HttpWebRequest;
+                    webRequest.ContentType = "application/json";
+                    webRequest.Method = "POST";
+                    JsonParser.SendToServer(webRequest, createAccountJson);
+                    HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
+                    //If response OK, quit
+                    if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                    {
+                        succeed = true;
+                        return;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    WebException webException = exception as WebException;
+                    HttpWebResponse response = webException.Response as HttpWebResponse;
+                    //If conflict, warn user
+                    if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                    {
+                        StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                        errorMessage = reader.ReadToEnd();
+                        error = true;
+                        return;
+                    }
+                }
+            });
+
+            if(error)
+            {
+                await DisplayAlert("Erreur", errorMessage, "OK");
             }
+            if(succeed)
+            {
+                await DisplayAlert("Création de compte", "Votre compte a bien été créé", "OK");
+                IndicatorOff();
+                await Navigation.PopAsync();
+            }
+            if(wrongCompleted)
+            {
+                await DisplayAlert("Erreur", "Tous les champs doivent être renseignés", "OK");
+            }
+            if(wrongMail)
+            {
+                await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
+            }
+            if(wrongPassword)
+            {
+                await DisplayAlert("Erreur", "Le mot de passe doit contenir au moins 6 caractères dont au moins une lettre en majuscule", "OK");
+            }
+
+
+            IndicatorOff();
         }
-	}
+
+        void IndicatorOn()
+        {
+            waitingLayout.IsVisible = true;
+            activityIndicator.IsRunning = true;
+            MainLayout.IsEnabled = false;
+            LoginEntry.IsEnabled = false;
+            MailEntry.IsEnabled = false;
+            PasswordEntry.IsEnabled = false;
+            NomEntry.IsEnabled = false;
+            PrenomEntry.IsEnabled = false;
+            InscriptionButton.IsEnabled = false;
+        }
+
+        void IndicatorOff()
+        {
+            waitingLayout.IsVisible = false;
+            activityIndicator.IsRunning = false;
+            MainLayout.IsEnabled = true;
+            LoginEntry.IsEnabled = true;
+            MailEntry.IsEnabled = true;
+            PasswordEntry.IsEnabled = true;
+            NomEntry.IsEnabled = true;
+            PrenomEntry.IsEnabled = true;
+            InscriptionButton.IsEnabled = true;
+        }
+    }
 }
