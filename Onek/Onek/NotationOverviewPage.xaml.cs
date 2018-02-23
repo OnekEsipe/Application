@@ -24,7 +24,7 @@ namespace Onek
         private Candidate CurrentCandidate { get; set; }
         private User LoggedUser { get; set; }
         private bool goToPageNote { get; set; }
-        private bool comeBackFromSigning { get; set; }
+        //private bool comeBackFromSigning { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
 
         public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
@@ -47,19 +47,23 @@ namespace Onek
             }
             Eval.isModified = false;
 
-            comeBackFromSigning = false;
+            //comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
             LeftButton.Text = "<";
             RightButton.Text = ">";
 
+            if (!CurrentEvent.IsSigned)
+            {
+                ButtonSigner.IsVisible = false;
+            }
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
             {
-                ButtonEnregister.Text = "Signer";
+                ButtonSigner.IsEnabled = true;
             }
             else
             {
-                ButtonEnregister.Text = "Enregistrer";
+                ButtonSigner.IsEnabled = false;
             }
 
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
@@ -70,23 +74,44 @@ namespace Onek
             MyListView.ItemsSource = Items;
         }
 
+        /// <summary>
+        /// Click on a criteria
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
+            {
+                ((ListView)sender).SelectedItem = null;
                 return;
+            }
 
             if (Eval.isSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                ((ListView)sender).SelectedItem = null;
                 return;
             }
 
-            ButtonNoter.IsEnabled = true;
             SelectedCritere = e.Item as Criteria;
+            if (SelectedCritere == null)
+            {
+                ((ListView)sender).SelectedItem = null;
+                return;
+            }
 
-            //((ListView)sender).SelectedItem = null;
+            goToPageNote = true;
+            await Navigation.PushAsync(new NotationPage(Eval.Criterias, SelectedCritere));
+
+            ((ListView)sender).SelectedItem = null;
         }
 
+        /// <summary>
+        /// Select a grade for a criteria
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnLevelButtonClicked(object sender, EventArgs e)
         {
             if (Eval.isSigned)
@@ -119,53 +144,49 @@ namespace Onek
             }
             MyListView.ItemsSource = Items;
 
+            //Check if button signer must be enabled or not
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
             {
-                ButtonEnregister.Text = "Signer";
+                ButtonSigner.IsEnabled = true;
             }
             else
             {
-                ButtonEnregister.Text = "Enregistrer";
+                ButtonSigner.IsEnabled = false;
             }
         }
 
-        async void OnButtonNoterClicked(object sender, EventArgs e)
-        {
-            if (Eval.isSigned)
-            {
-                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
-                return;
-            }
-            if (SelectedCritere == null)
-                return;
-
-            goToPageNote = true;
-            await Navigation.PushAsync(new NotationPage(Eval.Criterias, SelectedCritere));
-
-        }
-
+        /// <summary>
+        /// Executed when window is displayed
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
             MyListView.ItemsSource = Items;
             goToPageNote = false;
 
+            if (!CurrentEvent.IsSigned)
+            {
+                ButtonSigner.IsVisible = false;
+            }
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
             {
-                ButtonEnregister.Text = "Signer";
+                ButtonSigner.IsEnabled = true;
             }
             else
             {
-                ButtonEnregister.Text = "Enregistrer";
+                ButtonSigner.IsEnabled = false;
             }
 
-            if (Eval.isSigned && comeBackFromSigning)
+            /*if (Eval.isSigned && comeBackFromSigning)
             {
-                SaveEvaluation();
+                SaveEvaluation(false);
                 comeBackFromSigning = false;
-            }
+            }*/
         }
 
+        /// <summary>
+        /// Executed when the page disappear
+        /// </summary>
         protected override async void OnDisappearing()
         {
             if (goToPageNote)
@@ -183,7 +204,7 @@ namespace Onek
                 bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                 if (answer)
                 {
-                    SaveEvaluation();
+                    SaveEvaluation(false);
                 }
                 base.OnDisappearing();
                 return;
@@ -196,7 +217,7 @@ namespace Onek
                     bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                     if (answer)
                     {
-                        SaveEvaluation();
+                        SaveEvaluation(false);
                     }
                     base.OnDisappearing();
                     return;
@@ -207,7 +228,10 @@ namespace Onek
 
         }
 
-
+        /// <summary>
+        /// Show pop-up to ask user if he wants to save his changes before switching to an other candidate
+        /// </summary>
+        /// <returns></returns>
         async Task ConfirmSaveBeforeSwitchAsync()
         {
             if (CurrentEvent.End < DateTime.Now)
@@ -221,7 +245,7 @@ namespace Onek
                 bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                 if (answer)
                 {
-                    SaveEvaluation();
+                    SaveEvaluation(false);
                 }
                 base.OnDisappearing();
                 return;
@@ -234,20 +258,25 @@ namespace Onek
                     bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                     if (answer)
                     {
-                        SaveEvaluation();
+                        SaveEvaluation(false);
                     }
                     return;
                 }
             }
         }
 
+        /// <summary>
+        /// On save button clicked, save evaluation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonEnregistrerClicked(object sender, EventArgs e)
         {
             // Save and quit
             //send json to server
 
             goToPageNote = true;
-            comeBackFromSigning = false;
+            //comeBackFromSigning = false;
 
             if (CurrentEvent.End < DateTime.Now)
             {
@@ -257,55 +286,81 @@ namespace Onek
             }
             if (!Eval.isSigned)
             {
-                SaveEvaluation();
-                if (Eval.isSigned)
-                {
-                    await Navigation.PopAsync();
-                }
+                SaveEvaluation(false);
             }
             else
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
             }
         }
 
-        async void SaveEvaluation()
+        /// <summary>
+        /// On click on sign button, sign and save evaluation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        async void OnButtonSignerClicked(object sender, EventArgs e)
         {
-            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
+            goToPageNote = true;
+
+            if (Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
+            if (CurrentEvent.End < DateTime.Now)
+            {
+                await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
+                await Navigation.PopAsync();
+                return;
+            }
+            SaveEvaluation(true);
+
+        }
+
+        /// <summary>
+        /// Save the evaluation and add signature if needed and if asked
+        /// </summary>
+        /// <param name="signature"></param>
+        async void SaveEvaluation(Boolean signature)
+        {
+            if (signature && Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
             {
                 await Navigation.PushAsync(new SigningPage(Eval));
-                comeBackFromSigning = true;
+                //comeBackFromSigning = true;
+            }
+            Eval.LastUpdatedDate = DateTime.Now;
+            String jsonEval = JsonParser.GenerateJsonEval(Eval);
+            JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
+            EvaluationSender.AddEvaluationInQueue(jsonEval);
+            EvaluationSender.SendJsonEvalToServer();
+
+
+            foreach (Criteria c in Eval.Criterias)
+            {
+                c.isModified = false;
+            }
+            Eval.isModified = false;
+
+            int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
+            CandidateList[index] = CurrentCandidate;
+
+            checkStatus(CurrentCandidate);
+            if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
+            {
+                ButtonSigner.IsEnabled = true;
             }
             else
             {
-                Eval.LastUpdatedDate = DateTime.Now;
-                String jsonEval = JsonParser.GenerateJsonEval(Eval);
-                JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
-                EvaluationSender.AddEvaluationInQueue(jsonEval);
-                EvaluationSender.SendJsonEvalToServer();
-
-
-                foreach (Criteria c in Eval.Criterias)
-                {
-                    c.isModified = false;
-                }
-                Eval.isModified = false;
-
-                int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
-                CandidateList[index] = CurrentCandidate;
-
-                checkStatus(CurrentCandidate);
-                if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
-                {
-                    ButtonEnregister.Text = "Signer";
-                }
-                else
-                {
-                    ButtonEnregister.Text = "Enregistrer";
-                }
+                ButtonSigner.IsEnabled = false;
             }
         }
 
+        /// <summary>
+        /// Check the status of notation and set a color for each status (no grade, in progress, graded)
+        /// </summary>
+        /// <param name="candidate"></param>
         private void checkStatus(Candidate candidate)
         {
             int numberOfNoted = 0;
@@ -329,6 +384,11 @@ namespace Onek
             candidate.StatusImage = "yellow.png";
         }
 
+        /// <summary>
+        /// Click on general comment
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnGeneralCommentaireClicked(object sender, EventArgs e)
         {
             if (Eval.isSigned)
@@ -338,7 +398,7 @@ namespace Onek
             }
 
             goToPageNote = true;
-            comeBackFromSigning = false;
+            //comeBackFromSigning = false;
 
             string title = "Commentaire de l'évalution";
             string text = "Ecrire un commentaire :";
@@ -354,6 +414,11 @@ namespace Onek
             MyListView.ItemsSource = Items;
         }
 
+        /// <summary>
+        /// Click on criteria comment
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
             if (Eval.isSigned)
@@ -363,7 +428,7 @@ namespace Onek
             }
 
             goToPageNote = true;
-            comeBackFromSigning = false;
+            //comeBackFromSigning = false;
 
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
@@ -380,6 +445,12 @@ namespace Onek
             MyListView.ItemsSource = Items;
         }
 
+        /// <summary>
+        /// On click on left arrow to switch between candidates
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
             await ConfirmSaveBeforeSwitchAsync();
@@ -390,6 +461,12 @@ namespace Onek
             changeCandidate(leftCandidate, index - 1);
         }
 
+        /// <summary>
+        /// On click on right arrow to switch between candidates
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         async Task OnRightButtonClickedAsync(object sender, EventArgs e)
         {
             await ConfirmSaveBeforeSwitchAsync();
@@ -400,6 +477,11 @@ namespace Onek
             changeCandidate(rightCandidate, index + 1);
         }
 
+        /// <summary>
+        /// Switch to an other candidate
+        /// </summary>
+        /// <param name="newCandidate"></param>
+        /// <param name="index"></param>
         void changeCandidate(Candidate newCandidate, int index)
         {
             CurrentCandidate = newCandidate;
@@ -416,25 +498,33 @@ namespace Onek
             }
 
             Eval.isModified = false;
-            comeBackFromSigning = false;
+            //comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
 
+            if (!CurrentEvent.IsSigned)
+            {
+                ButtonSigner.IsVisible = false;
+            }
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
             {
-                ButtonEnregister.Text = "Signer";
+                ButtonSigner.IsEnabled = true;
             }
             else
             {
-                ButtonEnregister.Text = "Enregistrer";
+                ButtonSigner.IsEnabled = false;
             }
 
             SetVisibilityArrow(index);
         }
 
+        /// <summary>
+        /// Set the visibility of arrow to switch between candidate
+        /// </summary>
+        /// <param name="index"></param>
         void SetVisibilityArrow(int index)
         {
             if (index == 0)

@@ -89,16 +89,16 @@
                     MinimumWidthRequest="300"
                     MinimumHeightRequest="250"
                     Clicked="OnGeneralCommentaireClicked"/>
-        
+
         <StackLayout  VerticalOptions="CenterAndExpand"
                       HorizontalOptions="CenterAndExpand"
                       Orientation="Horizontal">
 
-            <Button x:Name="ButtonNoter"
-                    Text="Noter"
+            <Button x:Name="ButtonSigner"
+                    Text="Signer"
                     BackgroundColor="DarkBlue"
                     TextColor="White" 
-                    Clicked="OnButtonNoterClicked"
+                    Clicked="OnButtonSignerClicked"
                     IsEnabled="False"/>
 
             <Button x:Name="ButtonEnregister"
