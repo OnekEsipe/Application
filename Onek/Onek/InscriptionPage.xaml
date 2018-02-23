@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Entry  x:Name="LoginEntry"
-                Placeholder="Nom d'utilisateur"
+                Placeholder="Login"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
@@ -30,7 +30,7 @@
                 WidthRequest="250"
                 IsPassword="False"/>
             <Entry  x:Name="PasswordEntry"
-                Placeholder="Mot de Passe"
+                Placeholder="Mot de Passe - 6 Caractères dont une Lettre Majuscule"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="FillAndExpand"
                 WidthRequest="250"

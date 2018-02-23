@@ -12,7 +12,7 @@
                HeightRequest="120"/>
 
             <Entry  x:Name="LoginEntry"
-                Placeholder="Nom d'utilisateur"
+                Placeholder="Login"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
@@ -46,10 +46,6 @@
                  HeightRequest="1"
                  WidthRequest="250"
                  Color="DarkBlue" />
-
-            <Label Text="Pas de compte ?"
-               TextColor="Gray"
-                VerticalOptions="CenterAndExpand" />
 
             <Button x:Name="ButtonInscription"
                 Text="Inscription"
