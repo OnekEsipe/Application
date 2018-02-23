@@ -33,44 +33,78 @@
         </StackLayout>
         <RelativeLayout HorizontalOptions="CenterAndExpand"
                         VerticalOptions="StartAndExpand"
-                        HeightRequest="80">
-            <ListView   x:Name="MyListView"
-                        ItemsSource="{Binding Items}"
-                        CachingStrategy="RecycleElement"
-                        Rotation="270"                 
-                        RowHeight="70"
+                        x:Name="relativeLayout">
+            <Grid x:Name="MyGrid" Padding="0,10,0,0"
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
-                        ItemTapped="OnItemTapped"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=30}"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=-0.5, Constant=-70}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=Constant, Constant=70}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=420}"
-                        SeparatorVisibility="None"
-                        HasUnevenRows="True"
-                        HeightRequest="420"
-                        >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <Button Text="{Binding Level}"
+                        VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Button Text="A" x:Name="AButton"
                                         FontAttributes="Bold"
-                                        Rotation="90"
+                                        CornerRadius="90"
+                                        Clicked="OnClickedDescriptor"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                        Grid.Row="1" Grid.Column="1"
+                                   />
+                <Button Text="B" x:Name="BButton"
+                                        FontAttributes="Bold"
+                                        CornerRadius="90"
+                                        Clicked="OnClickedDescriptor"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                        Grid.Row="1" Grid.Column="2"
+                                   />
+                <Button Text="C" x:Name="CButton"
+                                        FontAttributes="Bold"
+                                        CornerRadius="90"
+                                        Clicked="OnClickedDescriptor"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                        Grid.Row="1" Grid.Column="3"
+                                   />
+                <Button Text="D" x:Name="DButton"
+                                        FontAttributes="Bold"
+                                        CornerRadius="90"
+                                        Clicked="OnClickedDescriptor"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                        Grid.Row="1" Grid.Column="4"
+                                   />
+                <Button Text="E" x:Name="EButton"
+                                        FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
                                         BackgroundColor="{Binding BackgroundColor}"
                                         TextColor="{Binding TextColor}"
-                                        HeightRequest="50"
-                                        WidthRequest="50"
-                                        MinimumHeightRequest="50"
-                                        MinimumWidthRequest="50"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                        Grid.Row="1" Grid.Column="5"
                                    />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                <Button Text="F" x:Name="FButton"
+                                        FontAttributes="Bold"
+                                        CornerRadius="90"
+                                        Clicked="OnClickedDescriptor"
+                                        BackgroundColor="{Binding BackgroundColor}"
+                                        TextColor="{Binding TextColor}"
+                                        HeightRequest="70"
+                                        WidthRequest="70"
+                        Grid.Row="1" Grid.Column="6" 
+                                   />
+            </Grid>
         </RelativeLayout>
         <Button x:Name="DescriptionBox"
                 HorizontalOptions="Fill"
