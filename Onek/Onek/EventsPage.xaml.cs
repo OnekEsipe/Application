@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,7 +19,8 @@ namespace Onek
     {
         private ObservableCollection<Event> Items { get; set; }
         private User LoggedUser { get; set; }
-        private List<Event> Events = new List<Event>();
+        private List<Event> Events = new List<Event>();        
+        public bool IsRefreshing { get; set; }
 
         public EventsPage(User user)
         {
@@ -141,6 +142,34 @@ namespace Onek
                 await Navigation.PushAsync(new ModifyPasswordPage(LoggedUser));
             else
                 await DisplayAlert("Erreur", "Vous devez être en ligne pour modifier votre mot de passe", "OK");
+        }
+
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    IsRefreshing = true;
+                    await RefreshData();
+                    IsRefreshing = false;
+                });
+            }
+        }
+
+        private async Task<bool> RefreshData()
+        {
+            return await Task.Run(() =>
+             {
+                 Events = JsonParser.DeserializeJson(LoggedUser);
+                 if (Events == null)
+                 {
+                     return false;
+                 }
+                 Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
+                 MyListView.ItemsSource = Items;
+                 return true;
+             });
         }
     }
 }

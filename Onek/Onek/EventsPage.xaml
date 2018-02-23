@@ -16,7 +16,8 @@
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
-                CachingStrategy="RecycleElement">
+                CachingStrategy="RecycleElement"
+                
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />
