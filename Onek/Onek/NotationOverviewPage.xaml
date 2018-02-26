@@ -7,7 +7,7 @@
         <StackLayout Orientation="Horizontal"
                      HeightRequest="100">
             <Button x:Name="LeftButton"
-                    BackgroundColor="DarkBlue"
+                    BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
@@ -18,12 +18,12 @@
                     VerticalOptions="Center"
                     HorizontalOptions="CenterAndExpand"
                     FontSize="Small"
-                    TextColor="DarkBlue"
+                    TextColor="#2399e5"
                     WidthRequest="100"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"/>
             <Button x:Name="RightButton"
-                    BackgroundColor="DarkBlue"
+                    BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
@@ -39,18 +39,30 @@
                 HasUnevenRows="True"
                   >
             <ListView.Header>
-                <StackLayout Orientation="Horizontal" Padding="10,5,5,10">
-                    <Label Text="Critere" FontSize="Small" HorizontalOptions="CenterAndExpand" />
-                    <Label Text="Note" FontSize="Small" HorizontalOptions="CenterAndExpand"/>
-                    <Label Text="Commentaire" FontSize="Small" HorizontalOptions="CenterAndExpand"/>
+                <StackLayout Orientation="Horizontal" Padding="10,5,5,10" Margin="10,10,10,10">
+                    <Label Text="Critere" 
+                           FontSize="Small" 
+                           HorizontalOptions="CenterAndExpand" 
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text="Note" 
+                           FontSize="Small" 
+                           HorizontalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
+                    <Label Text="Commentaire" 
+                           FontSize="Small" 
+                           HorizontalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"/>
                 </StackLayout>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal" Margin="10,10,10,10">
                             <Label x:Name="CritereText" Text="{Binding Text}" 
-                                   TextColor="DarkBlue" FontSize="Small"
+                                   TextColor="#2399e5" FontSize="Small"
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="Center"
                                    VerticalTextAlignment="Center"
@@ -87,14 +99,14 @@
 
             <Button x:Name="ButtonSigner"
                     Text="Signer"
-                    BackgroundColor="DarkBlue"
+                    BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonSignerClicked"
                     IsEnabled="False"/>
 
             <Button x:Name="ButtonEnregister"
                     Text="Enregistrer"
-                    BackgroundColor="DarkBlue"
+                    BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonEnregistrerClicked"/>
         </StackLayout>

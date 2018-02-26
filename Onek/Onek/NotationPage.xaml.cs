@@ -51,7 +51,7 @@ namespace Onek
                 {
                     if (d.Level == SelectedDescripteur.Level)
                     {
-                        buttons[d.Level].BackgroundColor = Color.DarkBlue;
+                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                         buttons[d.Level].TextColor = Color.White;
                     }
                     else
@@ -126,7 +126,7 @@ namespace Onek
             {
                 if (d.Level == SelectedDescripteur.Level)
                 {
-                    buttons[d.Level].BackgroundColor = Color.DarkBlue;
+                    buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                     buttons[d.Level].TextColor = Color.White;
                 }
                 else
@@ -223,7 +223,7 @@ namespace Onek
                 {
                     if (d.Level == SelectedDescripteur.Level)
                     {
-                        buttons[d.Level].BackgroundColor = Color.DarkBlue;
+                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                         buttons[d.Level].TextColor = Color.White;
                     }
                     else

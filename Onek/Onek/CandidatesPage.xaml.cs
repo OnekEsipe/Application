@@ -31,6 +31,7 @@ namespace Onek
             {
                 c.eval = findEvaluation(c);
                 checkStatus(c);
+                c.IsSigned = c.eval.isSigned;
             }
 
 
