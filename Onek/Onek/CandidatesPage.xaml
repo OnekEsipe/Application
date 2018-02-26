@@ -24,9 +24,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="1" Text="Nom du candidat" FontSize="Small" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="DarkBlue"/>
-                <Label Grid.Column="2" Text="Signature" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="DarkBlue"/>
-                <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold" TextColor="DarkBlue"/>
+                <Label Grid.Column="1" Text="Nom du candidat" FontSize="Small" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
+                <Label Grid.Column="2" Text="Signature" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
+                <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold" TextColor="#2399e5"/>
             </Grid>
             <ListView x:Name="MyListView"
                      Grid.Row="2"

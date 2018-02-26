@@ -28,23 +28,53 @@
                      Orientation="Vertical">
             <Button x:Name="ButtonCode"
                         Text="Inscription par code"
-                        BackgroundColor="DarkBlue"
+                        BackgroundColor="#2399e5"
                         TextColor="White" 
-                        Clicked="OnButtonCodeClicked"/>
+                        Clicked="OnButtonCodeClicked">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <StackLayout  VerticalOptions="CenterAndExpand"
                           HorizontalOptions="CenterAndExpand"
                           Orientation="Horizontal">
                 <Button x:Name="ButtonDeconnect"
                             Text="Deconnexion"
-                            BackgroundColor="DarkBlue"
+                            BackgroundColor="#2399e5"
                             TextColor="White" 
-                            Clicked="OnButtonDeconnexionClicked"/>
+                            Clicked="OnButtonDeconnexionClicked">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <Button x:Name="ButtonChangePassword"
                                 Text="Changer Mot de Passe"
-                                BackgroundColor="DarkBlue"
+                                BackgroundColor="#2399e5"
                                 TextColor="White" 
-                                Clicked="OnButtonChangePasswordClicked"/>
-             </StackLayout>
+                                Clicked="OnButtonChangePasswordClicked">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackLayout>
         </StackLayout>
     </StackLayout>
 </ContentPage>

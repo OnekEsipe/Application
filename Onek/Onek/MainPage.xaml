@@ -3,73 +3,124 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Onek"
              x:Class="Onek.MainPage"
-             Title="Accueil">
-    <AbsoluteLayout>
+             Title="ONEK'">
+    <AbsoluteLayout Margin="15,15,15,15">
         <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
-
             <Image Source="logo.png" 
                WidthRequest="120"
-               HeightRequest="120"/>
-
-            <Entry  x:Name="LoginEntry"
+               HeightRequest="120" 
+               VerticalOptions="CenterAndExpand"/>
+            <Frame
+                IsClippedToBounds="False"
+                HasShadow="True"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="10,10">
+                    <Entry  x:Name="LoginEntry"
                 Placeholder="Login"
                 VerticalOptions="CenterAndExpand"
-                HorizontalOptions="FillAndExpand"
-                WidthRequest="250"
+                HorizontalOptions="CenterAndExpand"
+                WidthRequest="400"
                 IsPassword="False"/>
-
-            <Entry  x:Name="PasswordEntry"
+                    <Entry  x:Name="PasswordEntry"
                 VerticalOptions="CenterAndExpand"
                 Placeholder="Mot de Passe"
                 PlaceholderColor="Gray"
-                HorizontalOptions="FillAndExpand"
-                WidthRequest="250"
+                HorizontalOptions="Center"
+                WidthRequest="400"
                 IsPassword="True"/>
-
-            <Button x:Name="ButtonLogin"
+                    <Button x:Name="ButtonLogin"
                 Text="Connexion"
-                BackgroundColor="DarkBlue"
+                BackgroundColor="#2399e5"
                 TextColor="White" 
-                Clicked="OnButtonLoginClicked"/>
-
-            <Button x:Name="ButtonForget"
+                Clicked="OnButtonLoginClicked"
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                WidthRequest="400">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="ButtonForget"
                     Text="Mot de Passe oublié ?"
                 TextColor="Blue" 
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="EndAndExpand"
                 FontAttributes="None"
                 BackgroundColor="White"
+                BorderWidth="0"
                 BorderColor="White"
                 Clicked="onButtonOublieClicked"
-               />
+                HorizontalOptions="CenterAndExpand"
+                WidthRequest="280">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#cccbcb"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackLayout>
+            </Frame>
 
-            <BoxView VerticalOptions="CenterAndExpand"
-                 HeightRequest="1"
-                 WidthRequest="250"
-                 Color="DarkBlue" />
-
-            <Button x:Name="ButtonInscription"
+            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Padding="10,10">
+                <Button x:Name="ButtonInscription"
                 Text="Inscription"
-                BackgroundColor="DarkBlue"
+                BackgroundColor="#2399e5"
                 TextColor="White"
-                Clicked="OnButtonInscriptionClicked"/>
-
-            <Button x:Name="ButtonParameter"
+                Clicked="OnButtonInscriptionClicked"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="280">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="ButtonParameter"
                     Text="Paramètres"
-                BackgroundColor="DarkBlue"
+                BackgroundColor="#2399e5"
                 TextColor="White" 
-                Clicked="OnButtonParameterClicked"/>
+                Clicked="OnButtonParameterClicked"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
+                WidthRequest="280">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackLayout>
         </StackLayout>
         <AbsoluteLayout x:Name="waitingLayoutPhone" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" >
             <RelativeLayout>
                 <ActivityIndicator x:Name="activityIndicatorPhone"
                                    IsRunning="False" 
-                                   Color="DarkBlue" 
+                                   Color="#2399e5" 
                                    HorizontalOptions="Center" 
                                    VerticalOptions="Center"
                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5,
-                                        Constant=-5}"
+                                        Constant=-15}"
                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5}" />
@@ -79,7 +130,7 @@
             <RelativeLayout>
                 <ActivityIndicator x:Name="activityIndicatorTablet"
                                    IsRunning="False" 
-                                   Color="DarkBlue" 
+                                   Color="#2399e5" 
                                    HorizontalOptions="Center" 
                                    VerticalOptions="Center"
                                    WidthRequest="50"
@@ -87,7 +138,7 @@
                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5,
-                                        Constant=-5}"
+                                        Constant=-15}"
                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5,

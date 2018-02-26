@@ -8,7 +8,7 @@
                      HorizontalOptions="CenterAndExpand"
                      VerticalOptions="CenterAndExpand">
             <Button x:Name="LeftButton"
-                    BackgroundColor="DarkBlue"
+                    BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
@@ -19,12 +19,12 @@
                     VerticalOptions="Center"
                     HorizontalOptions="CenterAndExpand"
                     FontSize="Small"
-                    TextColor="DarkBlue"
+                    TextColor="#2399e5"
                     WidthRequest="100"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"/>
             <Button x:Name="RightButton"
-                    BackgroundColor="DarkBlue"
+                    BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
@@ -112,7 +112,7 @@
                 HeightRequest="150"
                 VerticalOptions="CenterAndExpand"
                 BackgroundColor="LightGray"
-                OutlineColor="DarkBlue">
+                OutlineColor="#2399e5">
             <Label  x:Name="DescriptionBox"
                     HorizontalOptions="Fill"
                     WidthRequest="300"
@@ -130,7 +130,7 @@
         
         <Editor x:Name="EditorCommentaireCritere"
                 BackgroundColor="White"
-                TextColor="DarkBlue"
+                TextColor="#2399e5"
                 HorizontalOptions="Fill"
                 WidthRequest="300"
                 HeightRequest="150"
@@ -143,14 +143,14 @@
 
             <Button x:Name="ButtonValider"
                         Text="Enregistrer"
-                        BackgroundColor="DarkBlue"
+                        BackgroundColor="#2399e5"
                         TextColor="White" 
                         Clicked="OnButtonValiderClicked"
                         IsEnabled="False"/>
 
             <Button x:Name="ButtonRetour"
                         Text="Retour"
-                        BackgroundColor="DarkBlue"
+                        BackgroundColor="#2399e5"
                         TextColor="White" 
                         Clicked="OnButtonRetourClicked"/>
         </StackLayout>

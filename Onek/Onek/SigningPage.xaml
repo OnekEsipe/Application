@@ -34,13 +34,13 @@
                      HorizontalOptions="CenterAndExpand" >
             <Button x:Name="retourButton" 
                Text="Retour"                 
-                BackgroundColor="DarkBlue"
+                BackgroundColor="#2399e5"
                 TextColor="White"
                 Clicked="OnRetourButtonClickedAsync"
                />
         <Button x:Name="validateButton" 
                Text="Valider"              
-                BackgroundColor="DarkBlue"
+                BackgroundColor="#2399e5"
                 TextColor="White"
                 Clicked="OnValidateButtonClickedAsync"
                />
