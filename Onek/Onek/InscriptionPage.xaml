@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Onek.InscriptionPage"
              Title="Inscription">
-    <AbsoluteLayout>
+    <AbsoluteLayout Margin="15,15,15,15">
         <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
             <Entry  x:Name="LoginEntry"
                 Placeholder="Login"

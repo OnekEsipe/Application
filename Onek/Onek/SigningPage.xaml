@@ -5,7 +5,7 @@
              xmlns:tt="clr-namespace:Onek.TouchTracking"
              x:Class="Onek.SigningPage"
              Title="Signature">
-    <StackLayout>
+    <StackLayout Margin="15,15,15,15">
         <Entry x:Name="entryName" 
                Placeholder="Entrez le nom du jury signant" 
                VerticalOptions="StartAndExpand"

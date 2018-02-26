@@ -4,7 +4,7 @@
              Title="Evenements"
              NavigationPage.HasBackButton="False"
              x:Class="Onek.EventsPage">
-    <StackLayout>
+    <StackLayout Margin="15,15,15,15">
         <Entry x:Name="FilterEventEntry"
                Placeholder="Recherche" 
                VerticalOptions="CenterAndExpand"
