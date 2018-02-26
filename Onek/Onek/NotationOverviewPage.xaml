@@ -67,7 +67,7 @@
                                     BorderRadius="90"
                                     />
                             <Button x:Name="ButtonCommentaireCritere"
-                                    Text="Afficher le commentaire du critère"
+                                    Text="Commenter"
                                     BackgroundColor="White"
                                     BorderColor="White"
                                     TextColor="Black"
@@ -80,15 +80,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button x:Name="ButtonCommentaireGeneral"
-                    Text="Afficher le commentaire géneral"
-                    BackgroundColor="White"
-                    BorderColor="DarkBlue"
-                    TextColor="DarkBlue"
-                    HorizontalOptions="Fill"
-                    MinimumWidthRequest="300"
-                    MinimumHeightRequest="250"
-                    Clicked="OnGeneralCommentaireClicked"/>
 
         <StackLayout  VerticalOptions="CenterAndExpand"
                       HorizontalOptions="CenterAndExpand"

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -72,6 +73,8 @@ namespace Onek
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
+            //Add the footer to the list view
+            AddFooter();
         }
 
         /// <summary>
@@ -385,36 +388,6 @@ namespace Onek
         }
 
         /// <summary>
-        /// Click on general comment
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        async void OnGeneralCommentaireClicked(object sender, EventArgs e)
-        {
-            if (Eval.isSigned)
-            {
-                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
-                return;
-            }
-
-            goToPageNote = true;
-            //comeBackFromSigning = false;
-
-            string title = "Commentaire de l'évalution";
-            string text = "Ecrire un commentaire :";
-            if (Eval.Comment == null)
-            {
-                Eval.Comment = "";
-            }
-            string answer = await InputDialog.InputBoxWithSize(this.Navigation, title, text, Eval.Comment, 500);
-            if (!answer.Equals(Eval.Comment))
-            {
-                Eval.Comment = answer;
-            }
-            MyListView.ItemsSource = Items;
-        }
-
-        /// <summary>
         /// Click on criteria comment
         /// </summary>
         /// <param name="sender"></param>
@@ -543,6 +516,64 @@ namespace Onek
             {
                 RightButton.IsEnabled = true;
             }
+        }
+
+        /// <summary>
+        /// Used to change the size of the editor to adapt the size to the text
+        /// </summary>
+        /// <param name="view"></param>
+        private static void Invalidate(View view)
+        {
+            if(view == null)
+            {
+                return;
+            }
+            var method = typeof(View).GetMethod("InvalidateMeasure", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(view, null);
+        }
+
+        /// <summary>
+        /// Add a footer to the list view to edit the general comment
+        /// </summary>
+        private void AddFooter()
+        {
+            StackLayout footerLayout = new StackLayout();
+            //Title
+            Label footerLabelTitle = new Label { HorizontalOptions = LayoutOptions.Center,
+                FontAttributes = FontAttributes.Bold,
+                VerticalTextAlignment = TextAlignment.Center};
+            footerLabelTitle.Text = "Commentaire général";
+            //Message 
+            Label footerLabelMsg = new Label();
+            String text = "Entrez un commentaire";
+            footerLabelMsg.Text = text + " (500 caractères restants) :";
+            //Editor
+            Editor footerEditor = new Editor();
+            //Called when the text of editor change
+            footerEditor.TextChanged += async(sender, ev) =>
+            {
+                if (Eval.isSigned)
+                {
+                    await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                    return;
+                }
+                //Change size of editor to adapt to text
+                Invalidate(footerEditor);
+                //Display the remaining number of characters
+                string input = footerEditor.Text;
+                if (input.Length > 500)
+                {
+                    input = input.Substring(0, 500);
+                    footerEditor.Text = input;
+                }
+                footerLabelMsg.Text = text + " (" + (500 - input.Length) + " caractères restants) :";
+            };
+            footerEditor.BindingContext = Eval;
+            footerEditor.SetBinding(Editor.TextProperty, "Comment");
+            footerLayout.Children.Add(footerLabelTitle);
+            footerLayout.Children.Add(footerLabelMsg);
+            footerLayout.Children.Add(footerEditor);
+            MyListView.Footer = footerLayout;
         }
     }
 }
