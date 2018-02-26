@@ -174,7 +174,7 @@ namespace Onek
         async void OnButtonParameterClicked(object sender, EventArgs e)
         {
             string title = "Changement de serveur";
-            string text = "Entrez une adresse : ";
+            string text = "Entrez un URL : ";
             String ServerAdress = await InputDialog.InputBox(this.Navigation, title, text, ApplicationConstants.URL);
             if (ServerAdress != null || !ServerAdress.Equals(""))
             {

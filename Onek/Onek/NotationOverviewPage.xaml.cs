@@ -156,6 +156,12 @@ namespace Onek
             {
                 ButtonSigner.IsEnabled = false;
             }
+
+            if (SelectedCritere == null)
+                return;
+
+            goToPageNote = true;
+            await Navigation.PushAsync(new NotationPage(CurrentCandidate, Eval.Criterias, SelectedCritere));
         }
 
         /// <summary>
@@ -165,7 +171,6 @@ namespace Onek
         {
             base.OnAppearing();
             MyListView.ItemsSource = Items;
-            goToPageNote = false;
 
             if (!CurrentEvent.IsSigned)
             {
@@ -180,11 +185,19 @@ namespace Onek
                 ButtonSigner.IsEnabled = false;
             }
 
-            /*if (Eval.isSigned && comeBackFromSigning)
+
+            if (!Eval.isSigned && comeBackFromSigning)
             {
-                SaveEvaluation(false);
-                comeBackFromSigning = false;
-            }*/
+                return;
+            }
+            if (goToPageNote)
+            {
+                SaveEvaluation();
+            }
+            
+            comeBackFromSigning = false;
+            goToPageNote = false;
+
         }
 
         /// <summary>
@@ -328,6 +341,7 @@ namespace Onek
         /// <param name="signature"></param>
         async void SaveEvaluation(Boolean signature)
         {
+            //if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned && CurrentEvent.SignatureNeeded)
             if (signature && Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
             {
                 await Navigation.PushAsync(new SigningPage(Eval));

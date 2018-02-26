@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Onek.InscriptionPage"
              Title="Inscription">
-    <ContentPage.Content>
-        <StackLayout>
+    <AbsoluteLayout>
+        <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
             <Entry  x:Name="LoginEntry"
-                Placeholder="Nom d'utilisateur"
+                Placeholder="Login"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
@@ -30,16 +30,32 @@
                 WidthRequest="250"
                 IsPassword="False"/>
             <Entry  x:Name="PasswordEntry"
-                Placeholder="Mot de Passe"
+                Placeholder="Mot de Passe - 6 Caractères dont une Lettre Majuscule"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="FillAndExpand"
                 WidthRequest="250"
                 IsPassword="True"/>
-            <Button Text="Inscription"
+            <Button x:Name="InscriptionButton"
+                    Text="Inscription"
                     BackgroundColor="DarkBlue"
                     TextColor="White" 
                     VerticalOptions="CenterAndExpand"
                     Clicked="OnButtonInscriptionClicked"/>
         </StackLayout>
-    </ContentPage.Content>
+        <AbsoluteLayout x:Name="waitingLayout" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="#77000000">
+            <RelativeLayout>
+                <ActivityIndicator x:Name="activityIndicator"
+                                   IsRunning="False" 
+                                   Color="DarkBlue" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"
+                                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.5}"
+                                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.5}" />
+            </RelativeLayout>
+        </AbsoluteLayout>
+    </AbsoluteLayout>
 </ContentPage>

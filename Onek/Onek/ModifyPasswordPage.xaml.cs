@@ -19,7 +19,14 @@ namespace Onek
 	{
         private User currentUser;
 
-		public ModifyPasswordPage (User loggedUser)
+        private bool wrongCompleted { get; set; }
+        private bool notIdentic { get; set; }
+        private bool wrongPassword { get; set; }
+        private bool succeeded { get; set; }
+        private bool errorRequest { get; set; }
+        private bool errorConflict { get; set; }
+        
+        public ModifyPasswordPage (User loggedUser)
 		{
 			InitializeComponent ();
             currentUser = loggedUser;
@@ -27,80 +34,143 @@ namespace Onek
 
         async void OnButtonChangePasswordPressed(object sender, EventArgs e)
         {
-            if (CrossConnectivity.Current.IsConnected)
+            IndicatorOn();
+
+            wrongCompleted = false;
+            notIdentic = false;
+            wrongPassword = false;
+            succeeded = false;
+            errorRequest = false;
+            errorConflict = false;
+
+            String oldPassword = OldPasswordEntry.Text;
+            String newPassord = NewPasswordEntry.Text;
+            String confirmedPassword = ConfirmPasswordEntry.Text;
+
+            await Task.Run(async () =>
             {
-                String oldPassword = OldPasswordEntry.Text;
-                String newPassord = NewPasswordEntry.Text;
-                String confirmedPassword = ConfirmPasswordEntry.Text;
-                if (oldPassword == null || newPassord == null || confirmedPassword == null ||
-                   oldPassword.Equals("") || newPassord.Equals("") || confirmedPassword.Equals(""))
+                if (CrossConnectivity.Current.IsConnected)
                 {
-                    await DisplayAlert("Erreur", "Tous les champs doivent être renseignés", "OK");
-                    return;
-                }
-                if (!newPassord.Equals(confirmedPassword))
-                {
-                    await DisplayAlert("Erreur", "Le nouveau mot de passe et la confirmation doivent être identique", "OK");
-                    return;
-                }
-                if (!CreateAccountManager.CheckPassword(newPassord))
-                {
-                    await DisplayAlert("Erreur", "Le nouveau mot de passe doit contenir au moins 6 caractères dont au moins une majuscule", "OK");
-                    return;
-                }
-                //hash password
-                SHA1Managed sha1 = new SHA1Managed();
-
-                var oldHash = sha1.ComputeHash(Encoding.UTF8.GetBytes(oldPassword));
-                String oldPasswordHashed = String.Join("", oldHash.Select(b => b.ToString("x2")).ToArray());
-
-                var newHash = sha1.ComputeHash(Encoding.UTF8.GetBytes(newPassord));
-                String newPasswordHashed = String.Join("", newHash.Select(b => b.ToString("x2")).ToArray());
-
-                //Create json
-                String jsonModifyPassword = "{ \"Login\":\"" + currentUser.Login + 
-                    "\", \"Old_password\":\"" + oldPasswordHashed + "\", \"New_password\":\"" +
-                    newPasswordHashed + "\"}";
-
-                //Send json
-                try
-                {
-                    HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverChangePasswordURL) as HttpWebRequest;
-                    webRequest.ContentType = "application/json";
-                    webRequest.Method = "POST";
-                    JsonParser.SendToServer(webRequest, jsonModifyPassword);
-                    HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
-                    //If response OK, quit
-                    if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                   
+                    if (oldPassword == null || newPassord == null || confirmedPassword == null ||
+                       oldPassword.Equals("") || newPassord.Equals("") || confirmedPassword.Equals(""))
                     {
-                        await DisplayAlert("Changer de mot de passe", "Votre mot de passe a bien été modifié", "OK");
-                        await Navigation.PopAsync();
+                        wrongCompleted = true;
                         return;
                     }
+                    if (!newPassord.Equals(confirmedPassword))
+                    {
+                        notIdentic = true;
+                        return;
+                    }
+                    if (!CreateAccountManager.CheckPassword(newPassord))
+                    {
+                        wrongPassword = true;
+                        return;
+                    }
+                    //hash password
+                    SHA1Managed sha1 = new SHA1Managed();
+
+                    var oldHash = sha1.ComputeHash(Encoding.UTF8.GetBytes(oldPassword));
+                    String oldPasswordHashed = String.Join("", oldHash.Select(b => b.ToString("x2")).ToArray());
+
+                    var newHash = sha1.ComputeHash(Encoding.UTF8.GetBytes(newPassord));
+                    String newPasswordHashed = String.Join("", newHash.Select(b => b.ToString("x2")).ToArray());
+
+                    //Create json
+                    String jsonModifyPassword = "{ \"Login\":\"" + currentUser.Login +
+                        "\", \"Old_password\":\"" + oldPasswordHashed + "\", \"New_password\":\"" +
+                        newPasswordHashed + "\"}";
+
+                    //Send json
+                    try
+                    {
+                        HttpWebRequest webRequest = WebRequest.Create(ApplicationConstants.serverChangePasswordURL) as HttpWebRequest;
+                        webRequest.ContentType = "application/json";
+                        webRequest.Method = "POST";
+                        JsonParser.SendToServer(webRequest, jsonModifyPassword);
+                        HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
+                        //If response OK, quit
+                        if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
+                        {
+                            succeeded = true;
+                            return;
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        WebException webException = exception as WebException;
+                        HttpWebResponse response = webException.Response as HttpWebResponse;
+                        //If conflict, warn user
+                        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                        {
+                            errorConflict = true;
+                            return;
+                        }
+                        else
+                        {
+                            errorRequest = true;
+                            return;
+                        }
+                    }
                 }
-                catch(Exception exception)
+                else
                 {
-                    WebException webException = exception as WebException;
-                    HttpWebResponse response = webException.Response as HttpWebResponse;
-                    //If conflict, warn user
-                    if (response.StatusCode.Equals(HttpStatusCode.Conflict))
-                    {
-                        await DisplayAlert("Erreur", "Le changement de mot de passe n'a pas pu être effectué", "OK");
-                        return;
-                    }
-                    else
-                    {
-                        await DisplayAlert("Erreur", "Erreur lors de l'envoi ou du traitement de la requête", "OK");
-                        return;
-                    }
+                    await DisplayAlert("Erreur", "Vous devez être connecter à internet pour modifier votre mot de passe", "OK");
+                    return;
                 }
-            }
-            else
+            });
+
+            if(succeeded)
             {
-                await DisplayAlert("Erreur", "Vous devez être connecter à internet pour modifier votre mot de passe", "OK");
-                return;
+                await DisplayAlert("Changer de mot de passe", "Votre mot de passe a bien été modifié", "OK");
+                await Navigation.PopAsync();
+                IndicatorOff();
             }
+            if(wrongCompleted)
+            {
+                await DisplayAlert("Erreur", "Tous les champs doivent être renseignés", "OK");
+            }
+            if(wrongPassword)
+            {
+                await DisplayAlert("Erreur", "Le nouveau mot de passe doit contenir au moins 6 caractères dont au moins une majuscule", "OK");
+            }
+            if(errorConflict)
+            {
+                await DisplayAlert("Erreur", "Le changement de mot de passe n'a pas pu être effectué", "OK");
+            }
+            if(errorRequest)
+            {
+                await DisplayAlert("Erreur", "Erreur lors de l'envoi ou du traitement de la requête", "OK");
+            }
+            if(notIdentic)
+            {
+                await DisplayAlert("Erreur", "Le nouveau mot de passe et la confirmation doivent être identique", "OK");
+            }
+
+            IndicatorOff();
         }
 
+        private void IndicatorOn()
+        {
+            waitingLayout.IsVisible = true;
+            activityIndicator.IsRunning = true;
+            MainLayout.IsEnabled = false;
+            OldPasswordEntry.IsEnabled = false;
+            NewPasswordEntry.IsEnabled = false;
+            ConfirmPasswordEntry.IsEnabled = false;
+            ChangePasswordButton.IsEnabled = false;
+        }
+
+        private void IndicatorOff()
+        {
+            waitingLayout.IsVisible = false;
+            activityIndicator.IsRunning = false;
+            MainLayout.IsEnabled = true;
+            OldPasswordEntry.IsEnabled = true;
+            NewPasswordEntry.IsEnabled = true;
+            ConfirmPasswordEntry.IsEnabled = true;
+            ChangePasswordButton.IsEnabled = true;
+        }
     }
 }
