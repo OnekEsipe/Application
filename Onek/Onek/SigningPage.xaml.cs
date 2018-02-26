@@ -22,6 +22,7 @@ namespace Onek
         Dictionary<long, SKPath> inProgressPaths = new Dictionary<long, SKPath>();
         List<SKPath> completedPaths = new List<SKPath>();
         Evaluation Eval;
+        Candidate CurrentCandidate;
         SKCanvas canvasSaved;
         SKData data;
         SKSurface newSurface;
@@ -35,9 +36,10 @@ namespace Onek
             StrokeJoin = SKStrokeJoin.Round
         };
         
-        public SigningPage(Evaluation eval)
+        public SigningPage(Evaluation eval, Candidate c)
 		{
             Eval = eval;
+            CurrentCandidate = c;
             
 			InitializeComponent();
         }
@@ -136,7 +138,9 @@ namespace Onek
             data = snap.Encode();
             
             Eval.isSigned = true;
-            
+            CurrentCandidate.IsSigned = true;
+
+
             Eval.Signatures.Add(new Signature(entryName.Text, data.ToArray()));
             bool answer = await DisplayAlert("Signature", "Voulez-vous effectuer une autre signature ?", "Oui", "Non");
             if (!answer)

@@ -15,7 +15,8 @@
         <ListView x:Name="MyListView"
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
-                ItemTapped="Handle_ItemTapped">
+                ItemTapped="Handle_ItemTapped"
+                SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />

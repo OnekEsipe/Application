@@ -343,7 +343,7 @@ namespace Onek
             //if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned && CurrentEvent.SignatureNeeded)
             if (signature && Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
             {
-                await Navigation.PushAsync(new SigningPage(Eval));
+                await Navigation.PushAsync(new SigningPage(Eval, CurrentCandidate));
                 //comeBackFromSigning = true;
             }
             Eval.LastUpdatedDate = DateTime.Now;

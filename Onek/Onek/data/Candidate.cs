@@ -10,6 +10,7 @@ namespace Onek
     {
         public int Id { get; set; }
         private String statusImage;
+        private bool isSigned;
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String FullName { get => FirstName + " " + LastName; }
@@ -28,6 +29,23 @@ namespace Onek
                 }
             }
         }
+
+        public bool IsSigned
+        {
+            get
+            {
+                return isSigned;
+            }
+            set
+            {
+                if (isSigned != value)
+                {
+                    isSigned = value;
+                    OnPropertyChanged("IsSigned");
+                }
+            }
+        }
+
         public Evaluation eval { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

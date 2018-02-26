@@ -10,31 +10,66 @@
                HorizontalOptions="FillAndExpand"
                IsPassword="False"
                TextChanged="OnFilterChanged"/>
-
-        <ListView x:Name="MyListView"
-            ItemsSource="{Binding Items}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
-
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10,5,5,10">
-                            <Label Text="{Binding FullName}" 
-                                   HorizontalOptions="StartAndExpand"/>
-                            <Image HorizontalOptions="EndAndExpand"                                   
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="1" Text="Nom du candidat" FontSize="Small" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="DarkBlue"/>
+                <Label Grid.Column="2" Text="Signature" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="DarkBlue"/>
+                <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold" TextColor="DarkBlue"/>
+            </Grid>
+            <ListView x:Name="MyListView"
+                     Grid.Row="2"
+                    ItemsSource="{Binding Items}"
+                    ItemTapped="Handle_ItemTapped"
+                    CachingStrategy="RecycleElement"
+                    SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="1"
+                                   Text="{Binding FullName}" 
+                                   HorizontalOptions="StartAndExpand" 
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"/>
+                                <Image Grid.Column="2"
+                                   HorizontalOptions="EndAndExpand"
+                                   Source="check.png"
+                                   WidthRequest="20"
+                                   HeightRequest="20"
+                                   IsVisible="{Binding IsSigned}"
+                                   />
+                                <Image Grid.Column="3"
+                                   HorizontalOptions="EndAndExpand"                                   
                                    WidthRequest="20"
                                    HeightRequest="20">
-                                <Image.Source>
-                                    <FileImageSource File="{Binding StatusImage}"/>
-                                </Image.Source>
-                            </Image>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            -->
-        </ListView>
+                                    <Image.Source>
+                                        <FileImageSource File="{Binding StatusImage}"/>
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </StackLayout>
 </ContentPage>
