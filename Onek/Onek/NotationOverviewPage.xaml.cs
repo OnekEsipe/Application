@@ -73,8 +73,7 @@ namespace Onek
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
-            //Add the footer to the list view
-            AddFooter();
+            
         }
 
         /// <summary>
@@ -89,11 +88,14 @@ namespace Onek
                 ((ListView)sender).SelectedItem = null;
                 return;
             }
+            //Disable touch event
+            MyListView.IsEnabled = false;
 
             if (Eval.isSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
                 ((ListView)sender).SelectedItem = null;
+                MyListView.IsEnabled = true;
                 return;
             }
 
@@ -101,12 +103,13 @@ namespace Onek
             if (SelectedCritere == null)
             {
                 ((ListView)sender).SelectedItem = null;
+                MyListView.IsEnabled = true;
                 return;
             }
 
             goToPageNote = true;
             await Navigation.PushAsync(new NotationPage(CurrentCandidate, Eval.Criterias, SelectedCritere));
-
+            MyListView.IsEnabled = true;
             ((ListView)sender).SelectedItem = null;
         }
 
@@ -170,7 +173,12 @@ namespace Onek
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            Title = CurrentEvent.Name;
+
             MyListView.ItemsSource = Items;
+
+            //Add the footer to the list view
+            AddFooter();
 
             if (!CurrentEvent.SigningNeeded)
             {
@@ -213,7 +221,6 @@ namespace Onek
                 await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
                 base.OnDisappearing();
             }
-
             if (Eval.isModified)
             {
                 bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
@@ -440,7 +447,6 @@ namespace Onek
         async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
             await ConfirmSaveBeforeSwitchAsync();
-
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate leftCandidate = CandidateList[index - 1].Clone() as Candidate;
 
@@ -456,7 +462,6 @@ namespace Onek
         async Task OnRightButtonClickedAsync(object sender, EventArgs e)
         {
             await ConfirmSaveBeforeSwitchAsync();
-
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate rightCandidate = CandidateList[index + 1].Clone() as Candidate;
 
@@ -477,6 +482,9 @@ namespace Onek
             evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
 
             Eval = evaluation;
+            //refresh footer values
+            MyListView.Footer = null;
+            AddFooter();
 
             foreach (Criteria c in Eval.Criterias)
             {
@@ -548,7 +556,7 @@ namespace Onek
         /// <summary>
         /// Add a footer to the list view to edit the general comment
         /// </summary>
-        private void AddFooter()
+        private async void AddFooter()
         {
             StackLayout footerLayout = new StackLayout();
             //Title
@@ -563,13 +571,13 @@ namespace Onek
             //Editor
             Editor footerEditor = new Editor();
             //Called when the text of editor change
+            if (Eval.isSigned)
+            {
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                return;
+            }
             footerEditor.TextChanged += async(sender, ev) =>
             {
-                if (Eval.isSigned)
-                {
-                    await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
-                    return;
-                }
                 //Change size of editor to adapt to text
                 Invalidate(footerEditor);
                 //Display the remaining number of characters
@@ -583,6 +591,7 @@ namespace Onek
             };
             footerEditor.BindingContext = Eval;
             footerEditor.SetBinding(Editor.TextProperty, "Comment");
+            Eval.isModified = false;
             footerLayout.Children.Add(footerLabelTitle);
             footerLayout.Children.Add(footerLabelMsg);
             footerLayout.Children.Add(footerEditor);
