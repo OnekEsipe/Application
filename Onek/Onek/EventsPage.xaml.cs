@@ -35,6 +35,15 @@ namespace Onek
             Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
 
 			MyListView.ItemsSource = Items;
+
+            if(LoggedUser.Login.ToLower().StartsWith("jury"))
+            {
+                ButtonCode.IsVisible = false;
+            }
+            else
+            {
+                ButtonCode.IsVisible = true;
+            }
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -124,7 +133,10 @@ namespace Onek
                     HttpWebResponse response = webException.Response as HttpWebResponse;
                     if (response.StatusCode.Equals(HttpStatusCode.Forbidden))
                     {
-                        await DisplayAlert(title, "L'évènement n'est pas ouvert à l'inscription", "", "OK");
+                        Stream responseStream = response.GetResponseStream();
+                        StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
+                        String textResponse = streamReader.ReadToEnd();
+                        await DisplayAlert(title, textResponse, "", "OK");
                         return;
                     }
                     else if (response.StatusCode.Equals(HttpStatusCode.Conflict))
