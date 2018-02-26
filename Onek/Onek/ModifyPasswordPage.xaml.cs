@@ -153,8 +153,16 @@ namespace Onek
 
         private void IndicatorOn()
         {
-            waitingLayout.IsVisible = true;
-            activityIndicator.IsRunning = true;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = true;
+                activityIndicatorPhone.IsRunning = true;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = true;
+                activityIndicatorTablet.IsRunning = true;
+            }
             MainLayout.IsEnabled = false;
             OldPasswordEntry.IsEnabled = false;
             NewPasswordEntry.IsEnabled = false;
@@ -164,8 +172,16 @@ namespace Onek
 
         private void IndicatorOff()
         {
-            waitingLayout.IsVisible = false;
-            activityIndicator.IsRunning = false;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = false;
+                activityIndicatorPhone.IsRunning = false;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = false;
+                activityIndicatorTablet.IsRunning = false;
+            }
             MainLayout.IsEnabled = true;
             OldPasswordEntry.IsEnabled = true;
             NewPasswordEntry.IsEnabled = true;

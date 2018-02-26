@@ -154,8 +154,16 @@ namespace Onek
 
         void IndicatorOn()
         {
-            waitingLayout.IsVisible = true;
-            activityIndicator.IsRunning = true;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = true;
+                activityIndicatorPhone.IsRunning = true;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = true;
+                activityIndicatorTablet.IsRunning = true;
+            }
             MainLayout.IsEnabled = false;
             LoginEntry.IsEnabled = false;
             MailEntry.IsEnabled = false;
@@ -167,8 +175,16 @@ namespace Onek
 
         void IndicatorOff()
         {
-            waitingLayout.IsVisible = false;
-            activityIndicator.IsRunning = false;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = false;
+                activityIndicatorPhone.IsRunning = false;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = false;
+                activityIndicatorTablet.IsRunning = false;
+            }
             MainLayout.IsEnabled = true;
             LoginEntry.IsEnabled = true;
             MailEntry.IsEnabled = true;
