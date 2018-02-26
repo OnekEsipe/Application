@@ -18,6 +18,7 @@
                 <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="10,10">
                     <Entry  x:Name="LoginEntry"
                 Placeholder="Login"
+                PlaceholderColor="Gray"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand"
                 WidthRequest="400"
