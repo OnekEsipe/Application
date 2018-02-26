@@ -12,7 +12,7 @@ namespace Onek
         public String Name { get; set; }
         public DateTime Begin { get; set; }
         public DateTime End { get; set; }
-        public Boolean SignatureNeeded { get; set; }
+        public Boolean SigningNeeded { get; set; }
         public Boolean IsOpened { get; set; }
         public ObservableCollection<Criteria> Criterias { get; set; } = new ObservableCollection<Criteria>();
         public ObservableCollection<Jury> Jurys { get; set; } = new ObservableCollection<Jury>();
