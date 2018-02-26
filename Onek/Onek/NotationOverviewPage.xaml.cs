@@ -54,7 +54,7 @@ namespace Onek
             LeftButton.Text = "<";
             RightButton.Text = ">";
 
-            if (!CurrentEvent.IsSigned)
+            if (!CurrentEvent.SigningNeeded)
             {
                 ButtonSigner.IsVisible = false;
             }
@@ -105,7 +105,7 @@ namespace Onek
             }
 
             goToPageNote = true;
-            await Navigation.PushAsync(new NotationPage(Eval.Criterias, SelectedCritere));
+            await Navigation.PushAsync(new NotationPage(CurrentCandidate, Eval.Criterias, SelectedCritere));
 
             ((ListView)sender).SelectedItem = null;
         }
@@ -172,7 +172,7 @@ namespace Onek
             base.OnAppearing();
             MyListView.ItemsSource = Items;
 
-            if (!CurrentEvent.IsSigned)
+            if (!CurrentEvent.SigningNeeded)
             {
                 ButtonSigner.IsVisible = false;
             }
@@ -186,16 +186,15 @@ namespace Onek
             }
 
 
-            if (!Eval.isSigned && comeBackFromSigning)
+            if (!Eval.isSigned)
             {
                 return;
             }
             if (goToPageNote)
             {
-                SaveEvaluation();
+                SaveEvaluation(false);
             }
             
-            comeBackFromSigning = false;
             goToPageNote = false;
 
         }
@@ -492,7 +491,7 @@ namespace Onek
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
 
-            if (!CurrentEvent.IsSigned)
+            if (!CurrentEvent.SigningNeeded)
             {
                 ButtonSigner.IsVisible = false;
             }
