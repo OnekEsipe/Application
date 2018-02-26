@@ -25,7 +25,7 @@ namespace Onek
         public MainPage()
 	    {
 			InitializeComponent();
-		}
+        }
 
         //Executed when page is diplayed
         protected override void OnAppearing()
@@ -142,8 +142,16 @@ namespace Onek
 
         void IndicatorOn()
         {
-            waitingLayout.IsVisible = true;
-            activityIndicator.IsRunning = true;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = true;
+                activityIndicatorPhone.IsRunning = true;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = true;
+                activityIndicatorTablet.IsRunning = true;
+            }
             MainLayout.IsEnabled = false;
             ButtonLogin.IsEnabled = false;
             LoginEntry.IsEnabled = false;
@@ -155,8 +163,16 @@ namespace Onek
 
         void IndicatorOff()
         {
-            waitingLayout.IsVisible = false;
-            activityIndicator.IsRunning = false;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = false;
+                activityIndicatorPhone.IsRunning = false;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = false;
+                activityIndicatorTablet.IsRunning = false;
+            }
             MainLayout.IsEnabled = true;
             ButtonLogin.IsEnabled = true;
             LoginEntry.IsEnabled = true;
@@ -214,7 +230,9 @@ namespace Onek
         /// <param name="e"></param>
         async void onButtonOublieClicked(object sender, EventArgs e)
         {
-            string title = "Récupétation de mot de passe";
+            IndicatorOn();
+
+            string title = "Récupération de mot de passe";
             string text = "Entrez votre adresse mail :";
             if (CrossConnectivity.Current.IsConnected)
             {
@@ -263,6 +281,8 @@ namespace Onek
             {
                 await DisplayAlert("Erreur", "Vous devez être en ligne pour utiliser cette fonctionnalité", "OK");
             }
+
+            IndicatorOff();
         }
     }
 }

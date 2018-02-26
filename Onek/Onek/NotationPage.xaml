@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Onek.NotationPage"
              Title="Critère">
-    <StackLayout Orientation="Vertical" Margin="10, 10">
-        <StackLayout Orientation="Horizontal"
-                     HeightRequest="100">
+    <StackLayout Orientation="Vertical" Margin="10, 0">
+        <StackLayout Orientation="Horizontal" 
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="CenterAndExpand">
             <Button x:Name="LeftButton"
                     BackgroundColor="DarkBlue"
                     TextColor="White"
@@ -32,15 +33,15 @@
                     VerticalOptions="Center"/>
         </StackLayout>
         <RelativeLayout HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="StartAndExpand"
+                        VerticalOptions="CenterAndExpand"
                         x:Name="relativeLayout">
             <Grid x:Name="MyGrid" Padding="0,10,0,0"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="70" />
+                    <RowDefinition Height="30" />
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20" />
@@ -122,9 +123,10 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"/>    
         </Frame>
-        <Label Text="Commentaire du critère :"
+        <Label Text="Commentaire du critère (500 caractères restants) :"
                TextColor="Gray"
-                VerticalOptions="CenterAndExpand" />
+               x:Name="CommentaireLabel"
+               VerticalOptions="CenterAndExpand" />
         
         <Editor x:Name="EditorCommentaireCritere"
                 BackgroundColor="White"

@@ -15,9 +15,7 @@
         <ListView x:Name="MyListView"
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
-                ItemTapped="Handle_ItemTapped"
-                CachingStrategy="RecycleElement"
-                
+                ItemTapped="Handle_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />
