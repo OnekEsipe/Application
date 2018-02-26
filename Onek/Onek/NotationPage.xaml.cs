@@ -144,7 +144,15 @@ namespace Onek
                 CurrentCriteria.Comment = "";
             }
             Editor editor = sender as Editor;
-            if(editor != null && editor.Text != null)
+            string input = editor.Text;
+            if (input.Length > 500)
+            {
+                input = input.Substring(0, 500);
+                editor.Text = input;
+            }
+            CommentaireLabel.Text = "Commentaire du critère (" + (500 - input.Length) + " caractères restants) :";
+
+            if (editor != null && editor.Text != null)
             {
                 Comment = editor.Text;
             }

@@ -23,6 +23,7 @@ namespace Onek
         private bool wrongMail { get; set; }
         private bool succeed { get; set; }
         private bool error { get; set; }
+        private bool startAnonym { get; set; }
 
         public InscriptionPage ()
 		{
@@ -52,6 +53,7 @@ namespace Onek
             wrongPassword = false;
             wrongMail = false;
             wrongCompleted = false;
+            startAnonym = false;
 
             await Task.Run(async () =>
             {
@@ -62,6 +64,11 @@ namespace Onek
                     passwordText.Equals(""))
                 {
                     wrongCompleted = true;
+                    return;
+                }
+                if(loginText.ToLower().StartsWith("jury"))
+                {
+                    startAnonym = true;
                     return;
                 }
                 if (CreateAccountManager.CheckPassword(PasswordEntry.Text) == false)
@@ -137,15 +144,26 @@ namespace Onek
             {
                 await DisplayAlert("Erreur", "Le mot de passe doit contenir au moins 6 caractères dont au moins une lettre en majuscule", "OK");
             }
-
+            if(startAnonym)
+            {
+                await DisplayAlert("Erreur", "Le login ne peut pas commencer par 'Jury'", "OK");
+            }
 
             IndicatorOff();
         }
 
         void IndicatorOn()
         {
-            waitingLayout.IsVisible = true;
-            activityIndicator.IsRunning = true;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = true;
+                activityIndicatorPhone.IsRunning = true;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = true;
+                activityIndicatorTablet.IsRunning = true;
+            }
             MainLayout.IsEnabled = false;
             LoginEntry.IsEnabled = false;
             MailEntry.IsEnabled = false;
@@ -157,8 +175,16 @@ namespace Onek
 
         void IndicatorOff()
         {
-            waitingLayout.IsVisible = false;
-            activityIndicator.IsRunning = false;
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                waitingLayoutPhone.IsVisible = false;
+                activityIndicatorPhone.IsRunning = false;
+            }
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                waitingLayoutTablet.IsVisible = false;
+                activityIndicatorTablet.IsRunning = false;
+            }
             MainLayout.IsEnabled = true;
             LoginEntry.IsEnabled = true;
             MailEntry.IsEnabled = true;

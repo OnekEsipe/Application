@@ -59,19 +59,39 @@
                 TextColor="White" 
                 Clicked="OnButtonParameterClicked"/>
         </StackLayout>
-        <AbsoluteLayout x:Name="waitingLayout" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="#77000000">
+        <AbsoluteLayout x:Name="waitingLayoutPhone" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" >
             <RelativeLayout>
-                <ActivityIndicator x:Name="activityIndicator"
+                <ActivityIndicator x:Name="activityIndicatorPhone"
                                    IsRunning="False" 
                                    Color="DarkBlue" 
                                    HorizontalOptions="Center" 
                                    VerticalOptions="Center"
                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
-                                        Factor=0.5}"
+                                        Factor=0.5,
+                                        Constant=-5}"
                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5}" />
+            </RelativeLayout>
+        </AbsoluteLayout>
+        <AbsoluteLayout x:Name="waitingLayoutTablet" IsVisible="False"  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,.3,.3">
+            <RelativeLayout>
+                <ActivityIndicator x:Name="activityIndicatorTablet"
+                                   IsRunning="False" 
+                                   Color="DarkBlue" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"
+                                   WidthRequest="50"
+                                   HeightRequest="50"
+                                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.5,
+                                        Constant=-5}"
+                                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                        Property=Height,
+                                        Factor=0.5,
+                                        Constant=-25}" />
             </RelativeLayout>
         </AbsoluteLayout>
     </AbsoluteLayout>

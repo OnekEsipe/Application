@@ -137,7 +137,7 @@ namespace Onek
             
             Eval.isSigned = true;
             
-            Eval.Signatures.Add(new Signature(Eval.Id, entryName.Text, data.ToArray()));
+            Eval.Signatures.Add(new Signature(entryName.Text, data.ToArray()));
             bool answer = await DisplayAlert("Signature", "Voulez-vous effectuer une autre signature ?", "Oui", "Non");
             if (!answer)
             {
