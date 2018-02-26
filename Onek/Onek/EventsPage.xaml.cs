@@ -131,17 +131,12 @@ namespace Onek
                 {
                     WebException webException = exception as WebException;
                     HttpWebResponse response = webException.Response as HttpWebResponse;
-                    if (response.StatusCode.Equals(HttpStatusCode.Forbidden))
+                    if (response.StatusCode.Equals(HttpStatusCode.Conflict))
                     {
                         Stream responseStream = response.GetResponseStream();
                         StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
                         String textResponse = streamReader.ReadToEnd();
                         await DisplayAlert(title, textResponse, "", "OK");
-                        return;
-                    }
-                    else if (response.StatusCode.Equals(HttpStatusCode.Conflict))
-                    {
-                        await DisplayAlert(title, "Le code évènement rentré est incorrect", "", "OK");
                         return;
                     }
                     await DisplayAlert(title, "Erreur lors de l'envoi au serveur, veuillez réessayer", "", "OK");
