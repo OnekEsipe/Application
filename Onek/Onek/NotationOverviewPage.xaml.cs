@@ -177,6 +177,7 @@ namespace Onek
 
             MyListView.ItemsSource = Items;
 
+            checkStatus(CurrentCandidate);
             //Add the footer to the list view
             AddFooter();
 
@@ -338,7 +339,6 @@ namespace Onek
                 return;
             }
             SaveEvaluation(true);
-
         }
 
         /// <summary>
@@ -486,6 +486,8 @@ namespace Onek
             MyListView.Footer = null;
             AddFooter();
 
+            checkStatus(CurrentCandidate);
+
             foreach (Criteria c in Eval.Criterias)
             {
                 c.isModified = false;
@@ -571,12 +573,7 @@ namespace Onek
             //Editor
             Editor footerEditor = new Editor();
             //Called when the text of editor change
-            if (Eval.isSigned)
-            {
-                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
-                return;
-            }
-            footerEditor.TextChanged += async(sender, ev) =>
+            footerEditor.TextChanged += (sender, ev) =>
             {
                 //Change size of editor to adapt to text
                 Invalidate(footerEditor);
