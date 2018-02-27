@@ -71,6 +71,21 @@ namespace Onek.utils
                     }
                     catch (WebException e)
                     {
+                        WebException webException = e as WebException;
+                        HttpWebResponse response = e.Response as HttpWebResponse;
+                        if(response != null && response.StatusCode.Equals(HttpStatusCode.BadRequest) ||
+                            response.StatusCode.Equals(HttpStatusCode.Conflict) || 
+                            response.StatusCode.Equals(HttpStatusCode.InternalServerError))
+                        {
+                            String delete = "";
+                            EvaluationsToSend.TryDequeue(out delete);
+                            Evaluation deletedEval = JsonParser.DeserializeJsonEvaluation(delete);
+                            DeleteFile(deletedEval);
+                            if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                            {
+                                DownloadLatestVersion(deletedEval);
+                            }
+                        }
                         //If communication error or internal error 
                     }
                 }

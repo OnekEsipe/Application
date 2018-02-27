@@ -49,7 +49,7 @@ namespace Onek
             {
                 c.isModified = false;
             }
-            Eval.isModified = false;
+            Eval.IsModified = false;
 
             //comeBackFromSigning = false;
 
@@ -94,7 +94,7 @@ namespace Onek
             //Disable touch event
             MyListView.IsEnabled = false;
 
-            if (Eval.isSigned)
+            if (Eval.IsSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
                 ((ListView)sender).SelectedItem = null;
@@ -125,7 +125,7 @@ namespace Onek
         {
             MyListView.IsEnabled = false;
 
-            if (Eval.isSigned)
+            if (Eval.IsSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
                 MyListView.IsEnabled = true;
@@ -208,7 +208,7 @@ namespace Onek
             }
 
 
-            if (!Eval.isSigned)
+            if (!Eval.IsSigned)
             {
                 return;
             }
@@ -235,7 +235,7 @@ namespace Onek
                 await DisplayAlert("Attention", "Cet évènement a été fermé le " + CurrentEvent.End, "OK");
                 base.OnDisappearing();
             }
-            if (Eval.isModified)
+            if (Eval.IsModified)
             {
                 bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                 if (answer)
@@ -276,7 +276,7 @@ namespace Onek
                 base.OnDisappearing();
             }
 
-            if (Eval.isModified)
+            if (Eval.IsModified)
             {
                 bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                 if (answer)
@@ -320,7 +320,7 @@ namespace Onek
                 await Navigation.PopAsync();
                 return;
             }
-            if (!Eval.isSigned)
+            if (!Eval.IsSigned)
             {
                 SaveEvaluation(false);
             }
@@ -340,7 +340,7 @@ namespace Onek
         {
             goToPageNote = true;
 
-            if (Eval.isSigned)
+            if (Eval.IsSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
                 return;
@@ -360,8 +360,8 @@ namespace Onek
         /// <param name="signature"></param>
         async void SaveEvaluation(Boolean signature)
         {
-            //if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned && CurrentEvent.SignatureNeeded)
-            if (signature && Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.isSigned)
+            //if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.IsSigned && CurrentEvent.SignatureNeeded)
+            if (signature && Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.IsSigned)
             {
                 await Navigation.PushAsync(new SigningPage(Eval, CurrentCandidate));
                 //comeBackFromSigning = true;
@@ -377,7 +377,7 @@ namespace Onek
             {
                 c.isModified = false;
             }
-            Eval.isModified = false;
+            Eval.IsModified = false;
 
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             CandidateList[index] = CurrentCandidate;
@@ -430,7 +430,7 @@ namespace Onek
         /// <param name="e"></param>
         async void OnCritereCommentaireClicked(object sender, EventArgs e)
         {
-            if (Eval.isSigned)
+            if (Eval.IsSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
                 return;
@@ -509,7 +509,7 @@ namespace Onek
                 c.isModified = false;
             }
 
-            Eval.isModified = false;
+            Eval.IsModified = false;
             //comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
@@ -604,7 +604,7 @@ namespace Onek
             };
             footerEditor.BindingContext = Eval;
             footerEditor.SetBinding(Editor.TextProperty, "Comment");
-            Eval.isModified = false;
+            Eval.IsModified = false;
             footerLayout.Children.Add(footerLabelTitle);
             footerLayout.Children.Add(footerLabelMsg);
             footerLayout.Children.Add(footerEditor);
