@@ -27,12 +27,29 @@ namespace Onek
         private bool goToPageNote { get; set; }
         //private bool comeBackFromSigning { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
+        private String statusImage = "red.png";
+        public String StatusImage
+        {
+            get
+            {
+                return statusImage;
+            }
+            set
+            {
+                if (statusImage != value)
+                {
+                    statusImage = value;
+                    OnPropertyChanged("StatusImage");
+                }
+            }
+        }
 
         public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
         {
             InitializeComponent();
 
             CurrentCandidate = candidate;
+            StatusImage = CurrentCandidate.StatusImage;
             CandidateList = candidates;
             LoggedUser = loggedUser;
             CurrentEvent = e;
