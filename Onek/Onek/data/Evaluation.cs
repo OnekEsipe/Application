@@ -16,8 +16,8 @@ namespace Onek.data
         public DateTime LastUpdatedDate { get; set; }
         private ObservableCollection<Criteria> criterias = new ObservableCollection<Criteria>();
         public event PropertyChangedEventHandler PropertyChanged;
-        public bool isModified { get; set; } = false;
-        public bool isSigned { get; set; }
+        public bool IsModified { get; set; } = false;
+        public bool IsSigned { get; set; }
         public List<Signature> Signatures { get; set; } = new List<Signature>();
 
         public Boolean hasEvaluation(int idCandidate)
@@ -31,7 +31,7 @@ namespace Onek.data
             set
             {
                 comment = value;
-                isModified = true;
+                IsModified = true;
                 OnPropertyChanged("Comment");
             }
         }
@@ -42,7 +42,7 @@ namespace Onek.data
             set
             {
                 criterias = value;
-                isModified = true;
+                IsModified = true;
                 OnPropertyChanged("Criterias");
             }
         }

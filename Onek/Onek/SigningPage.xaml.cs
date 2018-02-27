@@ -137,7 +137,7 @@ namespace Onek
             canvasSaved = newSurface.Canvas;
             data = snap.Encode();
             
-            Eval.isSigned = true;
+            Eval.IsSigned = true;
             CurrentCandidate.IsSigned = true;
 
 
