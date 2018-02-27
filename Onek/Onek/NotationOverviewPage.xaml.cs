@@ -61,7 +61,6 @@ namespace Onek
             {
                 LeftButton.CornerRadius = 20;
                 RightButton.CornerRadius = 20;
-                LeftButton.CornerRadius = 20;
             }
 
             if (!CurrentEvent.SigningNeeded)

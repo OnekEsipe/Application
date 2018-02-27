@@ -40,16 +40,15 @@ namespace Onek
 
             if (Device.RuntimePlatform == Device.iOS)
             {
-                AButton.CornerRadius = 20;
-                BButton.CornerRadius = 20;
-                CButton.CornerRadius = 20;
-                DButton.CornerRadius = 20;
-                EButton.CornerRadius = 20;
-                FButton.CornerRadius = 20;
+                AButton.CornerRadius = 23;
+                BButton.CornerRadius = 23;
+                CButton.CornerRadius = 23;
+                DButton.CornerRadius = 23;
+                EButton.CornerRadius = 23;
+                FButton.CornerRadius = 23;
                 LeftButton.CornerRadius = 20;
                 RightButton.CornerRadius = 20;
             }
-
 
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;

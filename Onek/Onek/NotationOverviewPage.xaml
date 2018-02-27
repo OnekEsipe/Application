@@ -104,8 +104,13 @@
                                     WidthRequest="50"
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
-                                    BorderRadius="90"
-                                    />
+                                    BorderRadius="90">
+                                <Button.CornerRadius>
+                                    <OnPlatform x:TypeArguments="x:Int32"
+                                                iOS="20"
+                                                Android="90" />
+                                </Button.CornerRadius>
+                            </Button>
                             <Button x:Name="ButtonCommentaireCritere"
                                     Text="Commenter"
                                     BackgroundColor="White"
