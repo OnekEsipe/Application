@@ -22,12 +22,14 @@
                     WidthRequest="100"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"/>
-            <Image HorizontalOptions="EndAndExpand" IsVisible="True" WidthRequest="20"
-                                   HeightRequest="20" x:Name="StatusImg">
-                <Image.Source>
-                    <FileImageSource File="{Binding StatusImage}"/>
-                </Image.Source>
-            </Image>
+            
+            <Image HorizontalOptions="CenterAndExpand" 
+                   IsVisible="True" 
+                   WidthRequest="20"
+                   HeightRequest="20"
+                   Source ="red.png"
+                   x:Name="StatusImage"/>
+            
             <Button x:Name="RightButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
