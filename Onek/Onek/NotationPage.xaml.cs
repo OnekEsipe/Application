@@ -38,6 +38,17 @@ namespace Onek
             buttons.Add("E", EButton);
             buttons.Add("F", FButton);
 
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                AButton.CornerRadius = 25;
+                BButton.CornerRadius = 25;
+                CButton.CornerRadius = 25;
+                DButton.CornerRadius = 25;
+                EButton.CornerRadius = 25;
+                FButton.CornerRadius = 25;
+                LeftButton.CornerRadius = 20;
+                RightButton.CornerRadius = 20;
+            }
 
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;

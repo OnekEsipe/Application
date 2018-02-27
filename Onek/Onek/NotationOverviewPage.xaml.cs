@@ -57,6 +57,12 @@ namespace Onek
             LeftButton.Text = "<";
             RightButton.Text = ">";
 
+            if(Device.RuntimePlatform == Device.iOS)
+            {
+                LeftButton.CornerRadius = 20;
+                RightButton.CornerRadius = 20;
+            }
+
             if (!CurrentEvent.SigningNeeded)
             {
                 ButtonSigner.IsVisible = false;

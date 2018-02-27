@@ -27,7 +27,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackLayout VerticalOptions="CenterAndExpand"
-                      HorizontalOptions="CenterAndExpand"
+                      HorizontalOptions="FillAndExpand"
                      Orientation="Vertical">
             <Button x:Name="ButtonCode"
                         Text="Inscription par code"
@@ -45,13 +45,15 @@
                 </Button.Style>
             </Button>
             <StackLayout  VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand"
                           Orientation="Horizontal">
                 <Button x:Name="ButtonDeconnect"
                             Text="Deconnexion"
                             BackgroundColor="#2399e5"
                             TextColor="White" 
-                            Clicked="OnButtonDeconnexionClicked">
+                            Clicked="OnButtonDeconnexionClicked"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="FillAndExpand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -63,10 +65,12 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="ButtonChangePassword"
-                                Text="Changer Mot de Passe"
+                                Text="Changer mot de passe"
                                 BackgroundColor="#2399e5"
                                 TextColor="White" 
-                                Clicked="OnButtonChangePasswordClicked">
+                                Clicked="OnButtonChangePasswordClicked"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="FillAndExpand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>

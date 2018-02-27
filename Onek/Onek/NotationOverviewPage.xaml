@@ -12,8 +12,18 @@
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
                     Clicked="OnLeftButtonClickedAsync"
-                    BorderRadius="90"
-                    VerticalOptions="Center"/>
+                    CornerRadius="90"
+                    VerticalOptions="CenterAndExpand">
+                    <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Label  x:Name="CandidateNameLabel"
                     VerticalOptions="Center"
                     HorizontalOptions="CenterAndExpand"
@@ -22,22 +32,32 @@
                     WidthRequest="100"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"/>
-            
+
             <Image HorizontalOptions="CenterAndExpand" 
                    IsVisible="True" 
                    WidthRequest="20"
                    HeightRequest="20"
                    Source ="red.png"
                    x:Name="StatusImage"/>
-            
+
             <Button x:Name="RightButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
                     Clicked="OnRightButtonClickedAsync"
-                    BorderRadius="90"
-                    VerticalOptions="Center"/>
+                    CornerRadius="90"
+                    VerticalOptions="Center">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackLayout>
         <ListView x:Name="MyListView"
                 ItemsSource="{Binding Items}"
@@ -69,6 +89,11 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" Margin="10,10,10,10">
+                            <StackLayout.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double"
+                                                iOS="70"
+                                                Android="40"/>
+                            </StackLayout.HeightRequest>
                             <Label x:Name="CritereText" Text="{Binding Text}" 
                                    TextColor="#2399e5" FontSize="Small"
                                    HorizontalOptions="CenterAndExpand"
@@ -84,8 +109,13 @@
                                     WidthRequest="50"
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
-                                    BorderRadius="90"
-                                    />
+                                    BorderRadius="90">
+                                <Button.CornerRadius>
+                                    <OnPlatform x:TypeArguments="x:Int32"
+                                                iOS="25"
+                                                Android="90" />
+                                </Button.CornerRadius>
+                            </Button>
                             <Button x:Name="ButtonCommentaireCritere"
                                     Text="Commenter"
                                     BackgroundColor="White"
@@ -113,12 +143,12 @@
                     IsEnabled="False">
                 <Button.Style>
                     <Style TargetType="Button">
-                    <Style.Triggers>
-                        <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                            <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
+                        <Style.Triggers>
+                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
                 </Button.Style>
             </Button>
 
