@@ -142,6 +142,7 @@ namespace Onek
             if (Eval.isSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                MyListView.IsEnabled = false;
                 return;
             }
 
@@ -180,7 +181,11 @@ namespace Onek
             }
 
             if (SelectedCritere == null)
+            {
+
+                MyListView.IsEnabled = false;
                 return;
+            }
 
             goToPageNote = true;
             MyListView.IsEnabled = false;
