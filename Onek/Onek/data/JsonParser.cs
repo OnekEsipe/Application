@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using Onek.utils;
 using Plugin.Connectivity;
+using System.Text;
 
 namespace Onek
 {
@@ -235,6 +236,38 @@ namespace Onek
                 File.WriteAllText(ApplicationConstants.pathToJsonAccountFile, JsonConvert.SerializeObject(currentJson));
                 return;
             }
+        }
+
+        public static List<int> GetEventsIdToDownload(User user)
+        {
+            List<int> events_id = new List<int>();
+            try
+            {
+                HttpWebRequest httpWebRequest = WebRequest.Create(ApplicationConstants.serverUserEventsId) as HttpWebRequest;
+                String json = "{ \"Login\":\"" + user.Login + "\", \"Password\":\"" + user.Password + "\" }";
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                SendToServer(httpWebRequest, json);
+
+                //Check server response
+                HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+                if(response != null && response.StatusCode.Equals(HttpStatusCode.OK))
+                {
+                    Stream responseStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    String jsonResponse = reader.ReadToEnd();
+                    User u = JsonConvert.DeserializeObject<User>(jsonResponse);
+                    events_id = u.Events_id;//dict["Events_id"];
+                }
+            }catch(Exception e)
+            {
+                HttpWebResponse response = (e as WebException).Response as HttpWebResponse;
+                if(response != null && !response.StatusCode.Equals(HttpStatusCode.Forbidden))
+                {
+                    return null;
+                }
+            }
+            return events_id;
         }
 
     }

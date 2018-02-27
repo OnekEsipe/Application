@@ -23,6 +23,7 @@ namespace Onek.utils
         public static String serverCreateAccountURL = "https://" + URL + "/api/app/createjury";
         public static String serverResetPasswordURL = "https://" + URL + "/api/app/password/reset";
         public static String serverChangePasswordURL = "https://" + URL + "/api/app/password/modify";
+        public static String serverUserEventsId = "https://" + URL + "/api/app/jury/events/id";
         //Server URL
         private static String url;
         private const String defaultURL = "173.249.25.49/serveur";
@@ -92,7 +93,7 @@ namespace Onek.utils
             serverCreateAccountURL = "https://" + URL + "/api/app/createjury";
             serverResetPasswordURL = "https://" + URL + "/api/app/password/reset";
             serverChangePasswordURL = "https://" + URL + "/api/app/password/modify";
-            
+            serverUserEventsId = "https://" + URL + "/api/app/jury/events/id";
         }
 
     }

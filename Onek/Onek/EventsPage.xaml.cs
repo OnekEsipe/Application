@@ -46,6 +46,34 @@ namespace Onek
             }
         }
 
+        /// <summary>
+        /// Called to refresh the events listview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void RefreshEventsList(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                List<int> Events_id = new List<int>();
+                Events_id = JsonParser.GetEventsIdToDownload(LoggedUser);
+                LoggedUser.Events_id = Events_id;
+                //Download and Deserialize json events
+                Events = JsonParser.DeserializeJson(LoggedUser);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
+                    MyListView.ItemsSource = Items;
+                });
+            });
+            MyListView.EndRefresh();
+        }
+
+        /// <summary>
+        /// Executed when an event is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
@@ -85,6 +113,11 @@ namespace Onek
             }
         }
 
+        /// <summary>
+        /// Called when user clicks on disconnect button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonDeconnexionClicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Deconnexion", "Voulez-vous vraiment vous deconnecter ?", "Oui", "Non");
@@ -94,6 +127,11 @@ namespace Onek
             }
         }
 
+        /// <summary>
+        /// Called when user want to register to an event with a code
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonCodeClicked(object sender, EventArgs e)
         {
             //Check connection
@@ -149,6 +187,11 @@ namespace Onek
             }
         }
 
+        /// <summary>
+        /// Called when user want to change his password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonChangePasswordClicked(object sender, EventArgs e)
         {
             if (CrossConnectivity.Current.IsConnected)
