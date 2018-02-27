@@ -77,7 +77,7 @@
                             <Button x:Name="LevelButton"
                                     Text="{Binding SelectedLevel}"
                                     Command=""
-                                    BackgroundColor="DeepSkyBlue"
+                                    BackgroundColor="#2399e5"
                                     TextColor="White"
                                     WidthRequest="50"
                                     HorizontalOptions="Center"
@@ -108,8 +108,9 @@
                     BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonSignerClicked"
-                    IsEnabled="False"<Button.Style>
-                <Style TargetType="Button">
+                    IsEnabled="False">
+                <Button.Style>
+                    <Style TargetType="Button">
                     <Style.Triggers>
                         <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
                             <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
