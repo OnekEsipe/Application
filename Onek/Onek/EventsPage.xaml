@@ -65,7 +65,7 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="ButtonChangePassword"
-                                Text="Changer de mot de passe"
+                                Text="Changer mot de passe"
                                 BackgroundColor="#2399e5"
                                 TextColor="White" 
                                 Clicked="OnButtonChangePasswordClicked"
