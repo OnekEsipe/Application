@@ -108,7 +108,16 @@
                     BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonSignerClicked"
-                    IsEnabled="False"/>
+                    IsEnabled="False"<Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                            <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                </Button.Style>
+            </Button>
 
             <Button x:Name="ButtonEnregister"
                     Text="Enregistrer"

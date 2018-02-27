@@ -120,6 +120,8 @@ namespace Onek
         /// <param name="e"></param>
         async void OnLevelButtonClicked(object sender, EventArgs e)
         {
+            MyListView.IsEnabled = false;
+
             if (Eval.isSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
@@ -164,7 +166,7 @@ namespace Onek
                 return;
 
             goToPageNote = true;
-            await Navigation.PushAsync(new NotationPage(CurrentCandidate, Eval.Criterias, SelectedCritere));
+            MyListView.IsEnabled = false;
         }
 
         /// <summary>

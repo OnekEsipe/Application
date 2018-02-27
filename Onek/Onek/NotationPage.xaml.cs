@@ -51,13 +51,11 @@ namespace Onek
                 {
                     if (d.Level == SelectedDescripteur.Level)
                     {
-                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
-                        buttons[d.Level].TextColor = Color.White;
+                        buttons[d.Level].BackgroundColor = Color.FromHex("#070735");
                     }
                     else
                     {
-                        buttons[d.Level].BackgroundColor = Color.LightBlue;
-                        buttons[d.Level].TextColor = Color.Black;
+                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                     }
                 }
             }
@@ -68,8 +66,7 @@ namespace Onek
                 foreach (Descriptor d in CurrentCriteria.Descriptor)
                 {
 
-                    buttons[d.Level].BackgroundColor = Color.LightBlue;
-                    buttons[d.Level].TextColor = Color.Black;
+                    buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                     
                 }
             }
@@ -126,13 +123,11 @@ namespace Onek
             {
                 if (d.Level == SelectedDescripteur.Level)
                 {
-                    buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
-                    buttons[d.Level].TextColor = Color.White;
+                    buttons[d.Level].BackgroundColor = Color.FromHex("#070735");
                 }
                 else
                 {
-                    buttons[d.Level].BackgroundColor = Color.LightBlue;
-                    buttons[d.Level].TextColor = Color.Black;
+                    buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                 }
             }
         }
@@ -223,13 +218,11 @@ namespace Onek
                 {
                     if (d.Level == SelectedDescripteur.Level)
                     {
-                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
-                        buttons[d.Level].TextColor = Color.White;
+                        buttons[d.Level].BackgroundColor = Color.FromHex("#070735");
                     }
                     else
                     {
-                        buttons[d.Level].BackgroundColor = Color.LightBlue;
-                        buttons[d.Level].TextColor = Color.Black;
+                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                     }
                 }
             }
@@ -239,8 +232,7 @@ namespace Onek
 
                 foreach (Descriptor d in CurrentCriteria.Descriptor)
                 {
-                    buttons[d.Level].BackgroundColor = Color.LightBlue;
-                    buttons[d.Level].TextColor = Color.Black;
+                    buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
                     
                 }
             }

@@ -59,6 +59,7 @@
                                         Clicked="OnClickedDescriptor"
                                         HeightRequest="70"
                                         WidthRequest="70"
+                        TextColor="White"
                         Grid.Row="1" Grid.Column="1"
                                    />
                 <Button Text="B" x:Name="BButton"
@@ -67,6 +68,7 @@
                                         Clicked="OnClickedDescriptor"
                                         HeightRequest="70"
                                         WidthRequest="70"
+                        TextColor="White"
                         Grid.Row="1" Grid.Column="2"
                                    />
                 <Button Text="C" x:Name="CButton"
@@ -75,6 +77,7 @@
                                         Clicked="OnClickedDescriptor"
                                         HeightRequest="70"
                                         WidthRequest="70"
+                        TextColor="White"
                         Grid.Row="1" Grid.Column="3"
                                    />
                 <Button Text="D" x:Name="DButton"
@@ -83,6 +86,7 @@
                                         Clicked="OnClickedDescriptor"
                                         HeightRequest="70"
                                         WidthRequest="70"
+                        TextColor="White"
                         Grid.Row="1" Grid.Column="4"
                                    />
                 <Button Text="E" x:Name="EButton"
@@ -93,6 +97,7 @@
                                         TextColor="{Binding TextColor}"
                                         HeightRequest="70"
                                         WidthRequest="70"
+                        TextColor="White"
                         Grid.Row="1" Grid.Column="5"
                                    />
                 <Button Text="F" x:Name="FButton"
@@ -103,6 +108,7 @@
                                         TextColor="{Binding TextColor}"
                                         HeightRequest="70"
                                         WidthRequest="70"
+                        TextColor="White"
                         Grid.Row="1" Grid.Column="6" 
                                    />
             </Grid>
