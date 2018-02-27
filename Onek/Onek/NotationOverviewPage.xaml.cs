@@ -27,29 +27,15 @@ namespace Onek
         private bool goToPageNote { get; set; }
         //private bool comeBackFromSigning { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
-        private String statusImage = "red.png";
-        public String StatusImage
-        {
-            get
-            {
-                return statusImage;
-            }
-            set
-            {
-                if (statusImage != value)
-                {
-                    statusImage = value;
-                    OnPropertyChanged("StatusImage");
-                }
-            }
-        }
 
         public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
         {
             InitializeComponent();
 
+            StatusImage.Source = candidate.StatusImage;
+            checkStatus(candidate);
+
             CurrentCandidate = candidate;
-            StatusImage = CurrentCandidate.StatusImage;
             CandidateList = candidates;
             LoggedUser = loggedUser;
             CurrentEvent = e;
@@ -142,7 +128,7 @@ namespace Onek
             if (Eval.isSigned)
             {
                 await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
-                MyListView.IsEnabled = false;
+                MyListView.IsEnabled = true;
                 return;
             }
 
@@ -183,12 +169,15 @@ namespace Onek
             if (SelectedCritere == null)
             {
 
-                MyListView.IsEnabled = false;
+                MyListView.IsEnabled = true;
                 return;
             }
 
             goToPageNote = true;
-            MyListView.IsEnabled = false;
+            MyListView.IsEnabled = true;
+
+
+
         }
 
         /// <summary>
@@ -421,14 +410,17 @@ namespace Onek
             if (numberOfNoted == 0)
             {
                 candidate.StatusImage = "red.png";
+                StatusImage.Source = candidate.StatusImage;
                 return;
             }
             if (numberOfNoted == candidate.eval.Criterias.Count)
             {
                 candidate.StatusImage = "green.png";
+                StatusImage.Source = candidate.StatusImage;
                 return;
             }
             candidate.StatusImage = "yellow.png";
+            StatusImage.Source = candidate.StatusImage;
         }
 
         /// <summary>
