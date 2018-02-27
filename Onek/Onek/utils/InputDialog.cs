@@ -106,10 +106,29 @@ namespace Onek.utils
                 Children = { lblTitle, lblMessage, txtInput, btnErase, slButtons },
             };
 
+            Frame frame = new Frame
+            {
+                IsClippedToBounds = false,
+                HasShadow = true,
+                CornerRadius = 10,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.StartAndExpand,
+                Margin = new Thickness(0, 10),
+                Content = layout,
+            };
+
+            var mainLayout = new StackLayout
+            {
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                Children = { frame },
+            };
+
+
             // create and show page
             var page = new ContentPage();
-            page.Content = layout;
-            navigation.PushModalAsync(page);
+            page.Content = mainLayout;
+            navigation.PushModalAsync(page, true);
             // open keyboard
             txtInput.Focus();
 
