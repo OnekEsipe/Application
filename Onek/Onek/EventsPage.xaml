@@ -27,7 +27,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackLayout VerticalOptions="CenterAndExpand"
-                      HorizontalOptions="CenterAndExpand"
+                      HorizontalOptions="FillAndExpand"
                      Orientation="Vertical">
             <Button x:Name="ButtonCode"
                         Text="Inscription par code"
@@ -45,7 +45,7 @@
                 </Button.Style>
             </Button>
             <StackLayout  VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand"
                           Orientation="Horizontal">
                 <Button x:Name="ButtonDeconnect"
                             Text="Deconnexion"

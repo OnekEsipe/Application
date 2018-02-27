@@ -89,6 +89,10 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" Margin="10,10,10,10">
+                            <StackLayout.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Int32"
+                                                iOS="70" />
+                            </StackLayout.HeightRequest>
                             <Label x:Name="CritereText" Text="{Binding Text}" 
                                    TextColor="#2399e5" FontSize="Small"
                                    HorizontalOptions="CenterAndExpand"
@@ -107,7 +111,7 @@
                                     BorderRadius="90">
                                 <Button.CornerRadius>
                                     <OnPlatform x:TypeArguments="x:Int32"
-                                                iOS="20"
+                                                iOS="25"
                                                 Android="90" />
                                 </Button.CornerRadius>
                             </Button>
