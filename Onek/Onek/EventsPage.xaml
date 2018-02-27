@@ -16,7 +16,10 @@
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
-                SeparatorVisibility="None">
+                SeparatorVisibility="None"
+                IsPullToRefreshEnabled="True"
+                Refreshing="RefreshEventsList"
+                IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />
