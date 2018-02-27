@@ -55,7 +55,9 @@ namespace Onek
         {
             Task.Run(() =>
             {
-                //TODO Get events list
+                List<int> Events_id = new List<int>();
+                Events_id = JsonParser.GetEventsIdToDownload(LoggedUser);
+                LoggedUser.Events_id = Events_id;
                 //Download and Deserialize json events
                 Events = JsonParser.DeserializeJson(LoggedUser);
                 Device.BeginInvokeOnMainThread(() =>
