@@ -9,10 +9,10 @@
             <Button x:Name="LeftButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
-                    WidthRequest="250"
+                    WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
                     Clicked="OnLeftButtonClickedAsync"
-                    BorderRadius="90"
+                    CornerRadius="90"
                     VerticalOptions="CenterAndExpand">
                     <Button.Style>
                     <Style TargetType="Button">
@@ -46,7 +46,7 @@
                     WidthRequest="50"
                     HorizontalOptions="CenterAndExpand"
                     Clicked="OnRightButtonClickedAsync"
-                    BorderRadius="90"
+                    CornerRadius="90"
                     VerticalOptions="Center">
                 <Button.Style>
                     <Style TargetType="Button">

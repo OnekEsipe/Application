@@ -54,8 +54,15 @@ namespace Onek
             //comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
-            //LeftButton.Text = "<";
-            //RightButton.Text = ">";
+            LeftButton.Text = "<";
+            RightButton.Text = ">";
+
+            if(Device.RuntimePlatform == Device.iOS)
+            {
+                LeftButton.CornerRadius = 20;
+                RightButton.CornerRadius = 20;
+                LeftButton.CornerRadius = 20;
+            }
 
             if (!CurrentEvent.SigningNeeded)
             {
@@ -72,7 +79,7 @@ namespace Onek
 
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
 
-            //SetVisibilityArrow(index);
+            SetVisibilityArrow(index);
 
             Items = new ObservableCollection<Criteria>(Eval.Criterias);
             MyListView.ItemsSource = Items;
