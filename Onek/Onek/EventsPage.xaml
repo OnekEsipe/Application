@@ -51,7 +51,9 @@
                             Text="Deconnexion"
                             BackgroundColor="#2399e5"
                             TextColor="White" 
-                            Clicked="OnButtonDeconnexionClicked">
+                            Clicked="OnButtonDeconnexionClicked"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="FillAndExpand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -63,10 +65,12 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="ButtonChangePassword"
-                                Text="Changer Mot de Passe"
+                                Text="Changer de mot de passe"
                                 BackgroundColor="#2399e5"
                                 TextColor="White" 
-                                Clicked="OnButtonChangePasswordClicked">
+                                Clicked="OnButtonChangePasswordClicked"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="FillAndExpand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
