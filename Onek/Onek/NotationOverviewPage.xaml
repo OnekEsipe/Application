@@ -139,7 +139,6 @@
                                     Command=""
                                     BackgroundColor="#2399e5"
                                     TextColor="White"
-                                    WidthRequest="50"
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
                                     BorderRadius="90">
@@ -148,6 +147,12 @@
                                                 iOS="20"
                                                 Android="90" />
                                     </Button.CornerRadius>
+                                    <Button.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double"
+                                                    iOS="40"
+                                                    Android="50">
+                                        </OnPlatform>
+                                    </Button.WidthRequest>
                                 </Button>
                                 <Button x:Name="ButtonCommentaireCritere" Grid.Column="3" 
                                     Text="Commenter"
