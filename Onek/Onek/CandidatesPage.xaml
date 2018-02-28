@@ -29,11 +29,10 @@
                 <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
             </Grid>
             <Frame  IsClippedToBounds="False"
-                    HasShadow="False"
+                    HasShadow="True"
                     CornerRadius="10"
                     HorizontalOptions="FillAndExpand"
-                    VerticalOptions="StartAndExpand"
-                    Margin="0,10">
+                    VerticalOptions="StartAndExpand">
                 <ListView x:Name="MyListView"
                     Grid.Row="2"
                     ItemsSource="{Binding Items}"
