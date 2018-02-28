@@ -16,10 +16,11 @@
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
-                SeparatorVisibility="None"
+                SeparatorVisibility="Default"
                 IsPullToRefreshEnabled="True"
                 Refreshing="RefreshEventsList"
-                IsRefreshing="{Binding IsRefreshing}">
+                IsRefreshing="{Binding IsRefreshing}"
+                SeparatorColor="Gray">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" TextColor="Black" />

@@ -33,7 +33,8 @@
                     ItemsSource="{Binding Items}"
                     ItemTapped="Handle_ItemTapped"
                     CachingStrategy="RecycleElement"
-                    SeparatorVisibility="None">
+                    SeparatorVisibility="Default"
+                      SeparatorColor="Gray">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
