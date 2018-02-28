@@ -101,13 +101,7 @@
                        FontAttributes="Bold" 
                        TextColor="#2399e5"/>
             </Grid>
-            <Frame  IsClippedToBounds="False"
-                    HasShadow="True"
-                    CornerRadius="10"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="StartAndExpand"
-                    Margin="0,10">
-                <ListView x:Name="MyListView"
+            <ListView x:Name="MyListView"
                       Grid.Row="2"
                 ItemsSource="{Binding Items}"
                 CachingStrategy="RecycleElement"
@@ -116,23 +110,23 @@
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="StartAndExpand">
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Margin=" 0,5,0,5">
-                                    <Grid.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin=" 0,5,0,5">
+                                <Grid.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double"
                                                 iOS="60"
                                                 Android="50"/>
-                                    </Grid.HeightRequest>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label x:Name="CritereText" Grid.Column="1" Text="{Binding Text}" 
+                                </Grid.HeightRequest>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="CritereText" Grid.Column="1" Text="{Binding Text}" 
                                    FontSize="Small"
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="Center"
@@ -140,7 +134,7 @@
                                    WidthRequest="150"
                                    TextColor="Black"
                                    />
-                                    <Button x:Name="LevelButton" Grid.Column="2" 
+                                <Button x:Name="LevelButton" Grid.Column="2" 
                                     Text="{Binding SelectedLevel}"
                                     Command=""
                                     BackgroundColor="#2399e5"
@@ -148,19 +142,19 @@
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
                                     BorderRadius="90">
-                                        <Button.CornerRadius>
-                                            <OnPlatform x:TypeArguments="x:Int32"
+                                    <Button.CornerRadius>
+                                        <OnPlatform x:TypeArguments="x:Int32"
                                                 iOS="25"
                                                 Android="90" />
-                                        </Button.CornerRadius>
-                                        <Button.WidthRequest>
-                                            <OnPlatform x:TypeArguments="x:Double"
+                                    </Button.CornerRadius>
+                                    <Button.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double"
                                                     iOS="50"
                                                     Android="50">
-                                            </OnPlatform>
-                                        </Button.WidthRequest>
-                                    </Button>
-                                    <Button x:Name="ButtonCommentaireCritere" Grid.Column="3" 
+                                        </OnPlatform>
+                                    </Button.WidthRequest>
+                                </Button>
+                                <Button x:Name="ButtonCommentaireCritere" Grid.Column="3" 
                                     Text="Commenter"
                                     BackgroundColor="White"
                                     BorderColor="White"
@@ -169,12 +163,11 @@
                                     HorizontalOptions="CenterAndExpand"
                                     WidthRequest="150"                                    
                                     Clicked="OnCritereCommentaireClicked"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Frame>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
             <StackLayout  
                 VerticalOptions="CenterAndExpand"

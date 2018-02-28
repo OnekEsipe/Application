@@ -11,8 +11,13 @@
                HorizontalOptions="FillAndExpand"
                IsPassword="False"
                TextChanged="OnFilterChanged"/>
-
-        <ListView x:Name="MyListView"
+        <Frame  IsClippedToBounds="False"
+                    HasShadow="False"
+                    CornerRadius="10"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="StartAndExpand"
+                    Margin="0,10">
+            <ListView x:Name="MyListView"
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
@@ -20,12 +25,13 @@
                 IsPullToRefreshEnabled="True"
                 Refreshing="RefreshEventsList"
                 IsRefreshing="{Binding IsRefreshing}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}" TextColor="Black" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}" TextColor="Black" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
         <StackLayout VerticalOptions="CenterAndExpand"
                       HorizontalOptions="FillAndExpand"
                      Orientation="Vertical">
