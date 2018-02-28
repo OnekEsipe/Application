@@ -117,7 +117,7 @@
                                 <Grid.HeightRequest>
                                     <OnPlatform x:TypeArguments="x:Double"
                                                 iOS="50"
-                                                Android="50"/>
+                                                Android="60"/>
                                 </Grid.HeightRequest>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="20"/>
@@ -166,14 +166,15 @@
         </Grid>
             <StackLayout  
                 VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="CenterAndExpand"
+                 HorizontalOptions="FillAndExpand"
                  Orientation="Horizontal">
                 <Button x:Name="ButtonSigner"
                     Text="Signer"
                     BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonSignerClicked"
-                    IsEnabled="False">
+                    IsEnabled="False"
+                    HorizontalOptions="FillAndExpand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -188,7 +189,18 @@
                     Text="Enregistrer"
                     BackgroundColor="#2399e5"
                     TextColor="White" 
-                    Clicked="OnButtonEnregistrerClicked"/>
-            </StackLayout>
+                    Clicked="OnButtonEnregistrerClicked"
+                    HorizontalOptions="FillAndExpand">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackLayout>
     </StackLayout>
 </ContentPage>
