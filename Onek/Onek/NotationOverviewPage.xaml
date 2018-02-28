@@ -116,7 +116,7 @@
                             <Grid Margin=" 0,5,0,5">
                                 <Grid.HeightRequest>
                                     <OnPlatform x:TypeArguments="x:Double"
-                                                iOS="70"
+                                                iOS="50"
                                                 Android="50"/>
                                 </Grid.HeightRequest>
                                 <Grid.ColumnDefinitions>

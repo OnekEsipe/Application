@@ -602,7 +602,8 @@ namespace Onek
             //Title
             Label footerLabelTitle = new Label { HorizontalOptions = LayoutOptions.Center,
                 FontAttributes = FontAttributes.Bold,
-                VerticalTextAlignment = TextAlignment.Center};
+                VerticalTextAlignment = TextAlignment.Center,
+                Margin = new Thickness(0,20)};
             footerLabelTitle.Text = "Commentaire général";
             //Message 
             Label footerLabelMsg = new Label();
