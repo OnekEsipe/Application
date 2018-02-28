@@ -136,6 +136,7 @@ namespace Onek.utils
 
             // create and show page
             var page = new ContentPage();
+            page.BackgroundColor = Color.FromHex("#80000000");
             page.Content = mainLayout;
             navigation.PushModalAsync(page, true);
             // open keyboard

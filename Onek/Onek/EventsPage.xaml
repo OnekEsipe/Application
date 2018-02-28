@@ -22,7 +22,7 @@
                 IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" />
+                    <TextCell Text="{Binding Name}" TextColor="Black" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -630,7 +630,7 @@ namespace Onek
             else
             {
                 footerEditor.IsEnabled = false;
-                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+                //await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
             }
             footerEditor.BindingContext = Eval;
             footerEditor.SetBinding(Editor.TextProperty, "Comment");
