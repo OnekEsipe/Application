@@ -234,6 +234,7 @@ namespace Onek
         {
             if (goToPageNote)
             {
+                MyListView.Footer = null; 
                 return;
             }
             if (CurrentEvent.End < DateTime.Now)
@@ -597,20 +598,28 @@ namespace Onek
             footerLabelMsg.Text = text + " (500 caractères restants) :";
             //Editor
             Editor footerEditor = new Editor();
-            //Called when the text of editor change
-            footerEditor.TextChanged += (sender, ev) =>
+            if (!Eval.IsSigned)
             {
+                //Called when the text of editor change
+                footerEditor.TextChanged += (sender, ev) =>
+                {
                 //Change size of editor to adapt to text
                 Invalidate(footerEditor);
                 //Display the remaining number of characters
                 string input = footerEditor.Text;
-                if (input.Length > 500)
-                {
-                    input = input.Substring(0, 500);
-                    footerEditor.Text = input;
-                }
-                footerLabelMsg.Text = text + " (" + (500 - input.Length) + " caractères restants) :";
-            };
+                    if (input.Length > 500)
+                    {
+                        input = input.Substring(0, 500);
+                        footerEditor.Text = input;
+                    }
+                    footerLabelMsg.Text = text + " (" + (500 - input.Length) + " caractères restants) :";
+                };
+            }
+            else
+            {
+                footerEditor.IsEnabled = false;
+                await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
+            }
             footerEditor.BindingContext = Eval;
             footerEditor.SetBinding(Editor.TextProperty, "Comment");
             Eval.IsModified = false;
