@@ -18,14 +18,16 @@
                 HasShadow="True"
                 CornerRadius="10"
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
+                VerticalOptions="CenterAndExpand"
+                HeightRequest="450"
+                WidthRequest="250"
+                  >
                 <Grid HorizontalOptions="FillAndExpand" 
-              VerticalOptions="FillAndExpand"
-              MinimumHeightRequest="450"
-              HeightRequest="450"
-              WidthRequest="250"
-              RowSpacing="0"
-              ColumnSpacing="0">
+                  VerticalOptions="CenterAndExpand"
+                  RowSpacing="0"
+                  ColumnSpacing="0"
+                  HeightRequest="450"
+                  WidthRequest="250">
                     <skia:SKCanvasView x:Name="canvasView" BackgroundColor="White"
                            PaintSurface="OnCanvasViewPaintSurface" Margin="2,2,2,2" />
                     <Grid.Effects>
@@ -35,7 +37,7 @@
                 </Grid>
             </Frame>
             <StackLayout Orientation="Horizontal" 
-                     VerticalOptions="EndAndExpand"
+                     VerticalOptions="CenterAndExpand"
                      HorizontalOptions="FillAndExpand" >
                 <Button x:Name="retourButton" 
                Text="Retour"                 
