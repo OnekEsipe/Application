@@ -145,7 +145,7 @@
                                     BorderRadius="90">
                                     <Button.CornerRadius>
                                         <OnPlatform x:TypeArguments="x:Int32"
-                                                iOS="22"
+                                                iOS="20"
                                                 Android="90" />
                                     </Button.CornerRadius>
                                 </Button>
