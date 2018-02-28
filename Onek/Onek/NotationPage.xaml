@@ -153,12 +153,12 @@
                         Clicked="OnButtonValiderClicked"
                         IsEnabled="False"/>
 
-            <Button x:Name="ButtonRetour"
+            <!--<Button x:Name="ButtonRetour"
                     HorizontalOptions="FillAndExpand"
                         Text="Retour"
                         BackgroundColor="#2399e5"
                         TextColor="White" 
-                        Clicked="OnButtonRetourClicked"/>
+                        Clicked="OnButtonRetourClicked"/>-->
         </StackLayout>
     </StackLayout>
 </ContentPage>
