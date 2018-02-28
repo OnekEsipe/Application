@@ -4,33 +4,34 @@
              xmlns:local="clr-namespace:Onek"
              x:Class="Onek.MainPage"
              Title="ONEK'">
-    <AbsoluteLayout Margin="15,15,15,15">
-        <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
-            <Image Source="logo.png" 
+    <StackLayout>
+        <AbsoluteLayout Margin="15,15,15,15">
+            <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Image Source="logo.png" 
                WidthRequest="120"
                HeightRequest="120" 
                VerticalOptions="CenterAndExpand"/>
-            <Frame
+                <Frame
                 IsClippedToBounds="False"
                 HasShadow="True"
                 CornerRadius="10"
                 HorizontalOptions="FillAndExpand">
-                <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="10,10">
-                    <Entry  x:Name="LoginEntry"
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="10,10">
+                        <Entry  x:Name="LoginEntry"
                 Placeholder="Login"
                 PlaceholderColor="Gray"
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand"
                 WidthRequest="400"
                 IsPassword="False"/>
-                    <Entry  x:Name="PasswordEntry"
+                        <Entry  x:Name="PasswordEntry"
                 VerticalOptions="CenterAndExpand"
                 Placeholder="Mot de Passe"
                 PlaceholderColor="Gray"
                 HorizontalOptions="Center"
                 WidthRequest="400"
                 IsPassword="True"/>
-                    <Button x:Name="ButtonLogin"
+                        <Button x:Name="ButtonLogin"
                 Text="Connexion"
                 BackgroundColor="#2399e5"
                 TextColor="White" 
@@ -38,17 +39,17 @@
                 VerticalOptions="EndAndExpand"
                 HorizontalOptions="CenterAndExpand"
                 WidthRequest="400">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Style.Triggers>
-                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button x:Name="ButtonForget"
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                            <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="ButtonForget"
                     Text="Mot de Passe oublié ?"
                 TextColor="Blue" 
                 VerticalOptions="EndAndExpand"
@@ -59,21 +60,21 @@
                 Clicked="onButtonOublieClicked"
                 HorizontalOptions="CenterAndExpand"
                 WidthRequest="280">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Style.Triggers>
-                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                        <Setter Property="BackgroundColor" Value="#cccbcb"></Setter>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackLayout>
-            </Frame>
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                            <Setter Property="BackgroundColor" Value="#cccbcb"></Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackLayout>
+                </Frame>
 
-            <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Padding="10,10">
-                <Button x:Name="ButtonInscription"
+                <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Padding="10,10">
+                    <Button x:Name="ButtonInscription"
                 Text="Inscription"
                 BackgroundColor="#2399e5"
                 TextColor="White"
@@ -81,17 +82,17 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="CenterAndExpand"
                 WidthRequest="280">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button x:Name="ButtonParameter"
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="ButtonParameter"
                     Text="Paramètres serveur"
                 BackgroundColor="#2399e5"
                 TextColor="White" 
@@ -99,21 +100,21 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="CenterAndExpand"
                 WidthRequest="280">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
-        <AbsoluteLayout x:Name="waitingLayoutPhone" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" >
-            <RelativeLayout>
-                <ActivityIndicator x:Name="activityIndicatorPhone"
+            <AbsoluteLayout x:Name="waitingLayoutPhone" IsVisible="False"  AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" >
+                <RelativeLayout>
+                    <ActivityIndicator x:Name="activityIndicatorPhone"
                                    IsRunning="False" 
                                    Color="#2399e5" 
                                    HorizontalOptions="Center" 
@@ -125,11 +126,11 @@
                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5}" />
-            </RelativeLayout>
-        </AbsoluteLayout>
-        <AbsoluteLayout x:Name="waitingLayoutTablet" IsVisible="False"  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,.3,.3">
-            <RelativeLayout>
-                <ActivityIndicator x:Name="activityIndicatorTablet"
+                </RelativeLayout>
+            </AbsoluteLayout>
+            <AbsoluteLayout x:Name="waitingLayoutTablet" IsVisible="False"  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,.3,.3">
+                <RelativeLayout>
+                    <ActivityIndicator x:Name="activityIndicatorTablet"
                                    IsRunning="False" 
                                    Color="#2399e5" 
                                    HorizontalOptions="Center" 
@@ -144,7 +145,8 @@
                                         Property=Height,
                                         Factor=0.5,
                                         Constant=-25}" />
-            </RelativeLayout>
+                </RelativeLayout>
+            </AbsoluteLayout>
         </AbsoluteLayout>
-    </AbsoluteLayout>
+    </StackLayout>
 </ContentPage>

@@ -149,7 +149,7 @@ namespace Onek
             {
                 buttonsLevel.Add(d.Level);
             }
-            String level = await DisplayActionSheet("Selectionnez la note", "Retour", "", buttonsLevel.ToArray());
+            String level = await DisplayActionSheet("Selectionnez la note", "Retour", null, buttonsLevel.ToArray());
             if ((level != null) && (!level.Equals("Retour")) && (!level.Equals(criteria.SelectedLevel)))
             {
                 criteria.SelectedLevel = level;
@@ -598,7 +598,6 @@ namespace Onek
         private async void AddFooter()
         {
             StackLayout footerLayout = new StackLayout();
-            footerLayout.Margin = new Thickness(0, 20);
             //Title
             Label footerLabelTitle = new Label { HorizontalOptions = LayoutOptions.Center,
                 FontAttributes = FontAttributes.Bold,

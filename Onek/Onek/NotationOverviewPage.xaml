@@ -116,7 +116,7 @@
                             <Grid Margin=" 0,5,0,5">
                                 <Grid.HeightRequest>
                                     <OnPlatform x:TypeArguments="x:Double"
-                                                iOS="50"
+                                                iOS="70"
                                                 Android="50"/>
                                 </Grid.HeightRequest>
                                 <Grid.ColumnDefinitions>
@@ -145,7 +145,7 @@
                                     BorderRadius="90">
                                     <Button.CornerRadius>
                                         <OnPlatform x:TypeArguments="x:Int32"
-                                                iOS="25"
+                                                iOS="22"
                                                 Android="90" />
                                     </Button.CornerRadius>
                                 </Button>
