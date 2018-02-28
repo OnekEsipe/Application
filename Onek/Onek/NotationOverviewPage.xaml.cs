@@ -374,9 +374,12 @@ namespace Onek
             }
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
-            JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
-            EvaluationSender.AddEvaluationInQueue(jsonEval);
-            EvaluationSender.SendJsonEvalToServer();
+            await Task.Run(() =>
+            {
+                JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
+                EvaluationSender.AddEvaluationInQueue(jsonEval);
+                EvaluationSender.SendJsonEvalToServer();
+            });
 
 
             foreach (Criteria c in Eval.Criterias)
