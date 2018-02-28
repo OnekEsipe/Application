@@ -28,54 +28,48 @@
                 <Label Grid.Column="2" Text="Signature" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
                 <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
             </Grid>
-            <Frame  IsClippedToBounds="False"
-                    HasShadow="True"
-                    CornerRadius="10"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="StartAndExpand">
-                <ListView x:Name="MyListView"
+            <ListView x:Name="MyListView"
                     Grid.Row="2"
                     ItemsSource="{Binding Items}"
                     ItemTapped="Handle_ItemTapped"
                     CachingStrategy="RecycleElement"
                     SeparatorVisibility="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="1"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="1"
                                    Text="{Binding FullName}" 
                                    HorizontalOptions="StartAndExpand"
                                    VerticalTextAlignment="Center"
                                    TextColor="Black"/>
-                                    <Image Grid.Column="2"
+                                <Image Grid.Column="2"
                                    HorizontalOptions="CenterAndExpand"
                                    Source="check.png"
                                    WidthRequest="20"
                                    HeightRequest="20"
                                    IsVisible="{Binding IsSigned}"
                                    />
-                                    <Image Grid.Column="3"
+                                <Image Grid.Column="3"
                                    HorizontalOptions="EndAndExpand"                                   
                                    WidthRequest="20"
                                    HeightRequest="20">
-                                        <Image.Source>
-                                            <FileImageSource File="{Binding StatusImage}"/>
-                                        </Image.Source>
-                                    </Image>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Frame>
+                                    <Image.Source>
+                                        <FileImageSource File="{Binding StatusImage}"/>
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </StackLayout>
 </ContentPage>
