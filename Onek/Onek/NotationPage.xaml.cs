@@ -98,8 +98,8 @@ namespace Onek
 
                 if (Device.Idiom == TargetIdiom.Phone)
                 {
-                    entry.Value.HeightRequest = 50;
-                    entry.Value.WidthRequest = 50;
+                    entry.Value.HeightRequest = 45;
+                    entry.Value.WidthRequest = 45;
                 }
                 else
                 {

@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Onek.NotationOverviewPage"
              Title="Evaluation">
-    <StackLayout Margin="15,15,15,15">
+    <StackLayout Margin="15,0,15,15">
         <StackLayout Orientation="Horizontal"
-                     HeightRequest="100">
+                     HeightRequest="100"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="Start">
             <Button x:Name="LeftButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
@@ -13,7 +15,7 @@
                     HorizontalOptions="CenterAndExpand"
                     Clicked="OnLeftButtonClickedAsync"
                     CornerRadius="90"
-                    VerticalOptions="CenterAndExpand">
+                    VerticalOptions="Center">
                     <Button.Style>
                     <Style TargetType="Button">
                         <Style.Triggers>
@@ -34,6 +36,7 @@
                     HorizontalTextAlignment="Center"/>
 
             <Image HorizontalOptions="CenterAndExpand" 
+                   VerticalOptions="Center"
                    IsVisible="True" 
                    WidthRequest="20"
                    HeightRequest="20"
@@ -59,49 +62,79 @@
                 </Button.Style>
             </Button>
         </StackLayout>
-        <ListView x:Name="MyListView"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="6" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Label Text="Critere" 
+                       Grid.Column="1"
+                       FontSize="Small" 
+                       HorizontalOptions="StartAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="Center" 
+                       FontAttributes="Bold" 
+                       TextColor="#2399e5"/>
+                <Label Text="Note" 
+                       Grid.Column="2"
+                       FontSize="Small" 
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="Center" 
+                       FontAttributes="Bold"
+                       TextColor="#2399e5"/>
+                <Label Text="Commentaire" 
+                       Grid.Column="3"
+                       FontSize="Small" 
+                       HorizontalOptions="EndAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="Center" 
+                       FontAttributes="Bold" 
+                       TextColor="#2399e5"/>
+            </Grid>
+            <ListView x:Name="MyListView"
+                      Grid.Row="2"
                 ItemsSource="{Binding Items}"
                 CachingStrategy="RecycleElement"
                 ItemTapped="Handle_ItemTapped"
-                Margin="10, 10"
                 HasUnevenRows="True"
-                  >
-            <ListView.Header>
-                <StackLayout Orientation="Horizontal" Padding="10,5,5,10" Margin="10,10,10,10">
-                    <Label Text="Critere" 
-                           FontSize="Small" 
-                           HorizontalOptions="CenterAndExpand" 
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"/>
-                    <Label Text="Note" 
-                           FontSize="Small" 
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"/>
-                    <Label Text="Commentaire" 
-                           FontSize="Small" 
-                           HorizontalOptions="CenterAndExpand"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"/>
-                </StackLayout>
-            </ListView.Header>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Margin="10,10,10,10">
-                            <StackLayout.HeightRequest>
-                                <OnPlatform x:TypeArguments="x:Double"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="StartAndExpand">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin=" 0,5,0,5">
+                                <Grid.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double"
                                                 iOS="70"
                                                 Android="50"/>
-                            </StackLayout.HeightRequest>
-                            <Label x:Name="CritereText" Text="{Binding Text}" 
-                                   TextColor="#2399e5" FontSize="Small"
+                                </Grid.HeightRequest>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="CritereText" Grid.Column="1" Text="{Binding Text}" 
+                                   FontSize="Small"
                                    HorizontalOptions="CenterAndExpand"
                                    VerticalOptions="Center"
                                    VerticalTextAlignment="Center"
                                    WidthRequest="150"
+                                   TextColor="Black"
                                    />
-                            <Button x:Name="LevelButton"
+                                <Button x:Name="LevelButton" Grid.Column="2" 
                                     Text="{Binding SelectedLevel}"
                                     Command=""
                                     BackgroundColor="#2399e5"
@@ -110,13 +143,13 @@
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
                                     BorderRadius="90">
-                                <Button.CornerRadius>
-                                    <OnPlatform x:TypeArguments="x:Int32"
+                                    <Button.CornerRadius>
+                                        <OnPlatform x:TypeArguments="x:Int32"
                                                 iOS="25"
                                                 Android="90" />
-                                </Button.CornerRadius>
-                            </Button>
-                            <Button x:Name="ButtonCommentaireCritere"
+                                    </Button.CornerRadius>
+                                </Button>
+                                <Button x:Name="ButtonCommentaireCritere" Grid.Column="3" 
                                     Text="Commenter"
                                     BackgroundColor="White"
                                     BorderColor="White"
@@ -125,38 +158,37 @@
                                     HorizontalOptions="CenterAndExpand"
                                     WidthRequest="150"                                    
                                     Clicked="OnCritereCommentaireClicked"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <StackLayout  VerticalOptions="CenterAndExpand"
-                      HorizontalOptions="CenterAndExpand"
-                      Orientation="Horizontal">
-
-            <Button x:Name="ButtonSigner"
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+            <StackLayout  
+                VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="CenterAndExpand"
+                 Orientation="Horizontal">
+                <Button x:Name="ButtonSigner"
                     Text="Signer"
                     BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonSignerClicked"
                     IsEnabled="False">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-
-            <Button x:Name="ButtonEnregister"
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="ButtonEnregister"
                     Text="Enregistrer"
                     BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonEnregistrerClicked"/>
-        </StackLayout>
+            </StackLayout>
     </StackLayout>
 </ContentPage>

@@ -24,6 +24,7 @@ namespace Onek
         {
             InitializeComponent();
             CurrentEvent = e;
+            Title = e.Name;
             LoggedUser = loggedUser;
             Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates.OrderBy(x => x.FullName));
 
@@ -43,6 +44,8 @@ namespace Onek
             if (e.Item == null)
                 return;
 
+            (sender as ListView).IsEnabled = false;
+
             //Check if evaluation already exists. If not create new Evaluation
             Candidate SelectedCandidate = (e.Item as Candidate).Clone() as Candidate;
 
@@ -50,6 +53,8 @@ namespace Onek
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+
+            (sender as ListView).IsEnabled = true;
         }
 
         void OnFilterChanged(object sender, EventArgs e)

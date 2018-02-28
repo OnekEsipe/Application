@@ -92,7 +92,7 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="ButtonParameter"
-                    Text="Paramètres"
+                    Text="Paramètres serveur"
                 BackgroundColor="#2399e5"
                 TextColor="White" 
                 Clicked="OnButtonParameterClicked"

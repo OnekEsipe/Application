@@ -10,10 +10,10 @@
                HorizontalOptions="FillAndExpand"
                IsPassword="False"
                TextChanged="OnFilterChanged"/>
-        <Grid>
+        <Grid  VerticalOptions="CenterAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="10" />
+                <RowDefinition Height="6" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
@@ -24,12 +24,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="1" Text="Nom du candidat" FontSize="Small" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
-                <Label Grid.Column="2" Text="Signature" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
-                <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontAttributes="Bold" TextColor="#2399e5"/>
+                <Label Grid.Column="1" Text="Nom du candidat" FontSize="Small" HorizontalOptions="StartAndExpand" FontAttributes="Bold" TextColor="#2399e5"/>
+                <Label Grid.Column="2" Text="Signature" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
+                <Label Grid.Column="3" Text="Statut" FontSize="Small" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="#2399e5"/>
             </Grid>
             <ListView x:Name="MyListView"
-                     Grid.Row="2"
+                    Grid.Row="2"
                     ItemsSource="{Binding Items}"
                     ItemTapped="Handle_ItemTapped"
                     CachingStrategy="RecycleElement"
@@ -47,11 +47,10 @@
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="1"
                                    Text="{Binding FullName}" 
-                                   HorizontalOptions="StartAndExpand" 
-                                   HorizontalTextAlignment="Center"
-                                   VerticalTextAlignment="Center"/>
+                                   HorizontalOptions="StartAndExpand"
+                                   TextColor="Black"/>
                                 <Image Grid.Column="2"
-                                   HorizontalOptions="EndAndExpand"
+                                   HorizontalOptions="CenterAndExpand"
                                    Source="check.png"
                                    WidthRequest="20"
                                    HeightRequest="20"

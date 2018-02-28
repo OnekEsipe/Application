@@ -33,6 +33,7 @@ namespace Onek
             base.OnAppearing();
             LoginEntry.Text = "";
             PasswordEntry.Text = "";
+            IndicatorOff();
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -17,7 +18,13 @@ namespace Onek.utils
 
             Label lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
             Label lblMessage = new Label { Text = text };
-            Editor txtInput = new Editor { Text = placeholder, WidthRequest = 300, HeightRequest=250, HorizontalOptions = LayoutOptions.Center };
+            Editor txtInput = new Editor { Text = placeholder, WidthRequest = 300, HorizontalOptions = LayoutOptions.Center };
+
+            txtInput.TextChanged += (sender, args) =>
+            {
+                var method = typeof(View).GetMethod("InvalidateMeasure", BindingFlags.Instance | BindingFlags.NonPublic);
+                method.Invoke(txtInput, null);
+            };
 
             return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
         }
@@ -30,7 +37,7 @@ namespace Onek.utils
 
             Label lblTitle = new Label { Text = title, HorizontalOptions = LayoutOptions.Center, FontAttributes = FontAttributes.Bold };
             Label lblMessage = new Label { Text = text + " ("+ (size-placeholder.Length) + " caractères restants) :" };
-            Editor txtInput = new Editor { Text = placeholder, WidthRequest = 300, HeightRequest = 250, HorizontalOptions = LayoutOptions.Center };
+            Editor txtInput = new Editor { Text = placeholder, WidthRequest = 300, HorizontalOptions = LayoutOptions.Center };
 
             txtInput.TextChanged += (sender, args) =>
             {
@@ -41,6 +48,8 @@ namespace Onek.utils
                     txtInput.Text = input;    
                 }
                 lblMessage.Text = text + " (" + (size - input.Length) + " caractères restants) :";
+                var method = typeof(View).GetMethod("InvalidateMeasure", BindingFlags.Instance | BindingFlags.NonPublic);
+                method.Invoke(txtInput, null);
             };
 
             return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
@@ -127,6 +136,7 @@ namespace Onek.utils
 
             // create and show page
             var page = new ContentPage();
+            page.BackgroundColor = Color.FromHex("#80000000");
             page.Content = mainLayout;
             navigation.PushModalAsync(page, true);
             // open keyboard
