@@ -13,7 +13,12 @@
                MinimumHeightRequest="50"
                HeightRequest="50"
                WidthRequest="250"/>
-        <Grid BackgroundColor="Gray"
+        <Frame
+                IsClippedToBounds="False"
+                HasShadow="True"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand">
+            <Grid BackgroundColor="Gray"
               HorizontalOptions="FillAndExpand" 
               VerticalOptions="FillAndExpand"
               MinimumHeightRequest="450"
@@ -22,27 +27,30 @@
               ColumnSpacing="2"
               RowSpacing="2"
               >
-            <skia:SKCanvasView x:Name="canvasView" BackgroundColor="White"
+                <skia:SKCanvasView x:Name="canvasView" BackgroundColor="White"
                            PaintSurface="OnCanvasViewPaintSurface" Margin="2,2,2,2" />
-            <Grid.Effects>
-                <tt:TouchEffect Capture="True"
+                <Grid.Effects>
+                    <tt:TouchEffect Capture="True"
                             TouchAction="OnTouchEffectAction" />
-            </Grid.Effects>
-        </Grid>
+                </Grid.Effects>
+            </Grid>
+        </Frame>
         <StackLayout Orientation="Horizontal" 
                      VerticalOptions="CenterAndExpand"
-                     HorizontalOptions="CenterAndExpand" >
+                     HorizontalOptions="FillAndExpand" >
             <Button x:Name="retourButton" 
                Text="Retour"                 
                 BackgroundColor="#2399e5"
                 TextColor="White"
                 Clicked="OnRetourButtonClickedAsync"
+                    HorizontalOptions="FillAndExpand"
                />
         <Button x:Name="validateButton" 
                Text="Valider"              
                 BackgroundColor="#2399e5"
                 TextColor="White"
                 Clicked="OnValidateButtonClickedAsync"
+                HorizontalOptions="FillAndExpand"
                />
         </StackLayout>
     </StackLayout>
