@@ -5,7 +5,9 @@
              Title="Evaluation">
     <StackLayout Margin="15,15,15,15">
         <StackLayout Orientation="Horizontal"
-                     HeightRequest="100">
+                     HeightRequest="100"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="StartAndExpand">
             <Button x:Name="LeftButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
@@ -65,7 +67,8 @@
                 ItemTapped="Handle_ItemTapped"
                 Margin="10, 10"
                 HasUnevenRows="True"
-                  >
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="StartAndExpand">
             <ListView.Header>
                 <StackLayout Orientation="Horizontal" Padding="10,5,5,10" Margin="10,10,10,10">
                     <Label Text="Critere" 

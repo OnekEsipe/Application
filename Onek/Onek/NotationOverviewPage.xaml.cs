@@ -33,6 +33,8 @@ namespace Onek
         {
             InitializeComponent();
 
+            Title = e.Name;
+
             StatusImage.Source = candidate.StatusImage;
             checkStatus(candidate);
 
@@ -381,13 +383,8 @@ namespace Onek
             }
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
-            await Task.Run(() =>
-            {
-                JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
-                EvaluationSender.AddEvaluationInQueue(jsonEval);
-                EvaluationSender.SendJsonEvalToServer();
-            });
 
+            JsonParser.WriteJsonInInternalMemory(jsonEval, CurrentCandidate.Id, LoggedUser.Id, CurrentEvent.Id);
 
             foreach (Criteria c in Eval.Criterias)
             {
@@ -407,6 +404,12 @@ namespace Onek
             {
                 ButtonSigner.IsEnabled = false;
             }
+
+            await Task.Run(() =>
+            {
+                EvaluationSender.AddEvaluationInQueue(jsonEval);
+                EvaluationSender.SendJsonEvalToServer();
+            });
         }
 
         /// <summary>
@@ -595,6 +598,7 @@ namespace Onek
         private async void AddFooter()
         {
             StackLayout footerLayout = new StackLayout();
+            footerLayout.Margin = new Thickness(0, 20);
             //Title
             Label footerLabelTitle = new Label { HorizontalOptions = LayoutOptions.Center,
                 FontAttributes = FontAttributes.Bold,

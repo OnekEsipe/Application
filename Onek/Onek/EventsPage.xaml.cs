@@ -79,16 +79,20 @@ namespace Onek
             if (e.Item == null)
                 return;
 
+            (sender as ListView).IsEnabled = false;
+
             Event TappedEvent = e.Item as Event;
             if (TappedEvent.Begin > DateTime.Now)
             {
                 await DisplayAlert("Attention", "Cet évènement ouvrira le " + TappedEvent.Begin, "OK");
+                (sender as ListView).IsEnabled = true;
                 return;
             }
 
             if (TappedEvent.End < DateTime.Now)
             {
                 await DisplayAlert("Attention", "Cet évènement a été fermé le " + TappedEvent.End, "OK");
+                (sender as ListView).IsEnabled = true;
                 return;
             }
 
@@ -97,6 +101,7 @@ namespace Onek
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+            (sender as ListView).IsEnabled = true;
         }
 
         void OnFilterChanged(object sender, EventArgs e)

@@ -36,22 +36,22 @@
                         VerticalOptions="CenterAndExpand"
                         x:Name="relativeLayout">
             <Grid x:Name="MyGrid" Padding="0,10,0,0"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand">
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="0" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="0" />
                 </Grid.ColumnDefinitions>
                 <Button Text="A" x:Name="AButton"
                                         FontAttributes="Bold"
