@@ -27,6 +27,7 @@ namespace Onek
         private bool goToPageNote { get; set; }
         //private bool comeBackFromSigning { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
+        private bool SwitchCandidate { get; set; } = false;
 
         public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
         {
@@ -298,11 +299,16 @@ namespace Onek
             {
                 if (c.isModified)
                 {
-                    bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
+                    bool answer = false;
+                    if (SwitchCandidate)
+                        answer = await DisplayAlert("Changement de candidat", "Voulez vous enregistrer avant de passer au candidat suivant ?", "Oui", "Non");
+                    else
+                        answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                     if (answer)
                     {
                         SaveEvaluation(false);
                     }
+                    SwitchCandidate = false;
                     return;
                 }
             }
@@ -472,6 +478,7 @@ namespace Onek
         /// <returns></returns>
         async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
+            SwitchCandidate = true;
             await ConfirmSaveBeforeSwitchAsync();
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate leftCandidate = CandidateList[index - 1].Clone() as Candidate;
@@ -487,6 +494,7 @@ namespace Onek
         /// <returns></returns>
         async Task OnRightButtonClickedAsync(object sender, EventArgs e)
         {
+            SwitchCandidate = true;
             await ConfirmSaveBeforeSwitchAsync();
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate rightCandidate = CandidateList[index + 1].Clone() as Candidate;
