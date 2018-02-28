@@ -4,8 +4,7 @@
              x:Class="Onek.InscriptionPage"
              Title="Inscription"
              BackgroundColor="#80000000">
-    <StackLayout>
-        <AbsoluteLayout Margin="15,15,15,15">
+    <AbsoluteLayout Margin="15,15,15,15">
             <StackLayout x:Name="MainLayout" IsEnabled="True" 
                      AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" 
                      VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
@@ -108,5 +107,4 @@
                 </RelativeLayout>
             </AbsoluteLayout>
         </AbsoluteLayout>
-    </StackLayout>
 </ContentPage>

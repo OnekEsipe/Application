@@ -4,8 +4,7 @@
              xmlns:local="clr-namespace:Onek"
              x:Class="Onek.MainPage"
              Title="ONEK'">
-    <StackLayout>
-        <AbsoluteLayout Margin="15,15,15,15">
+    <AbsoluteLayout Margin="15,15,15,15">
             <StackLayout x:Name="MainLayout" IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
                 <Image Source="logo.png" 
                WidthRequest="120"
@@ -148,5 +147,4 @@
                 </RelativeLayout>
             </AbsoluteLayout>
         </AbsoluteLayout>
-    </StackLayout>
 </ContentPage>
