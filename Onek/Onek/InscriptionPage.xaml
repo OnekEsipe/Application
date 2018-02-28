@@ -80,7 +80,7 @@
                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5,
-                                        Constant=-5}"
+                                        Constant=-15}"
                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5}" />
@@ -98,7 +98,7 @@
                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5,
-                                        Constant=-5}"
+                                        Constant=-15}"
                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                                         Property=Height,
                                         Factor=0.5,
