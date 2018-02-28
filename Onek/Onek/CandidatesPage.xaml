@@ -33,8 +33,7 @@
                     ItemsSource="{Binding Items}"
                     ItemTapped="Handle_ItemTapped"
                     CachingStrategy="RecycleElement"
-                    SeparatorVisibility="Default"
-                      SeparatorColor="Gray">
+                    SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -46,26 +45,33 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="1"
+                                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+					BackgroundColor="Black">
+                                    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+					BackgroundColor="White"
+					Margin="0,0,0,0.4">
+                                        <Label Grid.Column="1"
                                    Text="{Binding FullName}" 
                                    HorizontalOptions="StartAndExpand"
                                    VerticalTextAlignment="Center"
                                    TextColor="Black"/>
-                                <Image Grid.Column="2"
+                                        <Image Grid.Column="2"
                                    HorizontalOptions="CenterAndExpand"
                                    Source="check.png"
                                    WidthRequest="20"
                                    HeightRequest="20"
                                    IsVisible="{Binding IsSigned}"
                                    />
-                                <Image Grid.Column="3"
+                                        <Image Grid.Column="3"
                                    HorizontalOptions="EndAndExpand"                                   
                                    WidthRequest="20"
                                    HeightRequest="20">
-                                    <Image.Source>
-                                        <FileImageSource File="{Binding StatusImage}"/>
-                                    </Image.Source>
-                                </Image>
+                                            <Image.Source>
+                                                <FileImageSource File="{Binding StatusImage}"/>
+                                            </Image.Source>
+                                        </Image>
+                                    </StackLayout>
+                                </StackLayout>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
