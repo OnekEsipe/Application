@@ -194,14 +194,16 @@ namespace Onek
         /// </summary>
         protected override void OnAppearing()
         {
+
+            //Add the footer to the list view
+            AddFooter();
+
             base.OnAppearing();
             Title = CurrentEvent.Name;
 
             MyListView.ItemsSource = Items;
 
             checkStatus(CurrentCandidate);
-            //Add the footer to the list view
-            AddFooter();
 
             if (!CurrentEvent.SigningNeeded)
             {
@@ -521,8 +523,8 @@ namespace Onek
             Eval = evaluation;
             //refresh footer values
             MyListView.Footer = null;
-            AddFooter();
 
+            AddFooter();
             checkStatus(CurrentCandidate);
 
             foreach (Criteria c in Eval.Criterias)
