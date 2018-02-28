@@ -16,7 +16,8 @@
         <Frame  IsClippedToBounds="False"
                 HasShadow="True"
                 CornerRadius="10"
-                HorizontalOptions="FillAndExpand">
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
             <Grid HorizontalOptions="FillAndExpand" 
               VerticalOptions="FillAndExpand"
               MinimumHeightRequest="450"
@@ -33,7 +34,7 @@
             </Grid>
         </Frame>
         <StackLayout Orientation="Horizontal" 
-                     VerticalOptions="CenterAndExpand"
+                     VerticalOptions="EndAndExpand"
                      HorizontalOptions="FillAndExpand" >
             <Button x:Name="retourButton" 
                Text="Retour"                 
@@ -41,6 +42,7 @@
                 TextColor="White"
                 Clicked="OnRetourButtonClickedAsync"
                     HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand"
                />
         <Button x:Name="validateButton" 
                Text="Valider"              
@@ -48,6 +50,7 @@
                 TextColor="White"
                 Clicked="OnValidateButtonClickedAsync"
                 HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
                />
         </StackLayout>
     </StackLayout>
