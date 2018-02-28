@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Onek.NotationPage"
              Title="Critère">
-    <StackLayout Orientation="Vertical" Margin="15,15,15,15">
-        <StackLayout Orientation="Horizontal" 
+    <AbsoluteLayout Margin="15,15,15,15">
+        <StackLayout IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout Orientation="Horizontal" 
                      HorizontalOptions="CenterAndExpand"
                      VerticalOptions="CenterAndExpand">
-            <Button x:Name="LeftButton"
+                <Button x:Name="LeftButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
@@ -15,7 +16,7 @@
                     Clicked="OnLeftButtonClickedAsync"
                     BorderRadius="90"
                     VerticalOptions="Center"/>
-            <Label  x:Name="CritereNameLabel"
+                <Label  x:Name="CritereNameLabel"
                     VerticalOptions="Center"
                     HorizontalOptions="CenterAndExpand"
                     FontSize="Small"
@@ -23,7 +24,7 @@
                     WidthRequest="100"
                     VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"/>
-            <Button x:Name="RightButton"
+                <Button x:Name="RightButton"
                     BackgroundColor="#2399e5"
                     TextColor="White"
                     WidthRequest="50"
@@ -31,29 +32,29 @@
                     Clicked="OnRightButtonClickedAsync"
                     BorderRadius="90"
                     VerticalOptions="Center"/>
-        </StackLayout>
-        <RelativeLayout HorizontalOptions="CenterAndExpand"
+            </StackLayout>
+            <RelativeLayout HorizontalOptions="CenterAndExpand"
                         VerticalOptions="CenterAndExpand"
                         x:Name="relativeLayout">
-            <Grid x:Name="MyGrid" Padding="0,10,0,0"
+                <Grid x:Name="MyGrid" Padding="0,10,0,0"
                         HorizontalOptions="CenterAndExpand"
                         VerticalOptions="CenterAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="0" />
-                </Grid.ColumnDefinitions>
-                <Button Text="A" x:Name="AButton"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0" />
+                    </Grid.ColumnDefinitions>
+                    <Button Text="A" x:Name="AButton"
                                         FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
@@ -62,7 +63,7 @@
                         TextColor="White"
                         Grid.Row="1" Grid.Column="1"
                                    />
-                <Button Text="B" x:Name="BButton"
+                    <Button Text="B" x:Name="BButton"
                                         FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
@@ -71,7 +72,7 @@
                         TextColor="White"
                         Grid.Row="1" Grid.Column="2"
                                    />
-                <Button Text="C" x:Name="CButton"
+                    <Button Text="C" x:Name="CButton"
                                         FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
@@ -80,7 +81,7 @@
                         TextColor="White"
                         Grid.Row="1" Grid.Column="3"
                                    />
-                <Button Text="D" x:Name="DButton"
+                    <Button Text="D" x:Name="DButton"
                                         FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
@@ -89,7 +90,7 @@
                         TextColor="White"
                         Grid.Row="1" Grid.Column="4"
                                    />
-                <Button Text="E" x:Name="EButton"
+                    <Button Text="E" x:Name="EButton"
                                         FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
@@ -99,7 +100,7 @@
                         TextColor="White"
                         Grid.Row="1" Grid.Column="5"
                                    />
-                <Button Text="F" x:Name="FButton"
+                    <Button Text="F" x:Name="FButton"
                                         FontAttributes="Bold"
                                         CornerRadius="90"
                                         Clicked="OnClickedDescriptor"
@@ -109,15 +110,15 @@
                         TextColor="White"
                         Grid.Row="1" Grid.Column="6" 
                                    />
-            </Grid>
-        </RelativeLayout>
-        <Frame HorizontalOptions="Fill"
+                </Grid>
+            </RelativeLayout>
+            <Frame HorizontalOptions="Fill"
                 WidthRequest="300"
                 HeightRequest="150"
                 VerticalOptions="CenterAndExpand"
                 BackgroundColor="LightGray"
                 OutlineColor="#2399e5">
-            <Label  x:Name="DescriptionBox"
+                <Label  x:Name="DescriptionBox"
                     HorizontalOptions="Fill"
                     WidthRequest="300"
                     HeightRequest="150"
@@ -125,14 +126,14 @@
                     FontAttributes="Bold"
                     VerticalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"/>    
-        </Frame>
-        <Label Text="Commentaire du critère (500 caractères restants) :"
+                    VerticalTextAlignment="Center"/>
+            </Frame>
+            <Label Text="Commentaire du critère (500 caractères restants) :"
                TextColor="Gray"
                x:Name="CommentaireLabel"
                VerticalOptions="CenterAndExpand" />
-        
-        <Editor x:Name="EditorCommentaireCritere"
+
+            <Editor x:Name="EditorCommentaireCritere"
                 BackgroundColor="White"
                 TextColor="#2399e5"
                 HorizontalOptions="Fill"
@@ -141,11 +142,11 @@
                 TextChanged="OnEditorCommentaireChanged" 
                 VerticalOptions="CenterAndExpand" />
 
-        <StackLayout  VerticalOptions="CenterAndExpand"
+            <StackLayout  VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand"
                           Orientation="Horizontal">
 
-            <Button x:Name="ButtonValider"
+                <Button x:Name="ButtonValider"
                     HorizontalOptions="FillAndExpand"
                         Text="Enregistrer"
                         BackgroundColor="#2399e5"
@@ -153,12 +154,13 @@
                         Clicked="OnButtonValiderClicked"
                         IsEnabled="False"/>
 
-            <!--<Button x:Name="ButtonRetour"
+                <!--<Button x:Name="ButtonRetour"
                     HorizontalOptions="FillAndExpand"
                         Text="Retour"
                         BackgroundColor="#2399e5"
                         TextColor="White" 
                         Clicked="OnButtonRetourClicked"/>-->
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
+    </AbsoluteLayout>
 </ContentPage>
