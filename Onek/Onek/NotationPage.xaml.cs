@@ -40,12 +40,12 @@ namespace Onek
 
             if (Device.RuntimePlatform == Device.iOS)
             {
-                AButton.CornerRadius = 25;
-                BButton.CornerRadius = 25;
-                CButton.CornerRadius = 25;
-                DButton.CornerRadius = 25;
-                EButton.CornerRadius = 25;
-                FButton.CornerRadius = 25;
+                AButton.CornerRadius = 22;
+                BButton.CornerRadius = 22;
+                CButton.CornerRadius = 22;
+                DButton.CornerRadius = 22;
+                EButton.CornerRadius = 22;
+                FButton.CornerRadius = 22;
                 LeftButton.CornerRadius = 20;
                 RightButton.CornerRadius = 20;
             }

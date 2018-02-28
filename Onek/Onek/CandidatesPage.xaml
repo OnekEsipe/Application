@@ -48,6 +48,7 @@
                                 <Label Grid.Column="1"
                                    Text="{Binding FullName}" 
                                    HorizontalOptions="StartAndExpand"
+                                   VerticalTextAlignment="Center"
                                    TextColor="Black"/>
                                 <Image Grid.Column="2"
                                    HorizontalOptions="CenterAndExpand"

@@ -116,7 +116,7 @@
                             <Grid Margin=" 0,5,0,5">
                                 <Grid.HeightRequest>
                                     <OnPlatform x:TypeArguments="x:Double"
-                                                iOS="70"
+                                                iOS="60"
                                                 Android="50"/>
                                 </Grid.HeightRequest>
                                 <Grid.ColumnDefinitions>
@@ -139,7 +139,6 @@
                                     Command=""
                                     BackgroundColor="#2399e5"
                                     TextColor="White"
-                                    WidthRequest="50"
                                     HorizontalOptions="Center"
                                     Clicked="OnLevelButtonClicked"
                                     BorderRadius="90">
@@ -148,6 +147,12 @@
                                                 iOS="25"
                                                 Android="90" />
                                     </Button.CornerRadius>
+                                    <Button.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double"
+                                                    iOS="50"
+                                                    Android="50">
+                                        </OnPlatform>
+                                    </Button.WidthRequest>
                                 </Button>
                                 <Button x:Name="ButtonCommentaireCritere" Grid.Column="3" 
                                     Text="Commenter"
@@ -166,14 +171,15 @@
         </Grid>
             <StackLayout  
                 VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="CenterAndExpand"
+                 HorizontalOptions="FillAndExpand"
                  Orientation="Horizontal">
                 <Button x:Name="ButtonSigner"
                     Text="Signer"
                     BackgroundColor="#2399e5"
                     TextColor="White" 
                     Clicked="OnButtonSignerClicked"
-                    IsEnabled="False">
+                    IsEnabled="False"
+                    HorizontalOptions="FillAndExpand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -188,7 +194,18 @@
                     Text="Enregistrer"
                     BackgroundColor="#2399e5"
                     TextColor="White" 
-                    Clicked="OnButtonEnregistrerClicked"/>
-            </StackLayout>
+                    Clicked="OnButtonEnregistrerClicked"
+                    HorizontalOptions="FillAndExpand">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

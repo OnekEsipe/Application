@@ -142,21 +142,23 @@
                 VerticalOptions="CenterAndExpand" />
 
         <StackLayout  VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="CenterAndExpand"
+                          HorizontalOptions="FillAndExpand"
                           Orientation="Horizontal">
 
             <Button x:Name="ButtonValider"
+                    HorizontalOptions="FillAndExpand"
                         Text="Enregistrer"
                         BackgroundColor="#2399e5"
                         TextColor="White" 
                         Clicked="OnButtonValiderClicked"
                         IsEnabled="False"/>
 
-            <Button x:Name="ButtonRetour"
+            <!--<Button x:Name="ButtonRetour"
+                    HorizontalOptions="FillAndExpand"
                         Text="Retour"
                         BackgroundColor="#2399e5"
                         TextColor="White" 
-                        Clicked="OnButtonRetourClicked"/>
+                        Clicked="OnButtonRetourClicked"/>-->
         </StackLayout>
     </StackLayout>
 </ContentPage>
