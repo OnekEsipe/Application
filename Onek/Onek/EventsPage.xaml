@@ -4,84 +4,92 @@
              Title="Mes événements"
              NavigationPage.HasBackButton="False"
              x:Class="Onek.EventsPage">
-    <StackLayout Margin="15,15,15,15">
-        <Entry x:Name="FilterEventEntry"
+    <AbsoluteLayout Margin="15,15,15,15">
+        <StackLayout IsEnabled="True" AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Entry x:Name="FilterEventEntry"
                Placeholder="Recherche" 
                VerticalOptions="CenterAndExpand"
                HorizontalOptions="FillAndExpand"
                IsPassword="False"
                TextChanged="OnFilterChanged"/>
 
-        <ListView x:Name="MyListView"
+            <ListView x:Name="MyListView"
                 VerticalOptions="CenterAndExpand"
                 ItemsSource="{Binding Items}" 
                 ItemTapped="Handle_ItemTapped"
-                SeparatorVisibility="None"
+                SeparatorVisibility="Default"
+                SeparatorColor="Gray"
                 IsPullToRefreshEnabled="True"
                 Refreshing="RefreshEventsList"
                 IsRefreshing="{Binding IsRefreshing}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}" TextColor="Black" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <StackLayout VerticalOptions="CenterAndExpand"
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}" TextColor="Black" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <StackLayout>
+                        <Label Text="" />
+                    </StackLayout>
+                </ListView.Footer>
+            </ListView>
+            <StackLayout VerticalOptions="CenterAndExpand"
                       HorizontalOptions="FillAndExpand"
                      Orientation="Vertical">
-            <Button x:Name="ButtonCode"
+                <Button x:Name="ButtonCode"
                         Text="Inscription par code"
                         BackgroundColor="#2399e5"
                         TextColor="White" 
                         Clicked="OnButtonCodeClicked">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <StackLayout  VerticalOptions="CenterAndExpand"
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <StackLayout  VerticalOptions="CenterAndExpand"
                           HorizontalOptions="FillAndExpand"
                           Orientation="Horizontal">
-                <Button x:Name="ButtonDeconnect"
+                    <Button x:Name="ButtonDeconnect"
                             Text="Deconnexion"
                             BackgroundColor="#2399e5"
                             TextColor="White" 
                             Clicked="OnButtonDeconnexionClicked"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="FillAndExpand">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button x:Name="ButtonChangePassword"
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="ButtonChangePassword"
                                 Text="Changer mot de passe"
                                 BackgroundColor="#2399e5"
                                 TextColor="White" 
                                 Clicked="OnButtonChangePasswordClicked"
                                 VerticalOptions="CenterAndExpand"
                                 HorizontalOptions="FillAndExpand">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                    <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
-    </StackLayout>
+    </AbsoluteLayout>
 </ContentPage>
