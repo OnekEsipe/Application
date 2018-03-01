@@ -23,7 +23,7 @@ namespace Onek
             Boolean hasEval = false;
             foreach(Evaluation eval in Evaluations)
             {
-                hasEval = eval.hasEvaluation(idCandidate);
+                hasEval = eval.HasEvaluation(idCandidate);
             }
             return hasEval;
         }
