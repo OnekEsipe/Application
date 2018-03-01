@@ -409,8 +409,10 @@ namespace Onek
 
             await Task.Run(() =>
             {
+                Device.BeginInvokeOnMainThread(() => { ButtonEnregister.IsEnabled = false; });
                 EvaluationSender.AddEvaluationInQueue(jsonEval);
                 EvaluationSender.SendJsonEvalToServer();
+                Device.BeginInvokeOnMainThread(() => { ButtonEnregister.IsEnabled = true; });
             });
         }
 
