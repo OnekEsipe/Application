@@ -42,7 +42,7 @@
                                 <Style TargetType="Button">
                                     <Style.Triggers>
                                         <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                            <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                            <Setter Property="BackgroundColor" Value="#a5a5a5"></Setter>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -85,7 +85,7 @@
                             <Style TargetType="Button">
                                 <Style.Triggers>
                                     <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                        <Setter Property="BackgroundColor" Value="#a5a5a5"></Setter>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -103,7 +103,7 @@
                             <Style TargetType="Button">
                                 <Style.Triggers>
                                     <Trigger TargetType="Button"  Property="IsEnabled" Value="False">
-                                        <Setter Property="BackgroundColor" Value="#666aa7"></Setter>
+                                        <Setter Property="BackgroundColor" Value="#a5a5a5"></Setter>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
