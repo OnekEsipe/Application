@@ -169,7 +169,9 @@ namespace Onek
 
         void OnButtonValiderClicked(object sender, EventArgs e)
         {
+            Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = false; });
             SaveCriteria();
+            Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = true; });
             Navigation.PopAsync();
         }
 
