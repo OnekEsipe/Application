@@ -118,7 +118,8 @@
                 VerticalOptions="CenterAndExpand"
                 BackgroundColor="LightGray"
                 OutlineColor="#2399e5">
-                <Label  x:Name="DescriptionBox"
+                <ScrollView Orientation="Vertical">
+                    <Label  x:Name="DescriptionBox"
                     HorizontalOptions="Fill"
                     WidthRequest="300"
                     HeightRequest="150"
@@ -127,6 +128,7 @@
                     VerticalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"/>
+                </ScrollView>
             </Frame>
             <Label Text="Commentaire du critère (500 caractères restants) :"
                TextColor="Gray"

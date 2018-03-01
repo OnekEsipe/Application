@@ -63,7 +63,7 @@
                     </Button.Style>
                 </Button>
             </StackLayout>
-            <Grid>
+            <Grid VerticalOptions="CenterAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="6" />
