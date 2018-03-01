@@ -1,19 +1,25 @@
 ﻿using Onek.data;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace Onek
 {
+    /// <summary>
+    /// Data class to store candidate information
+    /// </summary>
     public class Candidate : INotifyPropertyChanged, ICloneable
     {
+        //Properties
         public int Id { get; set; }
         private String statusImage;
         private bool isSigned;
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public String FullName { get => FirstName + " " + LastName; }
+
+        /// <summary>
+        /// Status image property, redifine get and set methods for the variable statusImage
+        /// </summary>
         public String StatusImage
         {
             get
@@ -30,6 +36,9 @@ namespace Onek
             }
         }
 
+        /// <summary>
+        /// IsSigned property, redifine get and set methods for the variable isSigned
+        /// </summary>
         public bool IsSigned
         {
             get
@@ -48,6 +57,11 @@ namespace Onek
 
         public Evaluation eval { get; set; }
 
+        //INotifyPropertyChanged interface implementation
+
+        /// <summary>
+        /// Event triggered when a property is changed, used to refresh values of observableCollections
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -62,6 +76,12 @@ namespace Onek
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
+        //IClonable interface implementation
+
+        /// <summary>
+        /// Clone the object and his children
+        /// </summary>
+        /// <returns>Object which represent a Candidate</returns>
         public object Clone()
         {
             Candidate clone = MemberwiseClone() as Candidate;

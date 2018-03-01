@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 
 namespace Onek.data
 {
+    /// <summary>
+    /// Data class to store Criteria information
+    /// </summary>
     public class Criteria : INotifyPropertyChanged, ICloneable
     {
+        //Variables
+        private String comment;
+        private String selectedLevel;
+        //Properties
         public int Id { get; set; }
         public String Text { get; set; }
         public String Category { get; set; }
-        private String comment; 
         public ObservableCollection<Descriptor> Descriptor { get; set; } = new ObservableCollection<data.Descriptor>();
-        private String selectedLevel;
         public Descriptor SelectedDescriptor { get;  set; }
         public DateTime LastModification { get; set; }
-        public bool isModified { get; set; } = false;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        public bool IsModified { get; set; } = false;
 
         public String Comment
         {
             get { return comment; }
             set
             {
-                //if (comment != null && comment != value)
-                //{
-                    comment = value;
-                    LastModification = DateTime.Now;
-                    isModified = true;
-                    OnPropertyChanged("Comment");
-                //}
+                comment = value;
+                LastModification = DateTime.Now;
+                IsModified = true;
+                OnPropertyChanged("Comment");
             }
         }
 
@@ -40,15 +38,19 @@ namespace Onek.data
             get { return selectedLevel; }
             set
             {
-                //if (selectedLevel != null && selectedLevel != value)
-                //{
-                    selectedLevel = value;
-                    LastModification = DateTime.Now;
-                    isModified = true;
-                    OnPropertyChanged("SelectedLevel");
-                //}
+                selectedLevel = value;
+                LastModification = DateTime.Now;
+                IsModified = true;
+                OnPropertyChanged("SelectedLevel");
             }
         }
+
+        //INotifyPropertyChanged interface implementation
+
+        /// <summary>
+        /// Event triggered when a property is changed, used to refresh values of observableCollections
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
@@ -62,6 +64,12 @@ namespace Onek.data
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
+        //IClonable interface implementation
+
+        /// <summary>
+        /// Clone the object
+        /// </summary>
+        /// <param name="propertyName">Object which represent a Criteria</param>
         public object Clone()
         {
             return this.MemberwiseClone();

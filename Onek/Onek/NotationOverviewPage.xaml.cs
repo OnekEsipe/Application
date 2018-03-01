@@ -50,7 +50,7 @@ namespace Onek
 
             foreach (Criteria c in Eval.Criterias)
             {
-                c.isModified = false;
+                c.IsModified = false;
             }
             Eval.IsModified = false;
 
@@ -260,7 +260,7 @@ namespace Onek
 
             foreach (Criteria c in Eval.Criterias)
             {
-                if (c.isModified)
+                if (c.IsModified)
                 {
                     bool answer = await DisplayAlert("Retour", "Voulez vous enregistrer avant de quitter ?", "Oui", "Non");
                     if (answer)
@@ -301,7 +301,7 @@ namespace Onek
 
             foreach (Criteria c in Eval.Criterias)
             {
-                if (c.isModified)
+                if (c.IsModified)
                 {
                     bool answer = false;
                     if (SwitchCandidate)
@@ -390,7 +390,7 @@ namespace Onek
 
             foreach (Criteria c in Eval.Criterias)
             {
-                c.isModified = false;
+                c.IsModified = false;
             }
             Eval.IsModified = false;
 
@@ -531,7 +531,7 @@ namespace Onek
 
             foreach (Criteria c in Eval.Criterias)
             {
-                c.isModified = false;
+                c.IsModified = false;
             }
 
             Eval.IsModified = false;

@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Mail;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Onek.data
 {
+    /// <summary>
+    /// Data class to store account creation information
+    /// </summary>
     class CreateAccountManager
     {
+
+        //Properties
         public String Login { get; set; }
         public String Lastname { get; set; }
         public String Firstname { get; set; }
@@ -18,7 +21,7 @@ namespace Onek.data
         /// Check if password contains at least 6 characters and at least one uppercase letter
         /// </summary>
         /// <param name="password"></param>
-        /// <returns></returns>
+        /// <returns>Boolean true if password check specification and false if not</returns>
         public static Boolean CheckPassword(String password)
         {
             if (password.Length < 6 || new Regex("[A-Z]").Matches(password).Count < 1)
@@ -27,6 +30,11 @@ namespace Onek.data
             
         }
 
+        /// <summary>
+        /// Check if mail address is valid
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns>Boolean true if mail address is valid or false if not</returns>
         public static Boolean CheckMail(String mail)
         {
             try

@@ -17,8 +17,8 @@ namespace Onek
         /// <summary>
         /// Download json events, deserialize json and write them in internal memory
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+        /// <param name="user">User object containing user information</param>
+        /// <returns>Lis<Event>List containing user information</Event></returns>
         public static List<Event> DeserializeJson(User user)
         {
             List<Event> events = new List<Event>();
@@ -75,8 +75,8 @@ namespace Onek
         /// <summary>
         /// Download event json
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
+        /// <param name="url">String server url</param>
+        /// <returns>String, event json downloaded from server</returns>
         public static String DownloadEventJson(String url)
         {
             WebClient client = new WebClient();
@@ -85,9 +85,9 @@ namespace Onek
 
 
         /// <summary>
-        /// Load json containing login information and parse it 
+        /// Load json containing login information from internal memory and parse it 
         /// </summary>
-        /// <returns>List<Login></Login></returns>
+        /// <returns>List<User>List containing user information stored in internal memory</User></returns>
         public static List<User> LoadLoginJson()
         {
             if (File.Exists(ApplicationConstants.pathToJsonAccountFile))
@@ -101,32 +101,32 @@ namespace Onek
 
 
         /// <summary>
-        /// Send json evaluation to the server
+        /// Send json to the server
         /// </summary>
-        /// <param name="eval"></param>
+        /// <param name="json">String, json to send to the server</param>
         public static void SendJsonToServer(String json)
         {
             //Send json to server
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(ApplicationConstants.serverEvaluationURL);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-            SendToServer(httpWebRequest, json);
-
-            //Check server response
-            HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
-            while (!response.StatusCode.Equals(HttpStatusCode.OK))
+            try
             {
-                //If response not ok send it again
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(ApplicationConstants.serverEvaluationURL);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
                 SendToServer(httpWebRequest, json);
-                response = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                //Check server response
+                HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+            }catch(Exception e)
+            {
+                WebException webException = e as WebException;
             }
         }
 
         /// <summary>
         /// Generate Json evaluation
         /// </summary>
-        /// <param name="evaluation"></param>
-        /// <returns></returns>
+        /// <param name="evaluation">Evaluation object to convert in json</param>
+        /// <returns>String, json containing evaluation information</returns>
         public static String GenerateJsonEval(Evaluation evaluation)
         {
             return JsonConvert.SerializeObject(evaluation);
@@ -135,8 +135,8 @@ namespace Onek
         /// <summary>
         /// Deserialize json evaluation
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
+        /// <param name="json">String json evaluation to deserialize</param>
+        /// <returns>Evaluation object deserialized from json evaluation</returns>
         public static Evaluation DeserializeJsonEvaluation(String json)
         {
             Evaluation evalDeserialized = JsonConvert.DeserializeObject<Evaluation>(json);
@@ -146,10 +146,10 @@ namespace Onek
         /// <summary>
         /// Write json evaluation in internal memory
         /// </summary>
-        /// <param name="json"></param>
-        /// <param name="idCandidate"></param>
-        /// <param name="idJury"></param>
-        /// <param name="idEvent"></param>
+        /// <param name="json">String</param>
+        /// <param name="idCandidate">int</param>
+        /// <param name="idJury">int</param>
+        /// <param name="idEvent">int</param>
         public static void WriteJsonInInternalMemory(String json, int idCandidate, int idJury, int idEvent)
         {
             String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate 
@@ -168,10 +168,10 @@ namespace Onek
         /// <summary>
         /// Read json eval from internal memory
         /// </summary>
-        /// <param name="idCandidate"></param>
-        /// <param name="idJury"></param>
-        /// <param name="idEvent"></param>
-        /// <returns></returns>
+        /// <param name="idCandidate">int</param>
+        /// <param name="idJury">int</param>
+        /// <param name="idEvent">int</param>
+        /// <returns>String, a json containing evaluation information</returns>
         public static String ReadJsonFromInternalMemeory(int idCandidate, int idJury, int idEvent)
         {
             String fileName = Path.Combine(ApplicationConstants.jsonDataDirectory, idCandidate
@@ -183,8 +183,8 @@ namespace Onek
         /// <summary>
         /// Send json String to the server
         /// </summary>
-        /// <param name="httpWebRequest"></param>
-        /// <param name="json"></param>
+        /// <param name="httpWebRequest">HttpWebRequest</param>
+        /// <param name="json">String json</param>
         public static void SendToServer(HttpWebRequest httpWebRequest, String json)
         {
             StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream());
@@ -196,8 +196,8 @@ namespace Onek
         /// <summary>
         /// Deserialize json account
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
+        /// <param name="json">String, json containing user information</param>
+        /// <returns>List<User>List containing user data</User></returns>
         public static List<User> DeserializeJsonAccount(String json)
         {
             return JsonConvert.DeserializeObject<List<User>>(json);
@@ -206,7 +206,7 @@ namespace Onek
         /// <summary>
         /// Save users in the json account file in the internal memory. (Used for offline login)
         /// </summary>
-        /// <param name="usersToAdd"></param>
+        /// <param name="usersToAdd">List<User>, list containing User objects</User></param>
         public static void SaveJsonAccountInMemory(List<User> usersToAdd)
         {
             if (!File.Exists(ApplicationConstants.pathToJsonAccountFile))
@@ -238,6 +238,11 @@ namespace Onek
             }
         }
 
+        /// <summary>
+        /// Download a list containing the ids of events associated with a user
+        /// </summary>
+        /// <param name="user">User, object containing user data</param>
+        /// <returns>List<int>, list containing events ids</int></returns>
         public static List<int> GetEventsIdToDownload(User user)
         {
             List<int> events_id = new List<int>();
