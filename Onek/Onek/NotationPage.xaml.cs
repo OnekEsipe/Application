@@ -23,6 +23,12 @@ namespace Onek
         public Constraint constraintX { get; set; }
         private Dictionary<string, Button> buttons =  new Dictionary<string, Button>();
 
+        /// <summary>
+        /// Constuctor for notation page
+        /// </summary>
+        /// <param name="candidate">Candidate to note</param>
+        /// <param name="criterias">List of criteria for the event</param>
+        /// <param name="c">Current criteria to note</param>
         public NotationPage(Candidate candidate, ObservableCollection<Criteria> criterias, Criteria c)
         {
             InitializeComponent();
@@ -31,6 +37,7 @@ namespace Onek
             CurrentCriteria = c;
             CriteriaList = criterias;
 
+            //Add buttons for Levels
             buttons.Add("A", AButton);
             buttons.Add("B", BButton);
             buttons.Add("C", CButton);
@@ -53,22 +60,13 @@ namespace Onek
             Items = new ObservableCollection<Descriptor>(CurrentCriteria.Descriptor.OrderBy(x => x.Level));
             Comment = CurrentCriteria.Comment;
             
+            //Display correct number of level
             SelectedDescripteur = CurrentCriteria.SelectedDescriptor;
             if (SelectedDescripteur != null)
             {
                 DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
 
-                foreach (Descriptor d in CurrentCriteria.Descriptor)
-                {
-                    if (d.Level == SelectedDescripteur.Level)
-                    {
-                        buttons[d.Level].BackgroundColor = Color.FromHex("#070735");
-                    }
-                    else
-                    {
-                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
-                    }
-                }
+                changeColorButtonsDescriptor();
             }
             else
             {
@@ -108,6 +106,7 @@ namespace Onek
                 }
             }
 
+            //Display arrows
             EditorCommentaireCritere.Text = c.Comment;
 
             CritereNameLabel.Text = CurrentCriteria.Text;
@@ -117,7 +116,11 @@ namespace Onek
             SetVisibilityArrow(CriteriaList.IndexOf(CurrentCriteria));
         }
         
-
+        /// <summary>
+        /// Event thrown when a Level Button is touched
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnClickedDescriptor(object sender, ItemTappedEventArgs e)
         {
             SelectedDescripteur = CurrentCriteria.Descriptor.Where(w => w.Level.Equals((sender as Button).Text)).First();
@@ -128,6 +131,9 @@ namespace Onek
             ButtonValider.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Change the color of the Level Button
+        /// </summary>
         private void changeColorButtonsDescriptor()
         {
             foreach (Descriptor d in CurrentCriteria.Descriptor)
@@ -143,6 +149,12 @@ namespace Onek
             }
         }
         
+        /// <summary>
+        /// Event thrown when the comment for the criteria is changed
+        /// Check if the text doesn't exceed the limit ad save it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnEditorCommentaireChanged(object sender, EventArgs e)
         {
             if (CurrentCriteria.Comment == null)
@@ -167,6 +179,12 @@ namespace Onek
             ButtonValider.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Event thrown when "Enregistrer" button is touched
+        /// Save the evaluation and come back to overview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnButtonValiderClicked(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = false; });
@@ -175,6 +193,9 @@ namespace Onek
             Navigation.PopAsync();
         }
 
+        /// <summary>
+        /// Method saving the level end the comment for a criteria
+        /// </summary>
         void SaveCriteria()
         {
             CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
@@ -189,11 +210,23 @@ namespace Onek
             CurrentCriteria.Comment = Comment;
         }
 
+        /// <summary>
+        /// Event thrown when button "Retour" is touched
+        /// Go back to overview page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnButtonRetourClicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
         }
 
+        /// <summary>
+        /// Event thrown when Left Arrow is touched
+        /// Switch criteria and save current one
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
             SaveCriteria();
@@ -203,6 +236,12 @@ namespace Onek
            changeCriteria(leftCriteria, index - 1);
         }
 
+        /// <summary>
+        /// Event thrown when Right Arrow is touched
+        /// Switch criteria and save current one
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnRightButtonClickedAsync(object sender, EventArgs e)
         {
             SaveCriteria();
@@ -212,6 +251,11 @@ namespace Onek
             changeCriteria(leftCriteria, index + 1);
         }
 
+        /// <summary>
+        /// Find and Change the criteria depending on an index
+        /// </summary>
+        /// <param name="newCriteria">Criteria to display</param>
+        /// <param name="index">Index of the criteria in CriteriaList</param>
         void changeCriteria(Criteria newCriteria, int index)
         {
             CurrentCriteria = newCriteria;
@@ -227,17 +271,7 @@ namespace Onek
             {
                 DescriptionBox.Text = CurrentCriteria.SelectedDescriptor.Text;
 
-                foreach (Descriptor d in CurrentCriteria.Descriptor)
-                {
-                    if (d.Level == SelectedDescripteur.Level)
-                    {
-                        buttons[d.Level].BackgroundColor = Color.FromHex("#070735");
-                    }
-                    else
-                    {
-                        buttons[d.Level].BackgroundColor = Color.FromHex("#2399e5");
-                    }
-                }
+                changeColorButtonsDescriptor();
             }
             else
             {
@@ -267,6 +301,10 @@ namespace Onek
             SetVisibilityArrow(index);
         }
 
+        /// <summary>
+        /// Display or not the arrow buttons depending of the criteria
+        /// </summary>
+        /// <param name="index">Index of the criteria</param>
         void SetVisibilityArrow(int index)
         {
             if (index == 0)
