@@ -21,11 +21,17 @@ namespace Onek
 	{
         Dictionary<long, SKPath> inProgressPaths = new Dictionary<long, SKPath>();
         List<SKPath> completedPaths = new List<SKPath>();
+
+        Dictionary<long, SKPath> inProgressPathsResize = new Dictionary<long, SKPath>();
+        List<SKPath> completedPathsResize = new List<SKPath>();
+
         Evaluation Eval;
         Candidate CurrentCandidate;
         SKCanvas canvasSaved;
         SKData data;
-        SKSurface newSurface;
+
+        private int widthExport = 200;
+        private int heightExport = 400;
 
         public SKPaint paint = new SKPaint
         {
@@ -36,6 +42,11 @@ namespace Onek
             StrokeJoin = SKStrokeJoin.Round
         };
         
+        /// <summary>
+        /// Constructor of the Signing Page
+        /// </summary>
+        /// <param name="eval">Evaluation you wish to sign</param>
+        /// <param name="c">Candidate you wish to sign</param>
         public SigningPage(Evaluation eval, Candidate c)
 		{
             Eval = eval;
@@ -44,6 +55,11 @@ namespace Onek
 			InitializeComponent();
         }
 
+        /// <summary>
+        /// Event thrown when touching the canvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void OnTouchEffectAction(object sender, TouchActionEventArgs args)
         {
             switch (args.Type)
@@ -55,6 +71,9 @@ namespace Onek
                         path.MoveTo(ConvertToPixel(args.Location));
                         inProgressPaths.Add(args.Id, path);
                         canvasView.InvalidateSurface();
+                        SKPath pathResize = new SKPath();
+                        pathResize.MoveTo(ConvertToPixelResize(args.Location));
+                        inProgressPathsResize.Add(args.Id, pathResize);
                     }
                     break;
 
@@ -64,6 +83,8 @@ namespace Onek
                         SKPath path = inProgressPaths[args.Id];
                         path.LineTo(ConvertToPixel(args.Location));
                         canvasView.InvalidateSurface();
+                        SKPath pathResize = inProgressPathsResize[args.Id];
+                        pathResize.LineTo(ConvertToPixelResize(args.Location));
                     }
                     break;
 
@@ -73,6 +94,8 @@ namespace Onek
                         completedPaths.Add(inProgressPaths[args.Id]);
                         inProgressPaths.Remove(args.Id);
                         canvasView.InvalidateSurface();
+                        completedPathsResize.Add(inProgressPathsResize[args.Id]);
+                        inProgressPathsResize.Remove(args.Id);
                     }
                     break;
 
@@ -81,11 +104,17 @@ namespace Onek
                     {
                         inProgressPaths.Remove(args.Id);
                         canvasView.InvalidateSurface();
+                        inProgressPathsResize.Remove(args.Id);
                     }
                     break;
             }
         }
 
+        /// <summary>
+        /// Convert a point to a pixel depending on the canvas Size
+        /// </summary>
+        /// <param name="pt">Point to convert to a pixel</param>
+        /// <returns></returns>
         SKPoint ConvertToPixel(Point pt)
         {
             float x = (float)(canvasView.CanvasSize.Width * pt.X / canvasView.Width);
@@ -94,14 +123,30 @@ namespace Onek
             return new SKPoint(x, y);
         }
 
+        /// <summary>
+        /// Convert a pont to a pixel depending on local size
+        /// </summary>
+        /// <param name="pt">Point to convert to a pixel</param>
+        /// <returns></returns>
+        SKPoint ConvertToPixelResize(Point pt)
+        {
+            float x = (float)(widthExport * pt.X / canvasView.Width);
+            float y = (float)(heightExport * pt.Y / canvasView.Height);
+
+            return new SKPoint(x, y);
+        }
+
+        /// <summary>
+        /// Event thrown when something is drawned on the surface
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             SKCanvas canvas = args.Surface.Canvas;
-            newSurface = args.Surface;
             canvas.Clear();
 
-            SKImageInfo info = new SKImageInfo((int)Math.Ceiling(canvasView.CanvasSize.Width), (int)Math.Ceiling(canvasView.CanvasSize.Height));
-            newSurface = SKSurface.Create(info);
+            canvasSaved = canvas;
 
             foreach (SKPath path in completedPaths)
             {
@@ -113,9 +158,15 @@ namespace Onek
                 canvas.DrawPath(path, paint);
             }
 
-            canvas.Flush();            
+            canvas.Flush(); 
         }
 
+        /// <summary>
+        /// Event thrown when touching the "Retour" button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         async Task OnRetourButtonClickedAsync(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Retour", "Voulez-vous arrêter la signature ?", "Oui", "Non");
@@ -125,7 +176,12 @@ namespace Onek
             }
         }
 
-
+        /// <summary>
+        /// Event thrown when touching the "Valider" button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         async Task OnValidateButtonClickedAsync(object sender, EventArgs e)
         {
             if (entryName.Text == null || entryName.Text.Equals(""))
@@ -133,8 +189,19 @@ namespace Onek
                 await DisplayAlert("Erreur", "Le nom du signataire ne doit pas être vide", "OK");
                 return;
             }
-            SKImage snap = newSurface.Snapshot();
-            canvasSaved = newSurface.Canvas;
+
+            SKImageInfo info = new SKImageInfo(widthExport, heightExport);
+            var surface = SKSurface.Create(info);
+            var canvas = surface.Canvas;
+            
+            foreach (SKPath path in completedPathsResize)
+                canvas.DrawPath(path, paint);
+
+            foreach (SKPath path in inProgressPathsResize.Values)
+                canvas.DrawPath(path, paint);
+
+
+            SKImage snap = surface.Snapshot();
             data = snap.Encode();
             
             Eval.IsSigned = true;
@@ -157,6 +224,8 @@ namespace Onek
                 canvasView.InvalidateSurface();
                 completedPaths.Clear();
                 inProgressPaths.Clear();
+                completedPathsResize.Clear();
+                inProgressPathsResize.Clear();
                 entryName.Text = "";
             }
         }
