@@ -219,7 +219,7 @@ namespace Onek
                 data = null;
                 if(canvasSaved != null)
                 {
-                    canvasSaved.Clear();
+                    canvasSaved = null;
                 }
                 canvasView.InvalidateSurface();
                 completedPaths.Clear();
