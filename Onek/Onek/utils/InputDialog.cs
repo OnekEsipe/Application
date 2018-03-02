@@ -1,15 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Onek.utils
 {
+    /// <summary>
+    /// Custom input dialog
+    /// </summary>
     class InputDialog
     {
 
+        /// <summary>
+        /// Create a simple input box
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <param name="title"></param>
+        /// <param name="text"></param>
+        /// <param name="placeholder"></param>
+        /// <returns></returns>
         public static Task<string> InputBox(INavigation navigation, String title, String text, String placeholder)
         {
             // wait in this proc, until user did his input 

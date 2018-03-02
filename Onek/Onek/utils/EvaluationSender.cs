@@ -5,16 +5,22 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
 
 namespace Onek.utils
 {
+    /// <summary>
+    /// Class to send json evaluation to the server
+    /// </summary>
     public static class EvaluationSender
     {
+        //Variables
         public static ConcurrentQueue<String> EvaluationsToSend { get; set; } = new ConcurrentQueue<string>();
         private static Boolean isOnline = CrossConnectivity.Current.IsConnected;
         private static HttpWebRequest httpWebRequest = WebRequest.Create(ApplicationConstants.serverEvaluationURL) as HttpWebRequest;
 
+        /// <summary>
+        /// Static constructor executed when one time when one variable or one method is called
+        /// </summary>
         static EvaluationSender()
         {
             EvaluationsToSend = new ConcurrentQueue<string>();
@@ -22,11 +28,13 @@ namespace Onek.utils
             httpWebRequest = WebRequest.Create(ApplicationConstants.serverEvaluationURL) as HttpWebRequest;
         }
 
+        /// <summary>
+        /// Load json evaluation saved in internal memory (called when application starts)
+        /// </summary>
         public static void LoadJsons()
         {
             if (isOnline)
             {
-                //Si des evaluations non envoyées sont enregistrées les charger
                 if (Directory.Exists(ApplicationConstants.pathToJsonToSend))
                 {
                     foreach (String jsonPath in Directory.GetFiles(ApplicationConstants.pathToJsonToSend))
@@ -37,6 +45,9 @@ namespace Onek.utils
             }
         }
 
+        /// <summary>
+        /// Send json evaluation to the server
+        /// </summary>
         public static void SendJsonEvalToServer()
         {
             isOnline = CrossConnectivity.Current.IsConnected;
@@ -86,7 +97,6 @@ namespace Onek.utils
                                 DownloadLatestVersion(deletedEval);
                             }
                         }
-                        //If communication error or internal error 
                     }
                 }
             }
@@ -95,7 +105,7 @@ namespace Onek.utils
         /// <summary>
         /// Add Evaluation json in sending queue
         /// </summary>
-        /// <param name="jsonEvaluation"></param>
+        /// <param name="jsonEvaluation">String json containing evaluation information</param>
         public static void AddEvaluationInQueue(String jsonEvaluation)
         {            
             EvaluationsToSend.Enqueue(jsonEvaluation);
@@ -104,7 +114,7 @@ namespace Onek.utils
         /// <summary>
         /// Delete file sended
         /// </summary>
-        /// <param name="deletedEval"></param>
+        /// <param name="deletedEval">Evaluation, the evaluation object to be deleted</param>
         private static void DeleteFile(Evaluation deletedEval)
         {
             
@@ -113,7 +123,6 @@ namespace Onek.utils
                 String toDelete = Path.Combine(ApplicationConstants.pathToJsonToSend,
                     deletedEval.IdCandidate + "-" + deletedEval.IdJury + "-" +
                     deletedEval.IdEvent + "-evaluation.json");
-                //if evaluation json is sent delete it from internal memory
                 if (File.Exists(toDelete))
                 {
                     File.Delete(toDelete);
@@ -122,9 +131,10 @@ namespace Onek.utils
         }
 
         /// <summary>
-        /// Download the latest version of event
+        /// Download the latest version of event if the server return that the version of
+        /// evaluation in database is newer.
         /// </summary>
-        /// <param name="deletedEval"></param>
+        /// <param name="deletedEval">Evaluation, evaluation object to update</param>
         private static void DownloadLatestVersion(Evaluation deletedEval)
         {
             int idEvent = deletedEval.IdEvent;
