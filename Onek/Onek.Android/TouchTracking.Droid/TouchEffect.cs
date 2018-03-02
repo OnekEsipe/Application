@@ -13,6 +13,9 @@ using Onek.TouchTracking;
 
 namespace TouchTracking.Droid
 {
+    /// <summary>
+    /// Overriding the touchEffect on Xamarin
+    /// </summary>
     public class TouchEffect : PlatformEffect
     {
         Android.Views.View view;

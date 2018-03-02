@@ -5,6 +5,9 @@ using Xamarin.Forms;
 
 namespace Onek.TouchTracking
 {
+    /// <summary>
+    /// Class use to deal the touch effect on signature : ovveride in ios and android code
+    /// </summary>
     public class TouchEffect : RoutingEffect
     {
         public event TouchActionEventHandler TouchAction;

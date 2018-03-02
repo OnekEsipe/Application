@@ -11,6 +11,9 @@ using UIKit;
 
 namespace TouchTracking.iOS
 {
+    /// <summary>
+    /// Override the Touch Effect of Xamarin
+    /// </summary>
     public class TouchEffect : PlatformEffect
     {
         UIView view;

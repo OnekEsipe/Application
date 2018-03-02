@@ -9,6 +9,9 @@ using Android.OS;
 
 namespace Onek.Droid
 {
+    /// <summary>
+    /// Main Android Activity
+    /// </summary>
     [Activity(Label = "Onek", Icon = "@drawable/logo", Theme = "@style/MainTheme", /*MainLauncher = true,*/ ConfigurationChanges = ConfigChanges.ScreenSize 
         | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity

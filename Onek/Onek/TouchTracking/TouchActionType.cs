@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Onek.TouchTracking
 {
+    /// <summary>
+    /// Enum of different states
+    /// </summary>
     public enum TouchActionType
     {
         Entered,
