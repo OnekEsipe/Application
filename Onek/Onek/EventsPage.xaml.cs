@@ -4,13 +4,11 @@ using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,11 +17,15 @@ namespace Onek
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EventsPage : ContentPage
     {
+        //Properties
         private ObservableCollection<Event> Items { get; set; }
         private User LoggedUser { get; set; }
         private List<Event> Events = new List<Event>();
-        
 
+        /// <summary>
+        /// Events page constructor, initialize variables and content of view
+        /// </summary>
+        /// <param name="user"></param>
         public EventsPage(User user)
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace Onek
 
 			MyListView.ItemsSource = Items;
 
+            //Disable register by code for an anonymous jury
             if(LoggedUser.Login.ToLower().StartsWith("jury"))
             {
                 ButtonCode.IsVisible = false;
@@ -49,31 +52,35 @@ namespace Onek
         /// <summary>
         /// Called to refresh the events listview
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         protected void RefreshEventsList(object sender, EventArgs e)
         {
-            Task.Run(() =>
+            if (CrossConnectivity.Current.IsConnected)
             {
-                List<int> Events_id = new List<int>();
-                Events_id = JsonParser.GetEventsIdToDownload(LoggedUser);
-                LoggedUser.Events_id = Events_id;
+                Task.Run(() =>
+                {
+                    List<int> Events_id = new List<int>();
+                    Events_id = JsonParser.GetEventsIdToDownload(LoggedUser);
+                    LoggedUser.Events_id = Events_id;
                 //Download and Deserialize json events
                 Events = JsonParser.DeserializeJson(LoggedUser);
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
-                    MyListView.ItemsSource = Items;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Items = new ObservableCollection<Event>(Events.OrderBy(x => x.Name));
+                        MyListView.ItemsSource = Items;
+                    });
                 });
-            });
+            }
             MyListView.EndRefresh();
         }
 
         /// <summary>
-        /// Executed when an event is clicked
+        /// Executed when an event is clicked, redirect to candidates page which 
+        /// display all the candidate for associated to the user for this event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">ItemTappedEventArgs</param>
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
@@ -104,6 +111,11 @@ namespace Onek
             (sender as ListView).IsEnabled = true;
         }
 
+        /// <summary>
+        /// Called when the user fill the filter entry to filter the events, refresh the listview items
+        /// </summary>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         void OnFilterChanged(object sender, EventArgs e)
         {
             if (FilterEventEntry.Text == null)
@@ -119,7 +131,7 @@ namespace Onek
         }
 
         /// <summary>
-        /// Called when user clicks on disconnect button
+        /// Called when user clicks on disconnect button, redirect to login page
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -133,10 +145,11 @@ namespace Onek
         }
 
         /// <summary>
-        /// Called when user want to register to an event with a code
+        /// Called when user want to register to an event with a code, open a input box to fill the code 
+        /// and send a request to the server
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnButtonCodeClicked(object sender, EventArgs e)
         {
             //Check connection
@@ -193,10 +206,10 @@ namespace Onek
         }
 
         /// <summary>
-        /// Called when user want to change his password
+        /// Called when user want to change his password, open modify password page
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnButtonChangePasswordClicked(object sender, EventArgs e)
         {
             if (CrossConnectivity.Current.IsConnected)

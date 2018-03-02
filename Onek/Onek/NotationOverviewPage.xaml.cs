@@ -18,17 +18,24 @@ namespace Onek
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotationOverviewPage : ContentPage
     {
+        //Properties
         public ObservableCollection<Criteria> Items { get; set; }
         public Criteria SelectedCritere { get; set; }
         private Event CurrentEvent { get; set; }
         private Evaluation Eval { get; set; }
         private Candidate CurrentCandidate { get; set; }
         private User LoggedUser { get; set; }
-        private bool goToPageNote { get; set; }
-        //private bool comeBackFromSigning { get; set; }
+        private bool GoToPageNote { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
         private bool SwitchCandidate { get; set; } = false;
 
+        /// <summary>
+        /// NotationOverviewPage constuctor
+        /// </summary>
+        /// <param name="e">Event, the selected event</param>
+        /// <param name="candidates">List<Candidate>Candidates for the event</Candidate></param>
+        /// <param name="candidate">Candidate, the candidate that the user evaluates</param>
+        /// <param name="loggedUser">User, the logged user</param>
         public NotationOverviewPage(Event e, ObservableCollection<Candidate> candidates, Candidate candidate, User loggedUser)
         {
             InitializeComponent();
@@ -36,9 +43,10 @@ namespace Onek
             Title = e.Name;
 
             StatusImage.Source = candidate.StatusImage;
-            checkStatus(candidate);
 
             CurrentCandidate = candidate;
+            CurrentCandidate.CheckStatus();
+            ChangeStatusImage();
             CandidateList = candidates;
             LoggedUser = loggedUser;
             CurrentEvent = e;
@@ -53,8 +61,6 @@ namespace Onek
                 c.IsModified = false;
             }
             Eval.IsModified = false;
-
-            //comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
             LeftButton.Text = "<";
@@ -89,10 +95,10 @@ namespace Onek
         }
 
         /// <summary>
-        /// Click on a criteria
+        /// Click on a criteria and displaying notationPage
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">ItemTappedEventArgs</param>
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
@@ -119,7 +125,7 @@ namespace Onek
                 return;
             }
 
-            goToPageNote = true;
+            GoToPageNote = true;
             await Navigation.PushAsync(new NotationPage(CurrentCandidate, Eval.Criterias, SelectedCritere));
             MyListView.IsEnabled = true;
             ((ListView)sender).SelectedItem = null;
@@ -128,8 +134,8 @@ namespace Onek
         /// <summary>
         /// Select a grade for a criteria
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnLevelButtonClicked(object sender, EventArgs e)
         {
             MyListView.IsEnabled = false;
@@ -182,7 +188,7 @@ namespace Onek
                 return;
             }
 
-            goToPageNote = true;
+            GoToPageNote = true;
             MyListView.IsEnabled = true;
 
 
@@ -203,7 +209,8 @@ namespace Onek
 
             MyListView.ItemsSource = Items;
 
-            checkStatus(CurrentCandidate);
+            CurrentCandidate.CheckStatus();
+            ChangeStatusImage();
 
             if (!CurrentEvent.SigningNeeded)
             {
@@ -223,12 +230,12 @@ namespace Onek
             {
                 return;
             }
-            if (goToPageNote)
+            if (GoToPageNote)
             {
                 SaveEvaluation(false);
             }
             
-            goToPageNote = false;
+            GoToPageNote = false;
 
         }
 
@@ -237,7 +244,7 @@ namespace Onek
         /// </summary>
         protected override async void OnDisappearing()
         {
-            if (goToPageNote)
+            if (GoToPageNote)
             {
                 MyListView.Footer = null; 
                 return;
@@ -328,7 +335,7 @@ namespace Onek
             // Save and quit
             //send json to server
 
-            goToPageNote = true;
+            GoToPageNote = true;
             //comeBackFromSigning = false;
 
             if (CurrentEvent.End < DateTime.Now)
@@ -351,11 +358,11 @@ namespace Onek
         /// <summary>
         /// On click on sign button, sign and save evaluation
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnButtonSignerClicked(object sender, EventArgs e)
         {
-            goToPageNote = true;
+            GoToPageNote = true;
 
             if (Eval.IsSigned)
             {
@@ -374,7 +381,7 @@ namespace Onek
         /// <summary>
         /// Save the evaluation and add signature if needed and if asked
         /// </summary>
-        /// <param name="signature"></param>
+        /// <param name="signature">Boolean, true if the user has clicked on sign button</param>
         async void SaveEvaluation(Boolean signature)
         {
             //if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.IsSigned && CurrentEvent.SignatureNeeded)
@@ -397,7 +404,8 @@ namespace Onek
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             CandidateList[index] = CurrentCandidate;
 
-            checkStatus(CurrentCandidate);
+            CurrentCandidate.CheckStatus();
+            ChangeStatusImage();
             if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")))
             {
                 ButtonSigner.IsEnabled = true;
@@ -419,35 +427,13 @@ namespace Onek
         /// <summary>
         /// Check the status of notation and set a color for each status (no grade, in progress, graded)
         /// </summary>
-        /// <param name="candidate"></param>
-        private void checkStatus(Candidate candidate)
-        {
-            int numberOfNoted = 0;
-            foreach (Criteria criteria in candidate.eval.Criterias)
-            {
-                if (!criteria.SelectedLevel.Equals(""))
-                {
-                    numberOfNoted++;
-                }
-            }
-            if (numberOfNoted == 0)
-            {
-                candidate.StatusImage = "red.png";
-                StatusImage.Source = candidate.StatusImage;
-                return;
-            }
-            if (numberOfNoted == candidate.eval.Criterias.Count)
-            {
-                candidate.StatusImage = "green.png";
-                StatusImage.Source = candidate.StatusImage;
-                return;
-            }
-            candidate.StatusImage = "yellow.png";
-            StatusImage.Source = candidate.StatusImage;
+        private void ChangeStatusImage()
+        {           
+            StatusImage.Source = CurrentCandidate.StatusImage;
         }
 
         /// <summary>
-        /// Click on criteria comment
+        /// Click on criteria comment and add or modify the comment for a criteria
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -459,8 +445,7 @@ namespace Onek
                 return;
             }
 
-            goToPageNote = true;
-            //comeBackFromSigning = false;
+            GoToPageNote = true;
 
             string title = "Commentaire du critère";
             string text = "Entrez un commentaire : ";
@@ -480,8 +465,8 @@ namespace Onek
         /// <summary>
         /// On click on left arrow to switch between candidates
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         /// <returns></returns>
         async Task OnLeftButtonClickedAsync(object sender, EventArgs e)
         {
@@ -490,14 +475,14 @@ namespace Onek
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate leftCandidate = CandidateList[index - 1].Clone() as Candidate;
 
-            changeCandidate(leftCandidate, index - 1);
+            ChangeCandidate(leftCandidate, index - 1);
         }
 
         /// <summary>
         /// On click on right arrow to switch between candidates
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         /// <returns></returns>
         async Task OnRightButtonClickedAsync(object sender, EventArgs e)
         {
@@ -506,7 +491,7 @@ namespace Onek
             int index = CandidateList.IndexOf(CandidateList.Where(x => x.Id == CurrentCandidate.Id).First());
             Candidate rightCandidate = CandidateList[index + 1].Clone() as Candidate;
 
-            changeCandidate(rightCandidate, index + 1);
+            ChangeCandidate(rightCandidate, index + 1);
         }
 
         /// <summary>
@@ -514,7 +499,7 @@ namespace Onek
         /// </summary>
         /// <param name="newCandidate"></param>
         /// <param name="index"></param>
-        void changeCandidate(Candidate newCandidate, int index)
+        void ChangeCandidate(Candidate newCandidate, int index)
         {
             CurrentCandidate = newCandidate;
 
@@ -527,15 +512,14 @@ namespace Onek
             MyListView.Footer = null;
 
             AddFooter();
-            checkStatus(CurrentCandidate);
+            CurrentCandidate.CheckStatus();
+            ChangeStatusImage();
 
             foreach (Criteria c in Eval.Criterias)
             {
                 c.IsModified = false;
             }
-
             Eval.IsModified = false;
-            //comeBackFromSigning = false;
 
             CandidateNameLabel.Text = CurrentCandidate.FullName;
 
@@ -583,9 +567,9 @@ namespace Onek
         }
 
         /// <summary>
-        /// Used to change the size of the editor to adapt the size to the text
+        /// Called to change the size of the editor to adapt the size to the text
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="view">View</param>
         private static void Invalidate(View view)
         {
             if(view == null)
@@ -599,7 +583,7 @@ namespace Onek
         /// <summary>
         /// Add a footer to the list view to edit the general comment
         /// </summary>
-        private async void AddFooter()
+        private void AddFooter()
         {
             StackLayout footerLayout = new StackLayout();
             //Title
@@ -634,7 +618,6 @@ namespace Onek
             else
             {
                 footerEditor.IsEnabled = false;
-                //await DisplayAlert("Erreur", "Vous avez déjà signé et validé cette évaluation", "OK");
             }
             footerEditor.BindingContext = Eval;
             footerEditor.SetBinding(Editor.TextProperty, "Comment");

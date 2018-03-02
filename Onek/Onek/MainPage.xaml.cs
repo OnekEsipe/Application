@@ -13,21 +13,29 @@ using Xamarin.Forms;
 
 namespace Onek
 {
+    /// <summary>
+    /// Login page
+    /// </summary>
 	public partial class MainPage : ContentPage
 	{
-
+        //Variables
         private bool hasSuceeded = false;
         private bool noConnection = false;
         private bool isError = false;
         private bool noServer = false;
         private User user;
 
+        /// <summary>
+        /// MainPage constructor
+        /// </summary>
         public MainPage()
 	    {
 			InitializeComponent();
         }
 
-        //Executed when page is diplayed
+        /// <summary>
+        /// Executed when page is displayed
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -37,11 +45,11 @@ namespace Onek
         }
 
         /// <summary>
-        /// Executed when user click on button login, check login information and redirect user to events page if
+        /// Executed when user clicks on button login, check login information and redirect user to events page if
         /// login is OK
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
             IndicatorOn();
@@ -141,6 +149,9 @@ namespace Onek
             IndicatorOff();
         }
 
+        /// <summary>
+        /// Display the loading indicator when the login request is processing
+        /// </summary>
         void IndicatorOn()
         {
             if (Device.Idiom == TargetIdiom.Phone)
@@ -162,6 +173,9 @@ namespace Onek
             ButtonParameter.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Remove the login indicator
+        /// </summary>
         void IndicatorOff()
         {
             if (Device.Idiom == TargetIdiom.Phone)
@@ -186,8 +200,8 @@ namespace Onek
         /// <summary>
         /// Display a pop-up to change the server url
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnButtonParameterClicked(object sender, EventArgs e)
         {
             string title = "Changement de serveur";
@@ -210,8 +224,8 @@ namespace Onek
         /// <summary>
         /// Open page to register as a jury
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
         {
             if (CrossConnectivity.Current.IsConnected)
@@ -225,10 +239,11 @@ namespace Onek
         }
 
         /// <summary>
-        /// Reset password
+        /// Reset password, Display a pop-up where the user fill his mail address and
+        /// send a request to the server to receive an e-mail to reset password
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">object</param>
+        /// <param name="e">EventArgs</param>
         async void onButtonOublieClicked(object sender, EventArgs e)
         {
             IndicatorOn();

@@ -57,6 +57,32 @@ namespace Onek
 
         public Evaluation eval { get; set; }
 
+        /// <summary>
+        /// Check the status of the notation for a candidate to display the color indicator
+        /// </summary>
+        public void CheckStatus()
+        {
+            int numberOfNoted = 0;
+            foreach (Criteria criteria in this.eval.Criterias)
+            {
+                if (!criteria.SelectedLevel.Equals(""))
+                {
+                    numberOfNoted++;
+                }
+            }
+            if (numberOfNoted == 0)
+            {
+                this.StatusImage = "red.png";
+                return;
+            }
+            if (numberOfNoted == this.eval.Criterias.Count)
+            {
+                this.StatusImage = "green.png";
+                return;
+            }
+            this.StatusImage = "yellow.png";
+        }
+
         //INotifyPropertyChanged interface implementation
 
         /// <summary>

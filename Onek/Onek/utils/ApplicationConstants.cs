@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Reflection;
-using System.Text;
 
 namespace Onek.utils
 {
+    /// <summary>
+    /// Class which contains static variables and methods used accross the app
+    /// </summary>
     class ApplicationConstants
     {
         //Directory to save application json files
@@ -30,6 +30,9 @@ namespace Onek.utils
         //Directory to save configuration file
         private static String configDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
+        /// <summary>
+        /// Static constructor executed one time when one of the variables or methods is called for the first time
+        /// </summary>
         static ApplicationConstants()
         {
             if (!Directory.Exists(pathToPersonnalFolder))
@@ -40,6 +43,9 @@ namespace Onek.utils
                 Directory.CreateDirectory(configDir);
         }
 
+        /// <summary>
+        /// URL property (redifine get and set)
+        /// </summary>
         public static String URL 
         {
             get { return url; }

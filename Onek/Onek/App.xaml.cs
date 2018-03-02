@@ -1,14 +1,11 @@
 ﻿using Onek.utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Onek
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
 		public App ()
 		{
@@ -34,6 +31,7 @@ namespace Onek
                 }
             });
 
+            //Display the first Page of the app (MainPage => LoginPage)
             MainPage = new NavigationPage(new Onek.MainPage());
 		}
 
