@@ -11,6 +11,9 @@ using Onek.TouchTracking;
 
 namespace TouchTracking.iOS
 {
+    /// <summary>
+    /// Touch Recognizer of the TouchEffect
+    /// </summary>
     class TouchRecognizer : UIGestureRecognizer
     {
         Element element;        // Forms element for firing events

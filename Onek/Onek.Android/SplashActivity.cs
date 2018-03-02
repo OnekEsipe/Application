@@ -13,6 +13,9 @@ using Android.Widget;
 
 namespace Onek.Droid
 {
+    /// <summary>
+    /// Splashcreen is the main launcher who calls MainPage when ready
+    /// </summary>
     [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true)]
     public class SplashActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

@@ -14,10 +14,10 @@ namespace Onek.utils
         /// <summary>
         /// Create a simple input box
         /// </summary>
-        /// <param name="navigation"></param>
-        /// <param name="title"></param>
-        /// <param name="text"></param>
-        /// <param name="placeholder"></param>
+        /// <param name="navigation">Navigation of the page (this.Navigation)</param>
+        /// <param name="title">Title of the pop up window</param>
+        /// <param name="text">Text of the pop up label</param>
+        /// <param name="placeholder">Place holder of the editor</param>
         /// <returns></returns>
         public static Task<string> InputBox(INavigation navigation, String title, String text, String placeholder)
         {
@@ -38,6 +38,15 @@ namespace Onek.utils
             return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
         }
 
+        /// <summary>
+        /// Create a simple input box
+        /// </summary>
+        /// <param name="navigation">Navigation of the page (this.Navigation)</param>
+        /// <param name="title">Title of the pop up window</param>
+        /// <param name="text">Text of the pop up label</param>
+        /// <param name="placeholder">Place holder of the editor</param>
+        /// <param name="size">Maximum size of the editor</param>
+        /// <returns></returns>
         public static Task<string> InputBoxWithSize(INavigation navigation, String title, String text, String placeholder, int size)
         {
             // wait in this proc, until user did his input 
@@ -64,7 +73,16 @@ namespace Onek.utils
             return makeBox(navigation, lblTitle, lblMessage, txtInput, tcs, temp);
         }
 
-
+        /// <summary>
+        ///  Create a box 
+        /// </summary>
+        /// <param name="navigation">Navigation of the page (this.Navigation)</param>
+        /// <param name="lblTitle">Label View for the title</param>
+        /// <param name="lblMessage">Label View for the label</param>
+        /// <param name="txtInput">Editor View for the text</param>
+        /// <param name="tcs">Task Completion Source used to call the async task</param>
+        /// <param name="temp">Placeholder</param>
+        /// <returns></returns>
         private static Task<string> makeBox(INavigation navigation, Label lblTitle, Label lblMessage, Editor txtInput, TaskCompletionSource<string> tcs, String temp)
         {
             var btnOk = new Button
