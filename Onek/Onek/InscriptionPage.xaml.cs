@@ -2,7 +2,6 @@
 using Onek.data;
 using Onek.utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,16 +14,20 @@ using Xamarin.Forms.Xaml;
 
 namespace Onek
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InscriptionPage : ContentPage
 	{
-        private bool wrongCompleted { get; set; }
-        private bool wrongPassword { get; set; }
-        private bool wrongMail { get; set; }
-        private bool succeed { get; set; }
-        private bool error { get; set; }
-        private bool startAnonym { get; set; }
+        //Properties
+        private bool WrongCompleted { get; set; }
+        private bool WrongPassword { get; set; }
+        private bool WrongMail { get; set; }
+        private bool Succeed { get; set; }
+        private bool Error { get; set; }
+        private bool StartAnonym { get; set; }
 
+        /// <summary>
+        /// InscriptionPage constructor
+        /// </summary>
         public InscriptionPage ()
 		{
 			InitializeComponent ();
@@ -32,7 +35,7 @@ namespace Onek
 
 
         /// <summary>
-        /// Create a jury account 
+        /// Create a jury account by sending account information to the server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -48,12 +51,12 @@ namespace Onek
 
             String errorMessage = "";
 
-            error = false;
-            succeed = false;
-            wrongPassword = false;
-            wrongMail = false;
-            wrongCompleted = false;
-            startAnonym = false;
+            Error = false;
+            Succeed = false;
+            WrongPassword = false;
+            WrongMail = false;
+            WrongCompleted = false;
+            StartAnonym = false;
 
             await Task.Run(async () =>
             {
@@ -63,22 +66,22 @@ namespace Onek
                     nomText.Equals("") || prenomText.Equals("") || mailText.Equals("") ||
                     passwordText.Equals(""))
                 {
-                    wrongCompleted = true;
+                    WrongCompleted = true;
                     return;
                 }
                 if(loginText.ToLower().StartsWith("jury"))
                 {
-                    startAnonym = true;
+                    StartAnonym = true;
                     return;
                 }
                 if (CreateAccountManager.CheckPassword(PasswordEntry.Text) == false)
                 {
-                    wrongPassword = true;
+                    WrongPassword = true;
                     return;
                 }
                 if (CreateAccountManager.CheckMail(MailEntry.Text) == false)
                 {
-                    wrongMail = true;
+                    WrongMail = true;
                     return;
                 }
                 accountManager.Login = LoginEntry.Text;
@@ -103,7 +106,7 @@ namespace Onek
                     //If response OK, quit
                     if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
                     {
-                        succeed = true;
+                        Succeed = true;
                         return;
                     }
                 }
@@ -116,35 +119,35 @@ namespace Onek
                     {
                         StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                         errorMessage = reader.ReadToEnd();
-                        error = true;
+                        Error = true;
                         return;
                     }
                 }
             });
 
-            if(error)
+            if(Error)
             {
                 await DisplayAlert("Erreur", errorMessage, "OK");
             }
-            if(succeed)
+            if(Succeed)
             {
                 await DisplayAlert("Création de compte", "Votre compte a bien été créé", "OK");
                 IndicatorOff();
                 await Navigation.PopAsync();
             }
-            if(wrongCompleted)
+            if(WrongCompleted)
             {
                 await DisplayAlert("Erreur", "Tous les champs doivent être renseignés", "OK");
             }
-            if(wrongMail)
+            if(WrongMail)
             {
                 await DisplayAlert("Erreur", "Adresse mail invalide", "OK");
             }
-            if(wrongPassword)
+            if(WrongPassword)
             {
                 await DisplayAlert("Erreur", "Le mot de passe doit contenir au moins 6 caractères dont au moins une lettre en majuscule", "OK");
             }
-            if(startAnonym)
+            if(StartAnonym)
             {
                 await DisplayAlert("Erreur", "Le login ne peut pas commencer par 'Jury'", "OK");
             }

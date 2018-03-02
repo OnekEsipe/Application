@@ -2,7 +2,6 @@
 using Onek.utils;
 using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -14,34 +13,45 @@ using Xamarin.Forms.Xaml;
 
 namespace Onek
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ModifyPasswordPage : ContentPage
 	{
+        //Variable
         private User currentUser;
-
-        private bool wrongCompleted { get; set; }
-        private bool notIdentic { get; set; }
-        private bool wrongPassword { get; set; }
-        private bool succeeded { get; set; }
-        private bool errorRequest { get; set; }
-        private bool errorConflict { get; set; }
+        //Properties
+        private bool WrongCompleted { get; set; }
+        private bool NotIdentic { get; set; }
+        private bool WrongPassword { get; set; }
+        private bool Succeeded { get; set; }
+        private bool ErrorRequest { get; set; }
+        private bool ErrorConflict { get; set; }
         
+        /// <summary>
+        /// ModifyPasswordPage constructor
+        /// </summary>
+        /// <param name="loggedUser"></param>
         public ModifyPasswordPage (User loggedUser)
 		{
 			InitializeComponent ();
             currentUser = loggedUser;
 		}
 
+        /// <summary>
+        /// Send the old and new password to the server, if the password are good, 
+        /// the password for the user is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void OnButtonChangePasswordPressed(object sender, EventArgs e)
         {
             IndicatorOn();
 
-            wrongCompleted = false;
-            notIdentic = false;
-            wrongPassword = false;
-            succeeded = false;
-            errorRequest = false;
-            errorConflict = false;
+            WrongCompleted = false;
+            NotIdentic = false;
+            WrongPassword = false;
+            Succeeded = false;
+            ErrorRequest = false;
+            ErrorConflict = false;
 
             String oldPassword = OldPasswordEntry.Text;
             String newPassord = NewPasswordEntry.Text;
@@ -55,17 +65,17 @@ namespace Onek
                     if (oldPassword == null || newPassord == null || confirmedPassword == null ||
                        oldPassword.Equals("") || newPassord.Equals("") || confirmedPassword.Equals(""))
                     {
-                        wrongCompleted = true;
+                        WrongCompleted = true;
                         return;
                     }
                     if (!newPassord.Equals(confirmedPassword))
                     {
-                        notIdentic = true;
+                        NotIdentic = true;
                         return;
                     }
                     if (!CreateAccountManager.CheckPassword(newPassord))
                     {
-                        wrongPassword = true;
+                        WrongPassword = true;
                         return;
                     }
                     //hash password
@@ -93,7 +103,7 @@ namespace Onek
                         //If response OK, quit
                         if (webResponse.StatusCode.Equals(HttpStatusCode.OK))
                         {
-                            succeeded = true;
+                            Succeeded = true;
                             return;
                         }
                     }
@@ -104,12 +114,12 @@ namespace Onek
                         //If conflict, warn user
                         if (response.StatusCode.Equals(HttpStatusCode.Conflict))
                         {
-                            errorConflict = true;
+                            ErrorConflict = true;
                             return;
                         }
                         else
                         {
-                            errorRequest = true;
+                            ErrorRequest = true;
                             return;
                         }
                     }
@@ -121,29 +131,29 @@ namespace Onek
                 }
             });
 
-            if(succeeded)
+            if(Succeeded)
             {
                 await DisplayAlert("Changer de mot de passe", "Votre mot de passe a bien été modifié", "OK");
                 await Navigation.PopAsync();
                 IndicatorOff();
             }
-            if(wrongCompleted)
+            if(WrongCompleted)
             {
                 await DisplayAlert("Erreur", "Tous les champs doivent être renseignés", "OK");
             }
-            if(wrongPassword)
+            if(WrongPassword)
             {
                 await DisplayAlert("Erreur", "Le nouveau mot de passe doit contenir au moins 6 caractères dont au moins une majuscule", "OK");
             }
-            if(errorConflict)
+            if(ErrorConflict)
             {
                 await DisplayAlert("Erreur", "Le changement de mot de passe n'a pas pu être effectué", "OK");
             }
-            if(errorRequest)
+            if(ErrorRequest)
             {
                 await DisplayAlert("Erreur", "Erreur lors de l'envoi ou du traitement de la requête", "OK");
             }
-            if(notIdentic)
+            if(NotIdentic)
             {
                 await DisplayAlert("Erreur", "Le nouveau mot de passe et la confirmation doivent être identique", "OK");
             }
@@ -151,6 +161,9 @@ namespace Onek
             IndicatorOff();
         }
 
+        /// <summary>
+        /// Display the loading indicate while change password is processing
+        /// </summary>
         private void IndicatorOn()
         {
             if (Device.Idiom == TargetIdiom.Phone)
@@ -170,6 +183,9 @@ namespace Onek
             ChangePasswordButton.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Remove the loading indicator
+        /// </summary>
         private void IndicatorOff()
         {
             if (Device.Idiom == TargetIdiom.Phone)
