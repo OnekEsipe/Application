@@ -52,6 +52,11 @@ namespace Onek
         /// <param name="e">EventArgs</param>
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
+            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals(""))
+            {
+                await DisplayAlert("Erreur", "Vous devez renseigner l'url du serveur en cliquant sur le bouton paramètres serveur", "OK");
+                return;
+            }
             IndicatorOn();
             string loginText = LoginEntry.Text;
             string passwordText = PasswordEntry.Text;
@@ -207,7 +212,7 @@ namespace Onek
             string title = "Changement de serveur";
             string text = "Entrez un URL : ";
             String ServerAdress = await InputDialog.InputBox(this.Navigation, title, text, ApplicationConstants.URL);
-            if (ServerAdress != null || !ServerAdress.Equals(""))
+            if (ServerAdress != null && !ServerAdress.Equals(""))
             {
                 //Change server URL in applicationConstants
                 ApplicationConstants.URL = ServerAdress;
@@ -228,6 +233,11 @@ namespace Onek
         /// <param name="e">EventArgs</param>
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
         {
+            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals(""))
+            {
+                await DisplayAlert("Erreur", "Vous devez renseigner l'url du serveur en cliquant sur le bouton paramètres serveur", "OK");
+                return;
+            }
             if (CrossConnectivity.Current.IsConnected)
             {
                 await Navigation.PushAsync(new InscriptionPage());
@@ -246,6 +256,11 @@ namespace Onek
         /// <param name="e">EventArgs</param>
         async void onButtonOublieClicked(object sender, EventArgs e)
         {
+            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals(""))
+            {
+                await DisplayAlert("Erreur", "Vous devez renseigner l'url du serveur en cliquant sur le bouton paramètres serveur", "OK");
+                return;
+            }
             IndicatorOn();
 
             string title = "Récupération de mot de passe";
