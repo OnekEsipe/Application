@@ -55,7 +55,7 @@ namespace Onek
             IndicatorOn();
             string loginText = LoginEntry.Text;
             string passwordText = PasswordEntry.Text;
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 //Hash password
                 SHA1Managed sha1 = new SHA1Managed();

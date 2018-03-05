@@ -51,9 +51,15 @@ namespace Onek.utils
             get { return url; }
             set 
             {
-                url = value;
-                URLChanged();
-                WriteConfigFile();
+                if (value != null && !value.Equals(""))
+                {
+                    if (value.EndsWith("/"))
+                        url = value.Substring(0, value.Length - 1);
+                    else
+                        url = value;
+                    URLChanged();
+                    WriteConfigFile();
+                }
             }
         }
 
