@@ -187,7 +187,8 @@ namespace Onek
                 {
                     WebException webException = exception as WebException;
                     HttpWebResponse response = webException.Response as HttpWebResponse;
-                    if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+                    if (response.StatusCode.Equals(HttpStatusCode.Conflict) ||
+                        response.StatusCode.Equals(HttpStatusCode.Forbidden))
                     {
                         Stream responseStream = response.GetResponseStream();
                         StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
