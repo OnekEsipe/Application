@@ -167,7 +167,12 @@ namespace Onek
                         selectedDescriptor = d;
                     }
                 }
-                criteria.SelectedDescriptor = selectedDescriptor;
+                if (selectedDescriptor != null && !selectedDescriptor.Equals(criteria.SelectedDescriptor))
+                {
+                    criteria.SelectedDescriptor = selectedDescriptor;
+                    Eval.IsModified = true;
+                    GoToPageNote = false;
+                }
             }
             MyListView.ItemsSource = Items;
 
@@ -188,11 +193,9 @@ namespace Onek
                 return;
             }
 
-            GoToPageNote = true;
+            //GoToPageNote = true;
             MyListView.IsEnabled = true;
-
-
-
+            
         }
 
         /// <summary>
@@ -200,7 +203,6 @@ namespace Onek
         /// </summary>
         protected override void OnAppearing()
         {
-
             //Add the footer to the list view
             AddFooter();
 
@@ -211,6 +213,11 @@ namespace Onek
 
             CurrentCandidate.CheckStatus();
             ChangeStatusImage();
+
+            if(Eval.IsModified)
+            {
+                GoToPageNote = false;
+            }
 
             if (!CurrentEvent.SigningNeeded)
             {
@@ -226,15 +233,13 @@ namespace Onek
             }
 
 
+            GoToPageNote = false;
+
             if (!Eval.IsSigned)
             {
                 return;
             }
-            if (GoToPageNote)
-            {
-                SaveEvaluation(false);
-            }
-            
+                        
             GoToPageNote = false;
 
         }

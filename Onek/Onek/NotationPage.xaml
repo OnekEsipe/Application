@@ -140,7 +140,7 @@
                 OutlineColor="#2399e5">
                 <ScrollView Orientation="Vertical" 
                     VerticalOptions="CenterAndExpand">
-                    <StackLayout VerticalOptions="CenterAndExpand">
+                    <StackLayout VerticalOptions="StartAndExpand">
                         <Label  x:Name="DescriptionBox"
                         HorizontalOptions="Fill"
                         WidthRequest="300"
@@ -149,7 +149,7 @@
                         FontAttributes="Bold"
                         VerticalOptions="CenterAndExpand"
                         HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center"/>
+                        VerticalTextAlignment="Start"/>
                     </StackLayout>
                 </ScrollView>
             </Frame>
@@ -171,7 +171,7 @@
                           HorizontalOptions="FillAndExpand"
                           Orientation="Horizontal">
 
-                <Button x:Name="ButtonValider"
+                <!--<Button x:Name="ButtonValider"
                     HorizontalOptions="FillAndExpand"
                         Text="Enregistrer"
                         BackgroundColor="#2399e5"
@@ -187,7 +187,7 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                </Button>
+                </Button>-->
 
                 <!--<Button x:Name="ButtonRetour"
                     HorizontalOptions="FillAndExpand"
@@ -195,7 +195,7 @@
                         BackgroundColor="#2399e5"
                         TextColor="White" 
                         Clicked="OnButtonRetourClicked"/>-->
-            </StackLayout>
-        </StackLayout>
+        </StackLayout> 
+        </StackLayout> 
     </AbsoluteLayout>
 </ContentPage>
