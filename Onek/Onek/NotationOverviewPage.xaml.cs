@@ -52,7 +52,7 @@ namespace Onek
             CurrentEvent = e;
 
             Evaluation evaluation = candidate.eval;
-            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
+            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Id));
 
             Eval = evaluation;
 
@@ -505,7 +505,7 @@ namespace Onek
 
             Evaluation evaluation = CurrentCandidate.eval;
 
-            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Text));
+            evaluation.Criterias = new ObservableCollection<Criteria>(evaluation.Criterias.OrderBy(x => x.Category).ThenBy(x => x.Id));
 
             Eval = evaluation;
             //refresh footer values
