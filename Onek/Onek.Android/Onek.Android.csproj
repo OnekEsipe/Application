@@ -18,6 +18,11 @@
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AndroidKeyStore>false</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\boris\AppData\Local\Xamarin\Mono for Android\Keystore\onekEsipe\onekEsipe.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>OnekEsipe2018</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>OnekEsipe</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>OnekEsipe2018</AndroidSigningKeyPass>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
