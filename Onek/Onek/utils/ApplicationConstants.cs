@@ -26,7 +26,8 @@ namespace Onek.utils
         public static String serverUserEventsId = "https://" + URL + "/api/app/jury/events/id";
         //Server URL
         private static String url;
-        private const String defaultURL = "173.249.25.49/serveur";
+        //URL bidon 
+        private const String defaultURL = "addressIp/serveur";
         //Directory to save configuration file
         private static String configDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
@@ -61,6 +62,15 @@ namespace Onek.utils
                     WriteConfigFile();
                 }
             }
+        }
+
+        /// <summary>
+        /// DefaultURL property (redifine get and set)
+        /// </summary>
+        public static String DefaultURL
+        {
+            get { return defaultURL; }
+            private set { }
         }
 
         /// <summary>

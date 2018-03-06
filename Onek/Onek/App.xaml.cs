@@ -43,12 +43,25 @@ namespace Onek
 
 		protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
-		}
+            // Handle when your app sleeps
+            //Load and send json which were not sended to server
+            Task.Run(() =>
+            {
+                try
+                {
+                    EvaluationSender.LoadJsons();
+                    EvaluationSender.SendJsonEvalToServer();
+                }
+                catch (Exception)
+                {
+                }
+            });
+        }
 
 		protected override void OnResume ()
 		{
 			// Handle when your app resumes
 		}
+        
 	}
 }

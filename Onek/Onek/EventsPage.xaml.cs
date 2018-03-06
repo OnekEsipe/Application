@@ -147,6 +147,21 @@ namespace Onek
             bool answer = await DisplayAlert("Deconnexion", "Voulez-vous vraiment vous deconnecter ?", "Oui", "Non");
             if (answer)
             {
+                if (CrossConnectivity.Current.IsConnected)
+                {
+                    //Load and send json which were not sended to server
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            EvaluationSender.LoadJsons();
+                            EvaluationSender.SendJsonEvalToServer();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    });
+                }
                 await Navigation.PopAsync();
             }
         }
