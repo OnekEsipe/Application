@@ -53,7 +53,8 @@ namespace Onek
         /// <param name="e">EventArgs</param>
         async void OnButtonLoginClicked(object sender, EventArgs e)
         {
-            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals(""))
+            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals("") ||
+                ApplicationConstants.URL.Equals(ApplicationConstants.DefaultURL))
             {
                 await DisplayAlert("Erreur", "Vous devez renseigner l'url du serveur en cliquant sur le bouton paramètres serveur", "OK");
                 return;
@@ -257,7 +258,8 @@ namespace Onek
         /// <param name="e">EventArgs</param>
         async void OnButtonInscriptionClicked(object sender, EventArgs e)
         {
-            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals(""))
+            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals("") ||
+                ApplicationConstants.URL.Equals(ApplicationConstants.DefaultURL))
             {
                 await DisplayAlert("Erreur", "Vous devez renseigner l'url du serveur en cliquant sur le bouton paramètres serveur", "OK");
                 return;
@@ -280,7 +282,8 @@ namespace Onek
         /// <param name="e">EventArgs</param>
         async void onButtonOublieClicked(object sender, EventArgs e)
         {
-            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals(""))
+            if (ApplicationConstants.URL == null || ApplicationConstants.URL.Equals("") ||
+                ApplicationConstants.URL.Equals(ApplicationConstants.DefaultURL))
             {
                 await DisplayAlert("Erreur", "Vous devez renseigner l'url du serveur en cliquant sur le bouton paramètres serveur", "OK");
                 return;
