@@ -26,7 +26,7 @@ namespace Onek.utils
         public static String serverUserEventsId = "https://" + URL + "/api/app/jury/events/id";
         //Server URL
         private static String url;
-        private const String defaultURL = "";//"173.249.25.49/serveur";
+        private const String defaultURL = "173.249.25.49/serveur";
         //Directory to save configuration file
         private static String configDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 

@@ -21,6 +21,7 @@ namespace Onek
         //Variables
         private bool hasSuceeded = false;
         private bool noConnection = false;
+        private bool errorJson = false;
         private bool isError = false;
         private bool noServer = false;
         private User user;
@@ -71,59 +72,82 @@ namespace Onek
                 LoginManager loginManager = new LoginManager();
                 if (loginText != null && hashedPassword != null)
                 {
-                    //Send login request
-                    loginManager.Login = loginText;
-                    loginManager.Password = hashedPassword;
-                    String loginJson = loginManager.GenerateLoginJson();
-                    HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
-                    //Check login response
-                    if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
+                    try
                     {
-                        //Get user json account
-                        Stream responseStream = httpWebResponse.GetResponseStream();
-                        StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
-                        String jsonAccount = streamReader.ReadToEnd();
-                        List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
-                        user = users.First();
-                        //Save user in local jsonAccount
-                        JsonParser.SaveJsonAccountInMemory(users);
-                        //Display event page
-                        hasSuceeded = true;
-                    }
-                    //Wrong credentials
-                    else if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
-                    {
-                        isError = true;
-                    }
-                    //No server connection
-                    else
-                    {
-                        //OFFLINE LOGIN
-                        List<User> logins = JsonParser.LoadLoginJson();
-                        if (logins == null)
+                        //Send login request
+                        loginManager.Login = loginText;
+                        loginManager.Password = hashedPassword;
+                        String loginJson = loginManager.GenerateLoginJson();
+                        HttpWebResponse httpWebResponse = loginManager.SendAuthenticationRequest(loginJson);
+                        //Check login response
+                        if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.OK))
                         {
-                            noConnection = true;
+                            //Get user json account
+                            Stream responseStream = httpWebResponse.GetResponseStream();
+                            StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
+                            String jsonAccount = streamReader.ReadToEnd();
+                            List<User> users = JsonParser.DeserializeJsonAccount(jsonAccount);
+                            user = users.First();
+                            //Save user in local jsonAccount
+                            JsonParser.SaveJsonAccountInMemory(users);
+                            //Display event page
+                            hasSuceeded = true;
                         }
+                        //Wrong credentials
+                        else if (httpWebResponse != null && httpWebResponse.StatusCode.Equals(HttpStatusCode.Forbidden))
+                        {
+                            isError = true;
+                        }
+                        //No server connection
                         else
                         {
-                            foreach (User u in logins)
+                            //OFFLINE LOGIN
+                            List<User> logins = JsonParser.LoadLoginJson();
+                            if (logins == null)
                             {
-                                if (loginText != null && passwordText != null
-                                && loginText.Equals(u.Login)
-                                && hashedPassword.Equals(u.Password))
+                                noConnection = true;
+                            }
+                            else
+                            {
+                                foreach (User u in logins)
                                 {
-                                    user = u;
-                                    hasSuceeded = true;
+                                    if (loginText != null && passwordText != null
+                                    && loginText.Equals(u.Login)
+                                    && hashedPassword.Equals(u.Password))
+                                    {
+                                        user = u;
+                                        hasSuceeded = true;
+                                    }
                                 }
                             }
                         }
+                    }
+                    catch(Exception)
+                    {
+                        errorJson = true;
                     }
                 }
             });
             if (hasSuceeded)
             {
-                await Navigation.PushAsync(new EventsPage(user));
-                hasSuceeded = false;
+                try
+                {
+                    EventsPage eventPage = new EventsPage(user);
+                    await Navigation.PushAsync(eventPage);
+                    hasSuceeded = false;
+                    IndicatorOff();
+                    return;
+                }
+                catch(Exception)
+                {
+                    errorJson = true;
+                    hasSuceeded = false;
+                }
+            }
+            if(errorJson)
+            {
+                await DisplayAlert("Erreur", "Un problème de connexion est survenu. Contactez votre organisateur.", "OK");
+                errorJson = false;
                 IndicatorOff();
                 return;
             }

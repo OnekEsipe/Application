@@ -103,8 +103,15 @@ namespace Onek
                 return;
             }
 
-            CandidatesPage candidatesPage = new CandidatesPage(TappedEvent, LoggedUser);
-            await Navigation.PushAsync(candidatesPage);
+            try
+            {
+                CandidatesPage candidatesPage = new CandidatesPage(TappedEvent, LoggedUser);
+                await Navigation.PushAsync(candidatesPage);
+            }
+            catch(Exception)
+            {
+                await DisplayAlert("Erreur", "Cet événement rencontre un problème. Contactez votre organisateur.", "OK");
+            }
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
