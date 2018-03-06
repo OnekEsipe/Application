@@ -134,14 +134,15 @@ namespace Onek
                 {
                     EventsPage eventPage = new EventsPage(user);
                     await Navigation.PushAsync(eventPage);
+                    hasSuceeded = false;
+                    IndicatorOff();
+                    return;
                 }
                 catch(Exception)
                 {
                     errorJson = true;
+                    hasSuceeded = false;
                 }
-                hasSuceeded = false;
-                IndicatorOff();
-                return;
             }
             if(errorJson)
             {
