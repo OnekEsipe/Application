@@ -182,6 +182,7 @@ namespace Onek
         /// <summary>
         /// Event thrown when "Enregistrer" button is touched
         /// Save the evaluation and come back to overview
+        /// Useless
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -198,16 +199,22 @@ namespace Onek
         /// </summary>
         void SaveCriteria()
         {
-            CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
-            if (SelectedDescripteur != null)
+            if (SelectedDescripteur != null && !SelectedDescripteur.Equals(CurrentCriteria.SelectedDescriptor))
             {
-                CurrentCriteria.SelectedLevel = SelectedDescripteur.Level;
+                CurrentCriteria.SelectedDescriptor = SelectedDescripteur;
+                if (SelectedDescripteur != null)
+                {
+                    CurrentCriteria.SelectedLevel = SelectedDescripteur.Level;
+                }
+                else
+                {
+                    CurrentCriteria.SelectedLevel = "";
+                } 
             }
-            else
+            if (Comment != null && !(Comment.Equals(CurrentCriteria.Comment)))
             {
-                CurrentCriteria.SelectedLevel = "";
+                CurrentCriteria.Comment = Comment;
             }
-            CurrentCriteria.Comment = Comment;
         }
 
         /// <summary>
@@ -219,6 +226,12 @@ namespace Onek
         void OnButtonRetourClicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
+        }
+
+        protected override void OnDisappearing()
+        {
+            SaveCriteria();
+            base.OnDisappearing();
         }
 
         /// <summary>
