@@ -128,7 +128,7 @@ namespace Onek
             changeColorButtonsDescriptor();
                   
             DescriptionBox.Text = SelectedDescripteur.Text;
-            ButtonValider.IsEnabled = true;
+            //ButtonValider.IsEnabled = true;
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Onek
             }
 
             EditorCommentaireCritere.Text = Comment;
-            ButtonValider.IsEnabled = true;
+            //ButtonValider.IsEnabled = true;
         }
 
         /// <summary>
@@ -188,9 +188,9 @@ namespace Onek
         /// <param name="e"></param>
         void OnButtonValiderClicked(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = false; });
+            //Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = false; });
             SaveCriteria();
-            Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = true; });
+            //Device.BeginInvokeOnMainThread(() => { ButtonValider.IsEnabled = true; });
             Navigation.PopAsync();
         }
 

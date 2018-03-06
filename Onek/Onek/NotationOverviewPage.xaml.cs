@@ -167,7 +167,7 @@ namespace Onek
                         selectedDescriptor = d;
                     }
                 }
-                if (selectedDescriptor != null && !criteria.SelectedDescriptor.Equals(criteria.SelectedDescriptor))
+                if (selectedDescriptor != null && !selectedDescriptor.Equals(criteria.SelectedDescriptor))
                 {
                     criteria.SelectedDescriptor = selectedDescriptor;
                     Eval.IsModified = true;
