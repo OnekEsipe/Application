@@ -28,6 +28,7 @@ namespace Onek
         private bool GoToPageNote { get; set; }
         private ObservableCollection<Candidate> CandidateList { get; set; }
         private bool SwitchCandidate { get; set; } = false;
+        private bool ComeBackSigning { get; set; } = false;
 
         /// <summary>
         /// NotationOverviewPage constuctor
@@ -231,17 +232,15 @@ namespace Onek
             {
                 ButtonSigner.IsEnabled = false;
             }
-
-
+            
             GoToPageNote = false;
 
-            if (!Eval.IsSigned)
+            if (ComeBackSigning && Eval.IsSigned)
             {
-                return;
+                SaveEvaluation(false);
+                ComeBackSigning = false;
             }
                         
-            GoToPageNote = false;
-
         }
 
         /// <summary>
@@ -389,11 +388,10 @@ namespace Onek
         /// <param name="signature">Boolean, true if the user has clicked on sign button</param>
         async void SaveEvaluation(Boolean signature)
         {
-            //if (Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.IsSigned && CurrentEvent.SignatureNeeded)
             if (signature && Eval.Criterias.All(c => !c.SelectedLevel.Equals("")) && !Eval.IsSigned)
             {
+                ComeBackSigning = true;
                 await Navigation.PushAsync(new SigningPage(Eval, CurrentCandidate));
-                //comeBackFromSigning = true;
             }
             Eval.LastUpdatedDate = DateTime.Now;
             String jsonEval = JsonParser.GenerateJsonEval(Eval);
