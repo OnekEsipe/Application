@@ -61,6 +61,7 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>iOS Team Provisioning Profile: com.Esipe.Onek</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -143,7 +144,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Onek\Onek.csproj">
-      <Project>{DB0B1F62-A509-4E06-A2D1-0EAB2366EB96}</Project>
+      <Project>{A871614E-E7FB-4CDA-A8C9-98C840285E8F}</Project>
       <Name>Onek</Name>
     </ProjectReference>
   </ItemGroup>
