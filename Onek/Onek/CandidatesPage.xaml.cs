@@ -28,7 +28,7 @@ namespace Onek
             CurrentEvent = e;
             Title = e.Name;
             LoggedUser = loggedUser;
-            Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First().Candidates.OrderBy(x => x.FullName));
+            Items = new ObservableCollection<Candidate>(CurrentEvent.Jurys.First(j => j.Login.Equals(loggedUser.Login)).Candidates.OrderBy(x => x.FullName));
 
             foreach (Candidate c in Items)
             {

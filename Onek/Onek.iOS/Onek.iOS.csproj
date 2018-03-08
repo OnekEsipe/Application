@@ -59,7 +59,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: brossard.ju.r@gmail.com (QGR2P6AHFH)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>iOS Team Provisioning Profile: com.Esipe.Onek</CodesignProvision>
   </PropertyGroup>
